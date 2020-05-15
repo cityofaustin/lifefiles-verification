@@ -1,0 +1,77 @@
+@import "./components/variables";
+@import 'fonts';
+
+@import "~bootstrap/scss/bootstrap";
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  body {
+    font-family: SegoeUI, Montserrat, Arial, sans-serif;
+    display: flex;
+    width: 100vw;
+    #root {
+      display: flex;
+      width: 100%;
+    }
+  }
+}
+
+// bootstrap row
+@media (max-width: 575.98px) {
+  .row {
+    margin: 0;
+  }
+}
+
+// bootstrap button
+.btn {
+  font-size: 30px;
+  font-weight: 500;
+  border-radius: 17px;
+  //height: 44px;
+  height: 59px;
+  min-width: 209px;
+  border-width: 3px;
+  padding: 4px 10px;
+}
+.btn-primary {
+  background-color: $midnight;
+  border-color: $midnight;
+  @include themify($themes) {
+    background-color: themed("colorPrimary");
+    border-color: themed("colorPrimary");
+  }
+}
+.btn-danger {
+  background-color: $danger;
+  border-color: $danger;
+}
+.btn-primary.disabled {
+  background-color: #2c3e50;
+  border-color: #2c3e50;
+}
+// end bootstrap button
+
+// bootstrap form control
+.form-control {
+  @include media-breakpoint-down(sm) {
+    font-size: 18px;
+  }
+  text-align: center;
+  font-size: 22px;
+  //color: blue;
+  color: #3b3b3b;
+  padding: 12.4px 29.5px 12.4px 29.5px;
+  &::placeholder {
+    color: #818181;
+    opacity: 0.31;
+  }
+}
+// end bootstrap form control
+
+// bootstrap modal
+
+.modal-content {
+  border-radius: 30px;
+}

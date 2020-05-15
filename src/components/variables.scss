@@ -1,0 +1,49 @@
+$themes: (
+  owner: (
+    colorPrimary: #2362c7,
+    colorDisabled: #90afe2 //logoImg: url(../img/logo/logo_owner_t_v2.png),,,,
+  ),
+  notary: (
+    colorPrimary: #4ca9d8,
+    colorDisabled: #90afe2 //logoImg: url(../img/logo/logo_notary_t_v2.png),,,,
+  ),
+);
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+$background-color: #fcfcfc;
+$hover-color: #f8f8f8;
+$grey: #645857;
+$subtitle-color: #d2d5d8;
+$blue: #2362c7;
+$danger: #ca606a;
+$pale-grey: #eef2f6;
+$silver: #b6b8b9;
+$bluey-grey: #95a3b9;
+$dark-blue-grey: #0e232c;
+$greyish-brown-78: rgba(70, 70, 70, 0.78);
+$warm-grey: #707070;
+$midnight: #2c3e50;
+$pageblue: #096fa9;
+$clouds: #ecf0f1;
