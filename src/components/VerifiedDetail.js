@@ -1,23 +1,24 @@
-
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 import ReactJson from "react-json-view";
 import { ReactComponent as CheckboxAnimated } from "../img/checkbox-animated.svg";
 import VerifiedCredentialUtil from "../util/VerifiedCredentialUtil";
-import * as PropTypes from 'prop-types';
-import './VerifiedDetail.scss';
+import * as PropTypes from "prop-types";
+import "./VerifiedDetail.scss";
 
 class VerifiedDetail extends Component {
-
   constructor(props) {
     super(props);
-    this.myRef = React.createRef()
+    this.myRef = React.createRef();
   }
 
-  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop)
+  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
 
   componentDidUpdate(prevProps) {
-    if(prevProps.verifiedVC !== this.props.verifiedVC && this.props.verifiedVC && this.props.verifiedVC.jwt) {
-      console.log('we are here');
+    if (
+      prevProps.verifiedVC !== this.props.verifiedVC &&
+      this.props.verifiedVC &&
+      this.props.verifiedVC.jwt
+    ) {
       this.scrollToMyRef();
     }
   }
@@ -109,7 +110,15 @@ class VerifiedDetail extends Component {
   }
 
   renderTimestampInformationValid() {
-    const { expirationDate, iatDate, nbfDate, issuanceDate } = { ...this.props };
+    const {
+      expirationDate,
+      iatDate,
+      nbfDate,
+      issuanceDate,
+      didTransactionTimestamp,
+    } = {
+      ...this.props,
+    };
     return (
       <div>
         <input className="accordion-input" type="checkbox" id="chck4" />
@@ -125,13 +134,13 @@ class VerifiedDetail extends Component {
             nbf ( The time before which the JWT MUST NOT be accepted ) :{" "}
             {nbfDate}
           </p>
+          <p>Issuance Date ( Date of actual issuance ) : {issuanceDate}</p>
           <p>
-            Issuance Date ( Date of actual issuance ) :{" "}
-            {issuanceDate}
+            Expiration Date ( Date this document expires ) : {expirationDate}
           </p>
           <p>
-            Expiration Date ( Date this document expires ) :{" "}
-            {expirationDate}
+            Blockchain Transaction Date ( Date this document metadata was stored
+            into the blockchain ) : {didTransactionTimestamp}
           </p>
         </div>
       </div>
@@ -139,13 +148,21 @@ class VerifiedDetail extends Component {
   }
 
   renderTimestampInformationNotValid() {
-    const { expirationDate, iatDate, nbfDate, issuanceDate } = { ...this.props };
+    const {
+      expirationDate,
+      iatDate,
+      nbfDate,
+      issuanceDate,
+      didTransactionTimestamp,
+    } = {
+      ...this.props,
+    };
     return (
       <div>
         <input className="accordion-input" type="checkbox" id="chck4" />
         <label className="tab-label" htmlFor="chck4">
-          <img style={{ width: "40px" }} src="./redx.png" alt="" />Timestamp
-          Information
+          <img style={{ width: "40px" }} src="./redx.png" alt="" />
+          Timestamp Information
         </label>
         <div className="tab-content">
           <div className="rcorners-red">
@@ -158,13 +175,13 @@ class VerifiedDetail extends Component {
             nbf ( The time before which the JWT MUST NOT be accepted ) :{" "}
             {nbfDate}
           </p>
+          <p>Issuance Date ( Date of actual issuance ) : {issuanceDate}</p>
           <p>
-            Issuance Date ( Date of actual issuance ) :{" "}
-            {issuanceDate}
+            Expiration Date ( Date this document expires ) : {expirationDate}
           </p>
           <p>
-            Expiration Date ( Date this document expires ) :{" "}
-            {expirationDate}
+            Blockchain Transaction Date ( Date this document metadata was stored
+            into the blockchain ) : {didTransactionTimestamp}
           </p>
         </div>
       </div>
@@ -172,8 +189,18 @@ class VerifiedDetail extends Component {
   }
 
   renderTabs() {
-    const { expirationDate, iatDate, nbfDate, issuanceDate, verifiedVC, fileMD5, jwtMD5, signerName,
-      subjectName, decodedJwt } = { ...this.props };
+    const {
+      expirationDate,
+      iatDate,
+      nbfDate,
+      issuanceDate,
+      verifiedVC,
+      fileMD5,
+      jwtMD5,
+      signerName,
+      subjectName,
+      decodedJwt,
+    } = { ...this.props };
     if (!verifiedVC || !verifiedVC.jwt) {
       return <Fragment />;
     } else {
@@ -186,24 +213,20 @@ class VerifiedDetail extends Component {
             <p>
               This document is a{" "}
               <span className="keywords">
-                {vc.credentialSubject.TexasNotary.type}
+                {vc.credentialSubject.TexasDigitalNotary.type}
               </span>{" "}
               of a{" "}
               <span className="keywords">
-                {vc.credentialSubject.TexasNotary.name}.{" "}
+                {vc.credentialSubject.TexasDigitalNotary.name}.{" "}
               </span>{" "}
               The subject of this document is{" "}
-              <span className="keywords">{subjectName}</span> and the
-              issuer is{" "}
-              <span className="keywords">{signerName}</span>. This
-              document was issued at{" "}
-              <span className="keywords">{iatDate}</span> and the
-              issuance Date is{" "}
-              <span className="keywords">{issuanceDate}</span>. This
-              document is not valid until{" "}
-              <span className="keywords">{nbfDate}</span>. This
-              document will expire on{" "}
-              <span className="keywords">{expirationDate}</span>
+              <span className="keywords">{subjectName}</span> and the issuer is{" "}
+              <span className="keywords">{signerName}</span>. This document was
+              issued at <span className="keywords">{iatDate}</span> and the
+              issuance Date is <span className="keywords">{issuanceDate}</span>.
+              This document is not valid until{" "}
+              <span className="keywords">{nbfDate}</span>. This document will
+              expire on <span className="keywords">{expirationDate}</span>
             </p>
           </div>
 
@@ -228,10 +251,7 @@ class VerifiedDetail extends Component {
                   Issuer: {vc.issuer.id} ({signerName})
                 </p>
                 <div style={{ textAlign: "left" }}>
-                  <ReactJson
-                    src={JSON.parse(decodedJwt)}
-                    theme="ocean"
-                  />
+                  <ReactJson src={JSON.parse(decodedJwt)} theme="ocean" />
                 </div>
               </div>
             </div>
@@ -247,7 +267,12 @@ class VerifiedDetail extends Component {
             </div>
 
             <div className="tab">
-              {VerifiedCredentialUtil.timestampsAreValid(expirationDate, iatDate, nbfDate, issuanceDate) === true
+              {VerifiedCredentialUtil.timestampsAreValid(
+                expirationDate,
+                iatDate,
+                nbfDate,
+                issuanceDate
+              ) === true
                 ? this.renderTimestampInformationValid()
                 : this.renderTimestampInformationNotValid()}
             </div>
@@ -261,7 +286,7 @@ class VerifiedDetail extends Component {
     const { verifiedVC } = { ...this.props };
     return (
       <Fragment>
-        {(verifiedVC && verifiedVC.jwt) && (
+        {verifiedVC && verifiedVC.jwt && (
           <div ref={this.myRef} id="middle" className="row middle-section">
             <div className="col"></div>
             <div className="col-9 text-center">{this.renderTabs()}</div>
@@ -284,7 +309,7 @@ VerifiedDetail.propTypes = {
   signerDID: PropTypes.string,
   signerName: PropTypes.string,
   subjectName: PropTypes.string,
-  decodedJwt: PropTypes.string
-}
+  decodedJwt: PropTypes.string,
+};
 
 export default VerifiedDetail;

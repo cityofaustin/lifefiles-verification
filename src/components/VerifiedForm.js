@@ -1,25 +1,30 @@
 import React, { Component, Fragment } from "react";
 import Dropzone from "react-dropzone";
-import { Button, FormGroup, Input, Label,
+import {
+  Button,
+  FormGroup,
+  Input,
+  Label,
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader } from "reactstrap";
+  ModalHeader,
+} from "reactstrap";
 import { ReactComponent as UploadSvg } from "../img/upload-drop.svg";
-import { ReactComponent as InfoSvg } from '../img/info.svg';
+import { ReactComponent as InfoSvg } from "../img/info.svg";
 import PdfPreview from "./PdfPreview";
-import * as PropTypes from 'prop-types';
-import './VerifiedForm.scss';
-import stateSeal from '../img/state-seal.png';
-import bodymovin from 'lottie-web';
-import documentLoadingJson from '../img/document-loading.json';
+import * as PropTypes from "prop-types";
+import "./VerifiedForm.scss";
+import stateSeal from "../img/state-seal.png";
+import bodymovin from "lottie-web";
+import documentLoadingJson from "../img/document-loading.json";
 
 class VerifiedForm extends Component {
   state = {
-    did: "did:ethr:0x27dFC5414aa6Ca1515411392581e71af2Ef0B921",
+    did: "did:ethr:0xe0b1833c7032aAc1B8d4661aF9295623F40fc956",
     pdfLink: undefined,
-    displayHowTo: false
-  }
+    displayHowTo: false,
+  };
 
   anim = undefined;
 
@@ -35,11 +40,11 @@ class VerifiedForm extends Component {
 
   setLoadingAnimations() {
     const animData = {
-      container: document.getElementById('bm-doc-loading'),
-      renderer: 'svg',
+      container: document.getElementById("bm-doc-loading"),
+      renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: documentLoadingJson
+      animationData: documentLoadingJson,
     };
 
     this.anim = bodymovin.loadAnimation(animData);
@@ -54,7 +59,7 @@ class VerifiedForm extends Component {
     const { handleOnDrop } = { ...this.props };
     files = files.map((file) =>
       Object.assign(file, {
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
       })
     );
     handleOnDrop(files[0]);
@@ -80,7 +85,13 @@ class VerifiedForm extends Component {
       <div {...getRootProps()} className="dropzone-form">
         <input {...getInputProps()} />
         <svg className="dash-rect">
-          <g fill="#fff" stroke="#707070" strokeWidth="2" strokeDasharray="10 15" opacity="0.6">
+          <g
+            fill="#fff"
+            stroke="#707070"
+            strokeWidth="2"
+            strokeDasharray="10 15"
+            opacity="0.6"
+          >
             <rect className="one" width="100%" height="374" stroke="none" />
             <rect className="two" x="1" y="1" fill="none" />
           </g>
@@ -94,25 +105,34 @@ class VerifiedForm extends Component {
   }
 
   toggleHowTo = () => {
-    const {displayHowTo} = {...this.state};
-    this.setState({displayHowTo: !displayHowTo})
-  }
+    const { displayHowTo } = { ...this.state };
+    this.setState({ displayHowTo: !displayHowTo });
+  };
 
   renderHowTo() {
-    const {displayHowTo} = {...this.state};
+    const { displayHowTo } = { ...this.state };
     return (
       <Modal
         isOpen={displayHowTo}
         toggle={this.toggleHowTo}
-        backdrop={'static'}
-        size={'xl'}
+        backdrop={"static"}
+        size={"xl"}
       >
-        <ModalHeader toggle={this.toggleHowTo}>
-        </ModalHeader>
+        <ModalHeader toggle={this.toggleHowTo}></ModalHeader>
         <ModalBody>
-          <p>A Decentralized Identifier (DID) is a globally unique number in a blockchain that allows for secure and private identity verification.</p>
-          <p>A DID is created when a file is packaged, digitally notarized and uploaded to a blockchain.</p>
-          <p>These chains of randomly ordered blocks of information form a ledger that exists in thousands of devices and any changes to the file can be identified by comparing it to its original.</p>
+          <p>
+            A Decentralized Identifier (DID) is a globally unique number in a
+            blockchain that allows for secure and private identity verification.
+          </p>
+          <p>
+            A DID is created when a file is packaged, digitally notarized and
+            uploaded to a blockchain.
+          </p>
+          <p>
+            These chains of randomly ordered blocks of information form a ledger
+            that exists in thousands of devices and any changes to the file can
+            be identified by comparing it to its original.
+          </p>
         </ModalBody>
         <ModalFooter>
           <button>Next</button>
@@ -127,7 +147,13 @@ class VerifiedForm extends Component {
     return (
       <div id="top" className="form-section">
         {this.renderHowTo()}
-        <img src={stateSeal} width="400" height="400" alt="" className="image" />
+        <img
+          src={stateSeal}
+          width="400"
+          height="400"
+          alt=""
+          className="image"
+        />
         <h1>Texas Digital Notary Verification</h1>
         <FormGroup>
           <Label htmlFor="documentTypeSelected" className="prompt">
@@ -142,7 +168,7 @@ class VerifiedForm extends Component {
               onChange={this.handleDidChange}
               placeholder="Please enter the DID of the document you wish to verify..."
             />
-            <InfoSvg onClick={() => this.setState({displayHowTo: true})} />
+            <InfoSvg onClick={() => this.setState({ displayHowTo: true })} />
           </div>
         </FormGroup>
         {isLoading && (
@@ -161,7 +187,7 @@ class VerifiedForm extends Component {
                 onClick={() => handleFileSubmit(did)}
               >
                 Submit
-            </Button>
+              </Button>
             </div>
           </Fragment>
         )}
@@ -173,7 +199,7 @@ class VerifiedForm extends Component {
 VerifiedForm.propTypes = {
   handleOnDrop: PropTypes.func,
   handleFileSubmit: PropTypes.func,
-  isLoading: PropTypes.bool
-}
+  isLoading: PropTypes.bool,
+};
 
 export default VerifiedForm;

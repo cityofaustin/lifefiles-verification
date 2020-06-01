@@ -1,9 +1,7 @@
-
 import { Resolver } from "did-resolver";
 import { getResolver } from "ethr-did-resolver";
 
 class DidResolverUtil {
-
   static async getJWTByDid(did) {
     const UNIRESOLVER_API = "https://uniresolver.io/1.0/identifiers/";
     const response = await fetch(UNIRESOLVER_API + did);
@@ -13,13 +11,13 @@ class DidResolverUtil {
 
   static getResolver() {
     const providerConfig = {
-      name: "rsk:testnet",
+      name: "mainnet",
       registry: "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b",
-      rpcUrl: "https://did.testnet.rsk.co:4444"
+      rpcUrl: "https://mainnet.infura.io/v3/f89f8f95ce6c4199849037177b155d08",
     };
+
     return new Resolver(getResolver(providerConfig));
   }
-
 }
 
 export default DidResolverUtil;
