@@ -1,4 +1,39 @@
-@import "./accordion.scss";
+$midnight: #2c3e50;
+
+.header-2 {
+  color: #919191;
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.tab-container {
+  padding: 24px 0;
+  .tab--content {
+    margin-top: 40px;
+    color: #707070;
+    font-size: 17.5px;
+    text-align: center;
+  }
+}
+
+.tab {
+  margin-bottom: 16px;
+}
+
+.bm-container {
+  display: flex;
+  justify-content: center;
+  // background-color: #b6b6b6;
+
+  margin-right: 42px;
+  .bm {
+    width: 50px;
+    height: 50px;
+    background-color: rgb(214, 214, 214);
+    border-radius: 50%;
+  }
+}
 
 .middle-section {
   padding-top: 100px;
@@ -7,26 +42,6 @@
   .keywords {
     color: #ffff5b;
     font-weight: 800;
-  }
-
-  .rcorners-red {
-    border-radius: 25px;
-    background: red;
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 30px;
-    // height: 150px;
-  }
-
-  .rcorners {
-    color: white;
-    border-radius: 25px;
-    background: $midnight;
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 30px;
-
-    // height: 150px;
   }
 
   Checkmark .checkmark__circle {

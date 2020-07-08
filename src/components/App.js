@@ -37,7 +37,7 @@ class App extends Component {
 
   handleFileSubmit = async (did) => {
     this.setState({ isLoading: true });
-
+    console.log('started');
     const jwt = await DidResolverUtil.getJWTByDid(did);
     let verifiedVP;
     let verifiedVC;
@@ -83,7 +83,7 @@ class App extends Component {
         .signedDocumentHash;
     const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
     const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
-
+    console.log('finished');
     this.setState({
       iatDate,
       nbfDate,
@@ -118,7 +118,7 @@ class App extends Component {
       isLoading,
     } = { ...this.state };
     return (
-      <div className="container">
+      <div className="app-container">
         <VerifiedForm
           handleOnDrop={this.handleOnDrop}
           handleFileSubmit={this.handleFileSubmit}

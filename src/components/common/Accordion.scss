@@ -1,0 +1,121 @@
+$midnight: #2c3e50;
+$clouds: #ecf0f1;
+$loading: rgb(192, 192, 192);
+$success: rgb(83, 170, 86);
+$warning: rgb(254, 177, 67);
+
+.accordion-input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.tab {
+  box-shadow: 0 3px 60px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  max-width: 707px;
+  color: white;
+  overflow: hidden;
+  &-label {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 28px;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.35s;
+
+    background: $midnight;
+    &:hover {
+      background: darken($midnight, 10%);
+    }
+
+    .left-header {
+      display: flex;
+      align-items: center;
+    }
+    svg:nth-child(1) {
+      margin-right: 42px;
+    }
+    svg:nth-child(2) {
+      width: 35px;
+      transition: all 0.35s;
+    }
+    // &::after {
+    //   content: "\276F";
+    //   width: 1em;
+    //   height: 1em;
+    //   text-align: center;
+    //   transition: all 0.35s;
+    // }
+  }
+  &-content {
+    max-height: 0;
+    padding: 0 1em;
+    color: $midnight;
+    border-radius:  0 0 8px 8px;
+    border: 0px solid white;
+    background-color: #ffffff;
+    transition: all 0.35s;
+  }
+  &-close {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    font-size: 0.75em;
+    background: $midnight;
+    cursor: pointer;
+    &:hover {
+      background: darken($midnight, 10%);
+    }
+  }
+
+  .loading {
+    background: $loading;
+    &:hover {
+      background: darken($loading, 10%);
+    }
+  }
+
+  .success {
+    background: $success;
+    &:hover {
+      background: darken($success, 10%);
+    }
+  }
+}
+
+
+
+// :checked
+input:checked {
+  + .tab-label {
+    border-radius: 8px 8px 0 0;
+    background: darken($midnight, 10%);
+    svg:nth-child(2) {
+      transform: rotate(90deg);
+    }
+    // &::after {
+    //   transform: rotate(90deg);
+    // }
+  }
+  ~ .tab-content {
+    max-height: 100%;
+    padding: 1em;
+    // border: 1px solid grey;
+  }
+}
+
+input:checked {
+  + .loading {
+    background: darken($loading, 10%);
+  }
+}
+
+input:checked {
+  + .success {
+    background: darken($success, 10%);
+  }
+}

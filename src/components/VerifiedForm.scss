@@ -3,7 +3,7 @@
 
 .form-section {
   position: relative;
-  padding-top: 117px;
+  padding-top: 56px;
   .form-group {
     display: flex;
     flex-direction: column;
@@ -14,9 +14,11 @@
       align-items: center;
       width: 100%;
       #didInput {
-        font-size: 30px;
-        font-weight: 300;
+        height: 40px;
+        font-size: 14px;
+        font-weight: 400;
         max-width: 910px;
+        color: rgb(51,51,51);
         border: solid 1px #707070;
       }
       svg {
@@ -27,20 +29,20 @@
   }
   img {
     position: absolute;
-    left: -15%;
-    top: 4%;
+    left: -30%;
+    top: 14px;
     right: auto;
     bottom: 0%;
     z-index: -1;
   }
   h1 {
     // font-family: SegoeUI;
-    font-size: 49px;
-    font-weight: 600;
+    font-size: 50px;
+    font-weight: 500;
     line-height: 1.33;
     text-align: center;
     color: #484848;
-    margin-bottom: 22px;
+    margin-bottom: 0;
   }
   .prompt {
     display: flex;
@@ -48,7 +50,7 @@
     font-size: 37px;
     text-align: center;
     color: #3b3b3b;
-    margin-bottom: 27px;
+    margin-bottom: 16px;
   }
 
 
@@ -68,9 +70,9 @@
   .dropzone-container {
     display: flex;
     justify-content: center;
-    margin-top: 12px;
+    padding-top: 12px;
     .pdf-container {
-      height: 700px;
+      height: 494px;
       .react-pdf__Document {
         .react-pdf__Page {
           border: 13px solid #676767;
@@ -145,12 +147,12 @@
         height: 374px;
         position: absolute;
         .two {
-          height: -webkit-calc(374px - 2px);
-          height:    -moz-calc(374px - 2px);
-          height:         calc(374px - 2px);
-          width: -webkit-calc(100% - 2px);
-          width:    -moz-calc(100% - 2px);
-          width:         calc(100% - 2px);
+          height: -webkit-calc(374px - 4px);
+          height:    -moz-calc(374px - 4px);
+          height:         calc(374px - 4px);
+          width: -webkit-calc(100% - 4px);
+          width:    -moz-calc(100% - 4px);
+          width:         calc(100% - 4px);
         }
       }
 

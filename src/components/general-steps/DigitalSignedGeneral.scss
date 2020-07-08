@@ -1,0 +1,27 @@
+
+.diagram-section-1 {
+  display: flex;
+  padding: 40px 0;
+  svg {
+    padding: 20px;
+  }
+}
+
+.exerpt-2 {
+  padding: 40px 0;
+}
+
+.diagram-section-2 {
+  display: flex;
+  padding: 0;
+  svg {
+    padding: 0 20px;
+  }
+  .half {
+    width: 50%;
+  }
+}
+
+.stamp-exerpt {
+  padding: 0 10px;
+}

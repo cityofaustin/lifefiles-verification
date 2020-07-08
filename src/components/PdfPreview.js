@@ -40,7 +40,7 @@ class PdfPreview extends Component {
             <Page
               pageNumber={pageNumber}
               // customTextRenderer={({ str, itemIndex }) => { return (<span>{str}</mark>) }}
-              height={650}
+              height={482}
             />
           </Document>
           <div className="paginate">

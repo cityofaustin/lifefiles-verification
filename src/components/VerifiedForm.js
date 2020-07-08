@@ -5,25 +5,23 @@ import {
   FormGroup,
   Input,
   Label,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
 } from "reactstrap";
 import { ReactComponent as UploadSvg } from "../img/upload-drop.svg";
-import { ReactComponent as InfoSvg } from "../img/info.svg";
+import { ReactComponent as DocumentSvg } from "../img/document.svg";
 import PdfPreview from "./PdfPreview";
 import * as PropTypes from "prop-types";
 import "./VerifiedForm.scss";
 import stateSeal from "../img/state-seal.png";
 import bodymovin from "lottie-web";
 import documentLoadingJson from "../img/document-loading.json";
+import Accordion from "./common/Accordion";
 
 class VerifiedForm extends Component {
   state = {
     did: "did:ethr:0xe0b1833c7032aAc1B8d4661aF9295623F40fc956",
     pdfLink: undefined,
     displayHowTo: false,
+    documentAccordionExpanded: false,
   };
 
   anim = undefined;
@@ -35,6 +33,7 @@ class VerifiedForm extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.isLoading !== this.props.isLoading && this.props.isLoading) {
       this.setLoadingAnimations();
+      this.setState({documentAccordionExpanded: false});
     }
   }
 
@@ -71,10 +70,12 @@ class VerifiedForm extends Component {
     return (
       <Dropzone onDrop={this.handleOnDrop}>
         {({ getRootProps, getInputProps }) => (
+          <Fragment>
           <section className="dropzone-container">
             {!pdfLink && this.renderFileUpload(getRootProps, getInputProps)}
             {pdfLink && <PdfPreview fileURL={pdfLink} />}
           </section>
+          </Fragment>
         )}
       </Dropzone>
     );
@@ -104,53 +105,15 @@ class VerifiedForm extends Component {
     );
   }
 
-  toggleHowTo = () => {
-    const { displayHowTo } = { ...this.state };
-    this.setState({ displayHowTo: !displayHowTo });
-  };
-
-  renderHowTo() {
-    const { displayHowTo } = { ...this.state };
-    return (
-      <Modal
-        isOpen={displayHowTo}
-        toggle={this.toggleHowTo}
-        backdrop={"static"}
-        size={"xl"}
-      >
-        <ModalHeader toggle={this.toggleHowTo}></ModalHeader>
-        <ModalBody>
-          <p>
-            A Decentralized Identifier (DID) is a globally unique number in a
-            blockchain that allows for secure and private identity verification.
-          </p>
-          <p>
-            A DID is created when a file is packaged, digitally notarized and
-            uploaded to a blockchain.
-          </p>
-          <p>
-            These chains of randomly ordered blocks of information form a ledger
-            that exists in thousands of devices and any changes to the file can
-            be identified by comparing it to its original.
-          </p>
-        </ModalBody>
-        <ModalFooter>
-          <button>Next</button>
-        </ModalFooter>
-      </Modal>
-    );
-  }
-
   render() {
-    const { did, pdfLink } = { ...this.state };
+    const { did, pdfLink, documentAccordionExpanded } = { ...this.state };
     const { handleFileSubmit, isLoading } = { ...this.props };
     return (
       <div id="top" className="form-section">
-        {this.renderHowTo()}
         <img
           src={stateSeal}
-          width="400"
-          height="400"
+          width="250"
+          height="250"
           alt=""
           className="image"
         />
@@ -166,12 +129,33 @@ class VerifiedForm extends Component {
               id="didInput"
               value={did}
               onChange={this.handleDidChange}
-              placeholder="Please enter the DID of the document you wish to verify..."
+              // placeholder="Please enter the DID of the document you wish to verify..."
+              placeholder="Example: did:ethr:0x6efedeaec20e79071251fffa655F1bdDCa65c027"
             />
-            <InfoSvg onClick={() => this.setState({ displayHowTo: true })} />
           </div>
         </FormGroup>
-        {isLoading && (
+        <Accordion
+        id="checkDoc"
+        title="Document"
+        icon={<DocumentSvg />}
+        isExpanded={documentAccordionExpanded}
+        setExpanded={(isExpanded) => this.setState({documentAccordionExpanded: isExpanded})}
+        >
+        <Fragment>
+            {this.renderFileUploadContainer()}
+            <div className="submit-section">
+              <Button
+                className="margin-wide"
+                color="primary"
+                disabled={!pdfLink}
+                onClick={() => handleFileSubmit(did)}
+              >
+                Submit
+              </Button>
+            </div>
+          </Fragment>
+        </Accordion>
+        {/* {isLoading && (
           <div className="doc-loading-container">
             <div id="bm-doc-loading" />
           </div>
@@ -190,7 +174,7 @@ class VerifiedForm extends Component {
               </Button>
             </div>
           </Fragment>
-        )}
+        )} */}
       </div>
     );
   }

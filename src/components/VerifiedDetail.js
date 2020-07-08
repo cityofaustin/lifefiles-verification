@@ -4,14 +4,22 @@ import { ReactComponent as CheckboxAnimated } from "../img/checkbox-animated.svg
 import VerifiedCredentialUtil from "../util/VerifiedCredentialUtil";
 import * as PropTypes from "prop-types";
 import "./VerifiedDetail.scss";
+import Accordion from "./common/Accordion";
+import bodymovin from "lottie-web";
+import loadingJson from "../img/loading.json";
+import loadSuccess from "../img/loadSuccess.json";
+import Tabset from "./common/Tabset";
+import Tab from "./common/Tab";
+import DigitalSignedGeneral from './general-steps/DigitalSignedGeneral';
 
 class VerifiedDetail extends Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
   }
-
-  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
+  componentDidMount() {
+    this.setLoadingAnimations();
+  }
 
   componentDidUpdate(prevProps) {
     if (
@@ -22,6 +30,59 @@ class VerifiedDetail extends Component {
       this.scrollToMyRef();
     }
   }
+
+  async setLoadingAnimations() {
+    await this.runAccordionAnimation("bm-digital-signed", loadingJson, 'Decrypting message...');
+    this.runAccordionAnimation("bm-digital-signed", loadSuccess, 'Document is digitally signed', "digital-signed");
+    await this.runAccordionAnimation("bm-compare-blockchain", loadingJson, 'Comparing image with version from blockchain...');
+    this.runAccordionAnimation("bm-compare-blockchain", loadSuccess, 'Document has not been altered', "compare-blockchain");
+    await this.runAccordionAnimation("bm-verify-notary", loadingJson, "Verifying notary’s secure key from state notary list...");
+    this.runAccordionAnimation("bm-verify-notary", loadSuccess, 'Signer is a registered notary', "verify-notary");
+    const title = document.getElementById("notary");
+    title.innerHTML = "Notarization is valid";
+    title.style.color = "rgb(83, 170, 86)";
+    await this.runAccordionAnimation("bm-time-check", loadingJson, 'Checking the timestamp of block registration...');
+    this.runAccordionAnimation("bm-time-check", loadSuccess, 'Notarized Document is original not a copy', "time-check");
+    await this.runAccordionAnimation("bm-owner-signed", loadingJson, 'Checking that the name of the owner is linked to the public key of the presentation...');
+    this.runAccordionAnimation("bm-owner-signed", loadSuccess, 'Notarized Document is signed by its owner', "owner-signed");
+    const title2 = document.getElementById("transfer");
+    title2.innerHTML = "Document is transferable";
+    title2.style.color = "rgb(83, 170, 86)";
+  }
+
+  runAccordionAnimation(containerId, animationData, statusText, accordionId) {
+    return new Promise((resolve, reject) => {
+      try {
+        // change text
+        const container = document.getElementById(containerId);
+        const titleSpan = container.parentElement.nextSibling;
+        titleSpan.innerHTML = statusText;
+        // completed anim
+        if(accordionId) {
+          this.anim.destroy();
+            const element = document.getElementById(accordionId).nextSibling;
+            element.classList.add("success");
+            element.classList.remove("loading");
+        }
+        // basic anim
+        container.style.backgroundColor = 'transparent';
+        const animation = {
+          container,
+          renderer: "svg",
+          loop: 0.5,
+          autoplay: true,
+          animationData,
+        };
+        this.anim = bodymovin.loadAnimation(animation);
+        this.anim.setSpeed(0.4);
+        this.anim.addEventListener('complete', () => resolve());
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
 
   renderImageHashMatches() {
     const { fileMD5, jwtMD5 } = { ...this.props };
@@ -286,6 +347,83 @@ class VerifiedDetail extends Component {
     const { verifiedVC } = { ...this.props };
     return (
       <Fragment>
+        <div>
+          <div id="notary" className="header-2">Checking for valid notarization...</div>
+          <Accordion
+            id="digital-signed"
+            title="Processing..."
+            icon={
+              <div className="bm-container">
+                <div id="bm-digital-signed" className="bm" />
+              </div>
+            }
+            labelType="loading"
+            isExpanded
+          >
+            <div className="tab-container">
+              <Tabset>
+                <Tab eventKey="general" title="What's happening?">
+                  <DigitalSignedGeneral />
+                </Tab>
+                <Tab eventKey="techinal" title="Technical Steps">
+                  <div className="tab--content">
+                    Retrieve the information stored on the blockchain at the De-centralized
+                    Identified address (DID) and resolve it to obtain the first JWT payload.
+                  </div>
+                </Tab>
+              </Tabset>
+            </div>
+          </Accordion>
+          <Accordion
+            id="compare-blockchain"
+            title="Processing..."
+            icon={
+              <div className="bm-container">
+                <div id="bm-compare-blockchain" className="bm" />
+              </div>
+            }
+            labelType="loading"
+          >
+            <Fragment />
+          </Accordion>
+          <Accordion
+            id="verify-notary"
+            title="Processing..."
+            icon={
+              <div className="bm-container">
+                <div id="bm-verify-notary" className="bm" />
+              </div>
+            }
+            labelType="loading"
+          >
+            <Fragment />
+          </Accordion>
+          <div id="transfer" className="header-2">Checking for transferability...</div>
+          <Accordion
+            id="time-check"
+            title="Processing..."
+            icon={
+              <div className="bm-container">
+                <div id="bm-time-check" className="bm" />
+              </div>
+            }
+            labelType="loading"
+          >
+            <Fragment />
+          </Accordion>
+          <Accordion
+            id="owner-signed"
+            title="Processing..."
+            icon={
+              <div className="bm-container">
+                <div id="bm-owner-signed" className="bm" />
+              </div>
+            }
+            labelType="loading"
+          >
+            <Fragment />
+          </Accordion>
+        </div>
         {verifiedVC && verifiedVC.jwt && (
           <div ref={this.myRef} id="middle" className="row middle-section">
             <div className="col"></div>
