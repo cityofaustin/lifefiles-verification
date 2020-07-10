@@ -1,0 +1,34 @@
+.time-check-gen {
+  .right-section {
+    max-width: 260px;
+    text-align: left;
+  }
+  .section-2 {
+    display: flex;
+    align-items: center;
+    svg {
+      padding-right: 32px;
+    }
+  }
+  .section-3 {
+    padding: 20px;
+  }
+  .section-4 {
+    text-align: left;
+  }
+  .section-5 {
+    position: relative;
+    padding: 20px 0;
+    .tip {
+      position: absolute;
+      top: 10px;
+      left: 60%;
+    }
+  }
+  .section-7 {
+    padding: 20px 0;
+  }
+  .section-9 {
+    padding: 20px 0;
+  }
+}

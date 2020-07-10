@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 727 590">
+  <g id="Group_2010" data-name="Group 2010" transform="translate(-588 -12125)">
+    <g id="Group_1810" data-name="Group 1810" transform="translate(588 12113)">
+      <rect id="Rectangle_1255" data-name="Rectangle 1255" width="724" height="206" rx="9" transform="translate(3 63)" fill="#f2f2f2"/>
+      <line id="Line_459" data-name="Line 459" x2="205.019" transform="translate(136.928 228.214)" fill="none" stroke="#707070" stroke-width="1" stroke-dasharray="5 5"/>
+      <g id="Group_1806" data-name="Group 1806" transform="translate(47.888 208.011)">
+        <g id="Rectangle_1174" data-name="Rectangle 1174" transform="translate(0.112 -0.012)" fill="#fff" stroke="#6ab04c" stroke-width="1">
+          <rect width="90" height="39" rx="5" stroke="none"/>
+          <rect x="0.5" y="0.5" width="89" height="38" rx="4.5" fill="none"/>
+        </g>
+        <text id="_03_31_2020" data-name="03/31/2020" transform="translate(43.238 16.496)" fill="#6ab04c" font-size="14" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-35.034" y="0">03/31/2020</tspan></text>
+        <text id="_02:51:53" data-name="02:51:53" transform="translate(45.196 32.454)" fill="#6ab04c" font-size="12" font-family="Helvetica"><tspan x="-23.355" y="0">02:51:53</tspan></text>
+      </g>
+      <g id="Group_1807" data-name="Group 1807" transform="translate(332.22 208.011)">
+        <rect id="Rectangle_1174-2" data-name="Rectangle 1174" width="90" height="39" rx="5" transform="translate(-0.22 -0.012)" fill="#6ab04c"/>
+        <text id="_03_31_2020-2" data-name="03/31/2020" transform="translate(44.734 17.496)" fill="#fff" font-size="15" font-family="Helvetica"><tspan x="-37.537" y="0">03/31/2020</tspan></text>
+        <text id="_02:51:53-2" data-name="02:51:53" transform="translate(45.196 32.454)" fill="#fff" font-size="12" font-family="Helvetica"><tspan x="-23.355" y="0">02:51:53</tspan></text>
+      </g>
+      <g id="Group_1808" data-name="Group 1808" transform="translate(592.608 181.075)">
+        <rect id="Rectangle_1174-3" data-name="Rectangle 1174" width="90" height="25" rx="5" transform="translate(4.392 11.925)" fill="none"/>
+        <text id="ORIGINAL_DOCUMENT" data-name="ORIGINAL DOCUMENT" transform="translate(0.392 -0.074)" fill="#6ab04c" font-size="15" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="13.335" y="12">ORIGINAL </tspan><tspan x="6.67" y="30">DOCUMENT</tspan></text>
+      </g>
+      <path id="noun_identification_9042" d="M122.09,23.237A4.237,4.237,0,0,0,117.852,19H6.238A4.237,4.237,0,0,0,2,23.237V91.072a4.238,4.238,0,0,0,4.238,4.236H117.853a4.238,4.238,0,0,0,4.237-4.237Zm-76.307,48.3H12.008c-1.12-4.43,1.739-6.873,6.371-7.941,4.535-1.043,7.726-3.1,4.887-5.942-8.3-8.3-2.1-18.4,5.6-18.4s13.962,10.1,5.663,18.4c-2.838,2.84.286,4.9,4.819,5.942C43.976,64.667,46.9,67.11,45.783,71.539Zm66.3,0H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Z" transform="translate(580.133 78.272)" fill="#327495"/>
+      <text id="Original_Document-2" data-name="Original Document" transform="translate(0 40)" fill="#6ab04c" font-size="37" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="0" y="0">Original Document</tspan></text>
+      <g id="Group_1809" data-name="Group 1809" transform="translate(618.049 112.236)">
+        <rect id="Rectangle_1074" data-name="Rectangle 1074" width="49" height="47" rx="4" transform="translate(-0.049 -0.236)" fill="#6ab04c"/>
+        <path id="Path_1291" data-name="Path 1291" d="M32.524,10.352,17.53,25.346l-6.77-6.77a2.056,2.056,0,1,0-2.908,2.908l8.224,8.224a2.056,2.056,0,0,0,2.908,0L35.432,13.26a2.056,2.056,0,0,0-2.908-2.908Z" transform="translate(3.03 2.997)" fill="#fff"/>
+      </g>
+      <text id="Compare_Timestamp" data-name="Compare Timestamp" transform="translate(159 201)" fill="#9a9a9a" font-size="15" font-family="Helvetica"><tspan x="0" y="12">Compare Timestamp</tspan></text>
+      <text id="REGISTRATION_DATE" data-name="REGISTRATION DATE" transform="translate(306 197)" fill="#327495" font-size="15" font-family="Helvetica"><tspan x="0" y="0">REGISTRATION DATE</tspan></text>
+      <g id="noun_up_688138" transform="translate(273.857 122.712) rotate(90)">
+        <g id="Group_1505" data-name="Group 1505" transform="translate(0 0)">
+          <path id="Path_1331" data-name="Path 1331" d="M20.945,0a3.524,3.524,0,0,0-2.161.851L.976,17.612C-.045,18.748-.466,20.925.714,22.195A3.274,3.274,0,0,0,5.3,22.162L17.8,10.377V80.66a3.143,3.143,0,0,0,6.285,0V10.377L36.594,22.162a3.463,3.463,0,0,0,4.583.032c1.175-1.238.8-3.494-.262-4.583L23.106.851A3.023,3.023,0,0,0,20.945,0Z" fill="#484848" stroke="#f2f2f2" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="noun_up_688138-2" data-name="noun_up_688138" transform="translate(561.182 122.712) rotate(90)">
+        <g id="Group_1505-2" data-name="Group 1505" transform="translate(0 0)">
+          <path id="Path_1331-2" data-name="Path 1331" d="M20.945,0a3.524,3.524,0,0,0-2.161.851L.976,17.612C-.045,18.748-.466,20.925.714,22.195A3.274,3.274,0,0,0,5.3,22.162L17.8,10.377V80.66a3.143,3.143,0,0,0,6.285,0V10.377L36.594,22.162a3.463,3.463,0,0,0,4.583.032c1.175-1.238.8-3.494-.262-4.583L23.106.851A3.023,3.023,0,0,0,20.945,0Z" fill="#484848" stroke="#f2f2f2" stroke-width="2"/>
+        </g>
+      </g>
+      <path id="noun_identification_9042-2" data-name="noun_identification_9042" d="M122.09,23.237A4.237,4.237,0,0,0,117.852,19H6.238A4.237,4.237,0,0,0,2,23.237V91.072a4.238,4.238,0,0,0,4.238,4.236H117.853a4.238,4.238,0,0,0,4.237-4.237Zm-76.307,48.3H12.008c-1.12-4.43,1.739-6.873,6.371-7.941,4.535-1.043,7.726-3.1,4.887-5.942-8.3-8.3-2.1-18.4,5.6-18.4s13.962,10.1,5.663,18.4c-2.838,2.84.286,4.9,4.819,5.942C43.976,64.667,46.9,67.11,45.783,71.539Zm66.3,0H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Z" transform="translate(30.923 78.272)" fill="#327495"/>
+      <path id="noun_identification_9042-3" data-name="noun_identification_9042" d="M122.09,23.237A4.237,4.237,0,0,0,117.852,19H6.238A4.237,4.237,0,0,0,2,23.237V91.072a4.238,4.238,0,0,0,4.238,4.236H117.853a4.238,4.238,0,0,0,4.237-4.237Zm-76.307,48.3H12.008c-1.12-4.43,1.739-6.873,6.371-7.941,4.535-1.043,7.726-3.1,4.887-5.942-8.3-8.3-2.1-18.4,5.6-18.4s13.962,10.1,5.663,18.4c-2.838,2.84.286,4.9,4.819,5.942C43.976,64.667,46.9,67.11,45.783,71.539Zm66.3,0H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Z" transform="translate(313.758 78.272)" fill="#327495"/>
+      <text id="ISSUE_DATE" data-name="ISSUE DATE" transform="translate(54 197)" fill="#327495" font-size="15" font-family="Helvetica"><tspan x="0" y="0">ISSUE DATE</tspan></text>
+    </g>
+    <g id="Group_1805" data-name="Group 1805" transform="translate(589.497 12442.227)">
+      <rect id="Rectangle_1186" data-name="Rectangle 1186" width="725" height="207" rx="9" transform="translate(-0.497 65.773)" fill="#f2f2f2"/>
+      <line id="Line_414" data-name="Line 414" x2="205.019" transform="translate(133.935 231.207)" fill="none" stroke="#707070" stroke-width="1" stroke-dasharray="5 5"/>
+      <path id="noun_identification_9042-4" data-name="noun_identification_9042" d="M122.09,23.237A4.237,4.237,0,0,0,117.852,19H6.238A4.237,4.237,0,0,0,2,23.237V91.072a4.238,4.238,0,0,0,4.238,4.236H117.853a4.238,4.238,0,0,0,4.237-4.237Zm-76.307,48.3H12.008c-1.12-4.43,1.739-6.873,6.371-7.941,4.535-1.043,7.726-3.1,4.887-5.942-8.3-8.3-2.1-18.4,5.6-18.4s13.962,10.1,5.663,18.4c-2.838,2.84.286,4.9,4.819,5.942C43.976,64.667,46.9,67.11,45.783,71.539Zm66.3,0H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Z" transform="translate(577.14 79.768)" fill="#327495" opacity="0.6"/>
+      <g id="Group_1628" data-name="Group 1628" transform="translate(588.119 181.068)">
+        <rect id="Rectangle_1174-4" data-name="Rectangle 1174" width="89" height="26" rx="5" transform="translate(6.385 11.706)" fill="none"/>
+        <text id="DOCUMENT_COPY" data-name="DOCUMENT COPY" transform="translate(0.385 -0.295)" fill="#d95868" font-size="15" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="8.17" y="12">DOCUMENT </tspan><tspan x="30.245" y="30">COPY</tspan></text>
+      </g>
+      <text id="Non-original_Document" data-name="Non-original Document" transform="translate(-0.496 39.773)" fill="#d95868" font-size="37" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="0" y="0">Non-original Document</tspan></text>
+      <text id="ISSUE_DATE-2" data-name="ISSUE DATE" transform="translate(52.504 197.773)" fill="#327495" font-size="15" font-family="Helvetica"><tspan x="0" y="0">ISSUE DATE</tspan></text>
+      <text id="REGISTRATION_DATE-2" data-name="REGISTRATION DATE" transform="translate(301.504 197.773)" fill="#327495" font-size="15" font-family="Helvetica"><tspan x="0" y="0">REGISTRATION DATE</tspan></text>
+      <g id="noun_up_688138-3" data-name="noun_up_688138" transform="translate(278.347 125.705) rotate(90)">
+        <g id="Group_1505-3" data-name="Group 1505" transform="translate(0 0)">
+          <path id="Path_1331-3" data-name="Path 1331" d="M20.945,0a3.524,3.524,0,0,0-2.161.851L.976,17.612C-.045,18.748-.466,20.925.714,22.195A3.274,3.274,0,0,0,5.3,22.162L17.8,10.377V80.66a3.143,3.143,0,0,0,6.285,0V10.377L36.594,22.162a3.463,3.463,0,0,0,4.583.032c1.175-1.238.8-3.494-.262-4.583L23.106.851A3.023,3.023,0,0,0,20.945,0Z" fill="#484848" stroke="#f2f2f2" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="noun_up_688138-4" data-name="noun_up_688138" transform="translate(558.19 125.705) rotate(90)">
+        <g id="Group_1505-4" data-name="Group 1505" transform="translate(0 0)">
+          <path id="Path_1331-4" data-name="Path 1331" d="M20.945,0a3.524,3.524,0,0,0-2.161.851L.976,17.612C-.045,18.748-.466,20.925.714,22.195A3.274,3.274,0,0,0,5.3,22.162L17.8,10.377V80.66a3.143,3.143,0,0,0,6.285,0V10.377L36.594,22.162a3.463,3.463,0,0,0,4.583.032c1.175-1.238.8-3.494-.262-4.583L23.106.851A3.023,3.023,0,0,0,20.945,0Z" fill="#484848" stroke="#f2f2f2" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="Group_1616" data-name="Group 1616" transform="translate(615.056 112.236)">
+        <rect id="Rectangle_1074-2" data-name="Rectangle 1074" width="49" height="48" rx="4" transform="translate(0.448 -0.463)" fill="#d95868"/>
+        <line id="Line_384" data-name="Line 384" x1="18.813" y2="18.813" transform="translate(15.286 15.285)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2"/>
+        <line id="Line_385" data-name="Line 385" x2="18.813" y2="18.813" transform="translate(15.286 15.285)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2"/>
+      </g>
+      <path id="noun_identification_9042-5" data-name="noun_identification_9042" d="M122.09,23.237A4.237,4.237,0,0,0,117.852,19H6.238A4.237,4.237,0,0,0,2,23.237V91.072a4.238,4.238,0,0,0,4.238,4.236H117.853a4.238,4.238,0,0,0,4.237-4.237Zm-76.307,48.3H12.008c-1.12-4.43,1.739-6.873,6.371-7.941,4.535-1.043,7.726-3.1,4.887-5.942-8.3-8.3-2.1-18.4,5.6-18.4s13.962,10.1,5.663,18.4c-2.838,2.84.286,4.9,4.819,5.942C43.976,64.667,46.9,67.11,45.783,71.539Zm66.3,0H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Z" transform="translate(27.93 79.768)" fill="#327495" opacity="0.5"/>
+      <path id="noun_identification_9042-6" data-name="noun_identification_9042" d="M122.09,23.237A4.237,4.237,0,0,0,117.852,19H6.238A4.237,4.237,0,0,0,2,23.237V91.072a4.238,4.238,0,0,0,4.238,4.236H117.853a4.238,4.238,0,0,0,4.237-4.237Zm-76.307,48.3H12.008c-1.12-4.43,1.739-6.873,6.371-7.941,4.535-1.043,7.726-3.1,4.887-5.942-8.3-8.3-2.1-18.4,5.6-18.4s13.962,10.1,5.663,18.4c-2.838,2.84.286,4.9,4.819,5.942C43.976,64.667,46.9,67.11,45.783,71.539Zm66.3,0H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Zm0-12.509H53.288v-5h58.794Z" transform="translate(310.765 79.768)" fill="#327495"/>
+      <text id="Compare_Timestamp-2" data-name="Compare Timestamp" transform="translate(151.503 204.773)" fill="#9a9a9a" font-size="15" font-family="Helvetica"><tspan x="0" y="12">Compare Timestamp</tspan></text>
+      <g id="Rectangle_1302" data-name="Rectangle 1302" transform="translate(46.503 208.773)" fill="#fff" stroke="#d95868" stroke-width="1">
+        <rect width="90" height="39" rx="5" stroke="none"/>
+        <rect x="0.5" y="0.5" width="89" height="38" rx="4.5" fill="none"/>
+      </g>
+      <text id="_05_28_2020" data-name="05/28/2020" transform="translate(89.628 225.281)" fill="#d95868" font-size="14" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-35.034" y="0">05/28/2020</tspan></text>
+      <text id="_04:23:43" data-name="04:23:43" transform="translate(91.586 241.239)" fill="#d95868" font-size="12" font-family="Helvetica"><tspan x="-23.355" y="0">04:23:43</tspan></text>
+      <g id="Group_1970" data-name="Group 1970" transform="translate(330.723 209.785)">
+        <rect id="Rectangle_1174-5" data-name="Rectangle 1174" width="90" height="39" rx="5" transform="translate(-0.22 -0.012)" fill="#6ab04c"/>
+        <text id="_03_31_2020-3" data-name="03/31/2020" transform="translate(44.734 17.496)" fill="#fff" font-size="15" font-family="Helvetica"><tspan x="-37.537" y="0">03/31/2020</tspan></text>
+        <text id="_02:51:53-3" data-name="02:51:53" transform="translate(45.196 32.454)" fill="#fff" font-size="12" font-family="Helvetica"><tspan x="-23.355" y="0">02:51:53</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

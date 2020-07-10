@@ -155,15 +155,6 @@ class DigitalSignedTechnical extends Component {
           </div>
           <div className="section-container">
             <div className="section-title">input</div>
-            <div className="section-desc"></div>
-          </div>
-        </div>
-        <div className="step-section">
-          <div className="section-icon">
-            <Output2Svg />
-          </div>
-          <div className="section-container">
-            <div className="section-title">output</div>
             <div className="section-desc">
               Notary PEM Public Key:
               <br />
@@ -173,6 +164,17 @@ class DigitalSignedTechnical extends Component {
               <br />
               Signed hash: 988e646e834b5e9cbc92722d907b5833
               <br />
+            </div>
+          </div>
+        </div>
+        <div className="step-section">
+          <div className="section-icon">
+            <Output2Svg />
+          </div>
+          <div className="section-container">
+            <div className="section-title">output</div>
+            <div className="section-desc">
+              MD5 hash: FCCB13D5961A13DA9E955A44C8106E39
             </div>
           </div>
         </div>

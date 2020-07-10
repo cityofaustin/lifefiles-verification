@@ -3,7 +3,8 @@ import React, {Component, Fragment} from 'react';
 class TimeCheckTechnical extends Component {
   render() {
     return (
-      <Fragment />
+      <div>
+      </div>
     );
   }
 }

@@ -480,10 +480,10 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
-            isExpanded
+            isExpanded={true}
           >
             <div className="tab-container">
-              <Tabset defaultActiveKey={"general"}>
+              <Tabset defaultActiveKey={"technical"}>
                 <Tab eventKey="general" title="What's happening?">
                   <TimeCheckGeneral />
                 </Tab>

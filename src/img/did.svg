@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 881 628.49">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_1695" data-name="Path 1695" d="M-13789.672-18121.973l-78.754,25.535-74.824-25.535-3.8-171.516h157.523Z" transform="translate(13947.055 18293.488)" fill="none" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2128" data-name="Group 2128" transform="translate(-498 -11803.51)">
+    <g id="Group_1796" data-name="Group 1796" transform="translate(-10024 6748)">
+      <line id="Line_449" data-name="Line 449" y1="47.58" transform="translate(11031.826 5320.33)" fill="none" stroke="#327495" stroke-width="2"/>
+      <circle id="Ellipse_513" data-name="Ellipse 513" cx="9" cy="9" r="9" transform="translate(11022 5358)" fill="#327495"/>
+      <line id="Line_452" data-name="Line 452" y1="52.04" transform="translate(11231.811 5315.869)" fill="none" stroke="#327495" stroke-width="2"/>
+      <circle id="Ellipse_516" data-name="Ellipse 516" cx="8.921" cy="8.921" r="8.921" transform="translate(11223.632 5358.244)" fill="#327495"/>
+      <text id="Decentralized_Identifier" data-name="Decentralized
+Identifier" transform="translate(11020 5405)" fill="#707070" font-size="29" font-family="Helvetica"><tspan x="-92.685" y="0">Decentralized </tspan><tspan x="-55.614" y="35">Identifier</tspan></text>
+      <text id="DID_Address" data-name="DID Address" transform="translate(11159 5409)" fill="#707070" font-size="29" font-family="Helvetica"><tspan x="0" y="0">DID Address</tspan></text>
+      <text id="_Blockchain_Ledger" data-name="
+Blockchain
+Ledger" transform="translate(11104 5106)" fill="#707070" font-size="29" font-family="Helvetica"><tspan x="0" y="0"></tspan><tspan x="-74.15" y="35">Blockchain </tspan><tspan x="-45.15" y="70">Ledger</tspan></text>
+      <line id="Line_450" data-name="Line 450" y2="57.244" transform="translate(11102.735 5207.328)" fill="none" stroke="#327495" stroke-width="2"/>
+      <line id="Line_451" data-name="Line 451" y2="64.607" transform="translate(11335.147 5199.893)" fill="none" stroke="#327495" stroke-width="2"/>
+      <text id="Verifiable_Credential" data-name="Verifiable
+Credential" transform="translate(11336 5144)" fill="#707070" font-size="29" font-family="Helvetica"><tspan x="-63.685" y="0">Verifiable </tspan><tspan x="-66.093" y="35">Credential</tspan></text>
+      <circle id="Ellipse_514" data-name="Ellipse 514" cx="8.921" cy="8.921" r="8.921" transform="translate(11093.07 5198.406)" fill="#327495"/>
+      <circle id="Ellipse_515" data-name="Ellipse 515" cx="8.921" cy="8.921" r="8.921" transform="translate(11325.482 5190.973)" fill="#327495"/>
+      <g id="Group_1791" data-name="Group 1791" transform="translate(28211 22817.002)" opacity="0.83">
+        <text id="vc" transform="translate(-16857.727 -17514)" fill="#484848" font-size="44" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-24.471" y="0">vc</tspan></text>
+        <text id="address:_" data-name="address: " transform="translate(-16970.727 -17514)" fill="#484848" font-size="44" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-97.818" y="0">address: </tspan></text>
+        <text id="eth:_" data-name="eth: " transform="translate(-17107.727 -17514)" fill="#484848" font-size="44" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-46.438" y="0">eth: </tspan></text>
+        <text id="did:_" data-name="did: " transform="translate(-17198.727 -17514)" fill="#484848" font-size="44" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-46.428" y="0">did: </tspan></text>
+      </g>
+      <line id="Line_453" data-name="Line 453" y2="57.244" transform="translate(11102.735 5207.328)" fill="none" stroke="#327495" stroke-width="2"/>
+    </g>
+    <g id="Group_1792" data-name="Group 1792" transform="translate(393 12062)">
+      <rect id="Rectangle_1061" data-name="Rectangle 1061" width="821" height="67" rx="33.5" transform="translate(157 286)" fill="#eef2f6"/>
+      <text id="did:ethr:0x3b0BC51Ab9De1e5B7B6E34E5b960..." transform="translate(316 304)" fill="#327495" font-size="25" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="24">did:ethr:0x3b0BC51Ab9De1e5B7B6E34E5b960...</tspan></text>
+      <path id="Rectangle_1213" data-name="Rectangle 1213" d="M33.5,0H142a0,0,0,0,1,0,0V67a0,0,0,0,1,0,0H33.5A33.5,33.5,0,0,1,0,33.5v0A33.5,33.5,0,0,1,33.5,0Z" transform="translate(157 286)" fill="#327495"/>
+      <text id="Example:" transform="translate(171 328)" fill="#fff" font-size="25" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Example:</tspan></text>
+    </g>
+    <g id="Group_1968" data-name="Group 1968" transform="translate(25 567)">
+      <g id="noun_Package_1898991_1_" data-name="noun_Package_1898991 (1)" transform="translate(609.7 11352.772)">
+        <g id="Group_1707" data-name="Group 1707" transform="translate(0 0)">
+          <path id="Path_1487" data-name="Path 1487" d="M188.453,70.652l25-29.62a4.736,4.736,0,0,0,.893-4.557,5.238,5.238,0,0,0-3.125-3.418L137.778,8.45a4.881,4.881,0,0,0-5.134,1.367l-24.11,28.708L84.424,10.045a4.5,4.5,0,0,0-5.134-1.367L5.844,33.058a4.787,4.787,0,0,0-3.125,3.418,5.546,5.546,0,0,0,.893,4.557l25,29.62-25,29.62a4.735,4.735,0,0,0-.893,4.557,5.238,5.238,0,0,0,3.125,3.418l24.333,8.2v52.86a5.134,5.134,0,0,0,3.349,4.785L106.971,198.7a5.473,5.473,0,0,0,3.125,0l73.445-24.607a4.919,4.919,0,0,0,3.349-4.785v-52.86l24.556-8.2a4.787,4.787,0,0,0,3.125-3.418,5.546,5.546,0,0,0-.893-4.557Zm-137.961,0,58.042-19.367,58.042,19.367L108.534,90.019Zm87.286-51.721L201.4,40.121,180.416,64.956l-63.623-21.19Zm-58.488,0,20.984,24.835L36.651,64.956,15.667,40.121ZM36.651,76.348l63.623,21.19L79.289,122.373l-63.623-21.19Zm3.125,89.087v-45.8l39.29,13.215a3.249,3.249,0,0,0,1.563.228,5.219,5.219,0,0,0,3.572-1.595L103.4,108.7V187.08Zm137.291,0-63.846,21.417V108.474l19.2,22.784a4.4,4.4,0,0,0,3.572,1.595,3.729,3.729,0,0,0,1.563-.228l39.29-13.215v46.025Zm-39.29-43.063L116.793,97.538l63.623-21.19L201.4,101.183Z" transform="translate(-2.503 -8.182)" fill="#484848" stroke="#484848" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="Mask_Group_67" data-name="Mask Group 67" transform="translate(637.116 11236.51)">
+        <g id="Rectangle_1301" data-name="Rectangle 1301" transform="translate(13.884 146.49)" fill="#fff" stroke="#707070" stroke-width="1">
+          <rect width="137" height="58" stroke="none"/>
+          <rect x="0.5" y="0.5" width="136" height="57" fill="none"/>
+        </g>
+        <path id="noun_identification_9042" d="M146.23,24.089A5.089,5.089,0,0,0,141.14,19H7.09A5.089,5.089,0,0,0,2,24.089v81.47a5.09,5.09,0,0,0,5.09,5.087H141.141a5.09,5.09,0,0,0,5.089-5.089ZM54.584,82.1H14.019c-1.345-5.32,2.088-8.254,7.652-9.537,5.446-1.253,9.279-3.726,5.87-7.136-9.967-9.968-2.517-22.1,6.72-22.1s16.768,12.132,6.8,22.1c-3.409,3.41.344,5.883,5.787,7.136C52.414,73.846,55.93,76.781,54.584,82.1Zm79.627,0H63.6v-6.01h70.613Zm0-15.024H63.6v-6.01h70.613Zm0-15.024H63.6v-6.01h70.613Z" transform="translate(7.043 108.835)" fill="#327495"/>
+      </g>
+    </g>
+    <path id="noun_Search_2738105" d="M244.08,331.388a162.287,162.287,0,0,1-90.963-27.763l-94.4,94.4a31.468,31.468,0,1,1-44.5-44.5l94.4-94.4A163.181,163.181,0,1,1,244.08,331.388Zm0-288.693A125.467,125.467,0,1,0,369.545,168.16,125.467,125.467,0,0,0,244.08,42.695Z" transform="translate(498.003 11838.981)" fill="#888" stroke="#fff" stroke-width="10"/>
+  </g>
+</svg>
