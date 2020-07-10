@@ -10,7 +10,7 @@ $warning: rgb(254, 177, 67);
   z-index: -1;
 }
 
-.tab {
+.accordion {
   box-shadow: 0 3px 60px 0 rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   max-width: 707px;
@@ -91,7 +91,7 @@ $warning: rgb(254, 177, 67);
 
 // :checked
 input:checked {
-  + .tab-label {
+  + .accordion-label {
     border-radius: 8px 8px 0 0;
     background: darken($midnight, 10%);
     svg:nth-child(2) {
@@ -101,7 +101,7 @@ input:checked {
     //   transform: rotate(90deg);
     // }
   }
-  ~ .tab-content {
+  ~ .accordion-content {
     max-height: 100%;
     padding: 1em;
     // border: 1px solid grey;

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="374" viewBox="0 0 503 197">
+  <g id="Group_2118" data-name="Group 2118" transform="translate(-679 -6417)">
+    <g id="Group_1497" data-name="Group 1497" transform="translate(602 3160)">
+      <rect id="Rectangle_1124" data-name="Rectangle 1124" width="168" height="155" transform="translate(83 3295)" fill="#f2f2f2"/>
+      <rect id="Rectangle_1125" data-name="Rectangle 1125" width="6" height="155" transform="translate(77 3295)" fill="#327495"/>
+    </g>
+    <text id="Input" transform="translate(735 6436)" fill="#707070" font-size="25" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="0" y="0">Input</tspan></text>
+    <text id="Output" transform="translate(1095 6436)" fill="#707070" font-size="25" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-40.955" y="0">Output</tspan></text>
+    <g id="noun_up_688138" transform="translate(978 6481) rotate(90)">
+      <g id="Group_1505" data-name="Group 1505" transform="translate(0 -952.362)">
+        <path id="Path_1331" data-name="Path 1331" d="M49.995,962.362a3.363,3.363,0,0,0-2.063.813l-17,16c-.974,1.084-1.376,3.163-.25,4.375a3.125,3.125,0,0,0,4.375-.031l11.938-11.25v67.093a3,3,0,0,0,6,0V972.268l11.938,11.25a3.306,3.306,0,0,0,4.375.031,3.392,3.392,0,0,0-.25-4.375l-17-16a2.886,2.886,0,0,0-2.063-.812Z" fill="#327495"/>
+      </g>
+    </g>
+    <g id="Rectangle_1126" data-name="Rectangle 1126" transform="translate(1007 6455)" fill="#f2f2f2" stroke="#327495" stroke-width="1">
+      <rect width="175" height="159" stroke="none"/>
+      <rect x="0.5" y="0.5" width="174" height="158" fill="none"/>
+    </g>
+    <text id="_6C7D_2CDB_FE3D_79A9_EE82_90B1_FB99_BB41_F97C_DB2C_0488_91DC_EC82_4F8C_2184_1337_825D_FFE4_77C6_662B_BB8D_8A6C_72EA_D091_91C0_F8BA_CC25_8FCB_9D42_4FB4_1867_C696_6C7D_2CDB_FE3D_79A9_EE82_90B1_FB99_BB41_F97C_DB2C_0488_91DC_EC82_4F8C_2184_1337_825D_FFE4_7" data-name="6C7D 2CDB FE3D 79A9
+EE82 90B1 FB99 BB41
+F97C DB2C 0488 91DC
+EC82 4F8C 2184 1337
+825D FFE4 77C6 662B
+BB8D 8A6C 72EA D091 91C0 F8BA CC25 8FCB  9D42 4FB4 1867 C696 6C7D 2CDB FE3D 79A9 EE82 90B1 FB99 BB41 F97C DB2C 0488 91DC  EC82 4F8C 2184 1337 825D FFE4 7" transform="translate(1012 6474)" fill="#327495" font-size="15" font-family="Helvetica"><tspan x="0.381" y="12">6C7D 2CDB FE3D 79A9 </tspan><tspan x="4.113" y="30">EE82 90B1 FB99 BB41</tspan><tspan x="2.043" y="48">F97C DB2C 0488 91DC </tspan><tspan x="5.779" y="66">EC82 4F8C 2184 1337</tspan><tspan x="4.537" y="84">825D FFE4 77C6 662B </tspan><tspan x="2.029" y="102">BB8D 8A6C 72EA D091 </tspan></text>
+    <text id="hash" transform="translate(891 6512)" fill="#327495" font-size="13" font-family="Helvetica-Bold, Helvetica" font-weight="700" opacity="0.48"><tspan x="0" y="10">hash</tspan></text>
+    <text id="function" transform="translate(891 6532)" fill="#327495" font-size="13" font-family="Helvetica-Bold, Helvetica" font-weight="700" opacity="0.48"><tspan x="0" y="10">function</tspan></text>
+    <path id="noun_identification_9042" d="M105,22.634A3.634,3.634,0,0,0,101.365,19H5.635A3.634,3.634,0,0,0,2,22.634V80.815a3.635,3.635,0,0,0,3.635,3.633h95.731A3.635,3.635,0,0,0,105,80.814ZM39.552,64.063H10.583c-.96-3.8,1.491-5.895,5.464-6.811,3.889-.895,6.626-2.661,4.192-5.1-7.118-7.119-1.8-15.782,4.8-15.782S37.014,45.038,29.9,52.155c-2.434,2.436.246,4.2,4.133,5.1C38,58.168,40.513,60.263,39.552,64.063Zm56.865,0H45.99V59.771H96.417Zm0-10.729H45.99V49.042H96.417Zm0-10.729H45.99V38.313H96.417Z" transform="translate(713 6483)" fill="#327495"/>
+  </g>
+</svg>

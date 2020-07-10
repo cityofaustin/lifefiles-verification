@@ -3,3 +3,11 @@
   max-width: 707px;
   margin-bottom: 20px;
 }
+
+a:visited {
+  color: rgb(85, 26, 139);
+  &:hover {
+    color: darken(rgb(85, 26, 139), 10%);
+    text-decoration: underline;
+  }
+}

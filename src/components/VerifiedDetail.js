@@ -10,7 +10,14 @@ import loadingJson from "../img/loading.json";
 import loadSuccess from "../img/loadSuccess.json";
 import Tabset from "./common/Tabset";
 import Tab from "./common/Tab";
-import DigitalSignedGeneral from './general-steps/DigitalSignedGeneral';
+import DigitalSignedGeneral from "./general-steps/DigitalSignedGeneral";
+import DigitalSignedTechnical from "./technical-steps/DigitalSignedTechnical";
+import CompareBlockchainGeneral from "./general-steps/CompareBlockchainGeneral";
+import CompareBlockchainTechnical from "./technical-steps/CompareBlockchainTechnical";
+import VerifyNotaryGeneral from "./general-steps/VerifyNotaryGeneral";
+import VerifyNotaryTechnical from "./technical-steps/VerifyNotaryTechnical";
+import TimeCheckGeneral from "./general-steps/TimeCheckGeneral";
+import TimeCheckTechnical from "./technical-steps/TimeCheckTechnical";
 
 class VerifiedDetail extends Component {
   constructor(props) {
@@ -32,19 +39,64 @@ class VerifiedDetail extends Component {
   }
 
   async setLoadingAnimations() {
-    await this.runAccordionAnimation("bm-digital-signed", loadingJson, 'Decrypting message...');
-    this.runAccordionAnimation("bm-digital-signed", loadSuccess, 'Document is digitally signed', "digital-signed");
-    await this.runAccordionAnimation("bm-compare-blockchain", loadingJson, 'Comparing image with version from blockchain...');
-    this.runAccordionAnimation("bm-compare-blockchain", loadSuccess, 'Document has not been altered', "compare-blockchain");
-    await this.runAccordionAnimation("bm-verify-notary", loadingJson, "Verifying notary’s secure key from state notary list...");
-    this.runAccordionAnimation("bm-verify-notary", loadSuccess, 'Signer is a registered notary', "verify-notary");
+    await this.runAccordionAnimation(
+      "bm-digital-signed",
+      loadingJson,
+      "Decrypting message..."
+    );
+    this.runAccordionAnimation(
+      "bm-digital-signed",
+      loadSuccess,
+      "Document is digitally signed",
+      "digital-signed"
+    );
+    await this.runAccordionAnimation(
+      "bm-compare-blockchain",
+      loadingJson,
+      "Comparing image with version from blockchain..."
+    );
+    this.runAccordionAnimation(
+      "bm-compare-blockchain",
+      loadSuccess,
+      "Document has not been altered",
+      "compare-blockchain"
+    );
+    await this.runAccordionAnimation(
+      "bm-verify-notary",
+      loadingJson,
+      "Verifying notary’s secure key from state notary list..."
+    );
+    this.runAccordionAnimation(
+      "bm-verify-notary",
+      loadSuccess,
+      "Signer is a registered notary",
+      "verify-notary"
+    );
     const title = document.getElementById("notary");
     title.innerHTML = "Notarization is valid";
     title.style.color = "rgb(83, 170, 86)";
-    await this.runAccordionAnimation("bm-time-check", loadingJson, 'Checking the timestamp of block registration...');
-    this.runAccordionAnimation("bm-time-check", loadSuccess, 'Notarized Document is original not a copy', "time-check");
-    await this.runAccordionAnimation("bm-owner-signed", loadingJson, 'Checking that the name of the owner is linked to the public key of the presentation...');
-    this.runAccordionAnimation("bm-owner-signed", loadSuccess, 'Notarized Document is signed by its owner', "owner-signed");
+    await this.runAccordionAnimation(
+      "bm-time-check",
+      loadingJson,
+      "Checking the timestamp of block registration..."
+    );
+    this.runAccordionAnimation(
+      "bm-time-check",
+      loadSuccess,
+      "Notarized Document is original not a copy",
+      "time-check"
+    );
+    await this.runAccordionAnimation(
+      "bm-owner-signed",
+      loadingJson,
+      "Checking that the name of the owner is linked to the public key of the presentation..."
+    );
+    this.runAccordionAnimation(
+      "bm-owner-signed",
+      loadSuccess,
+      "Notarized Document is signed by its owner",
+      "owner-signed"
+    );
     const title2 = document.getElementById("transfer");
     title2.innerHTML = "Document is transferable";
     title2.style.color = "rgb(83, 170, 86)";
@@ -58,14 +110,14 @@ class VerifiedDetail extends Component {
         const titleSpan = container.parentElement.nextSibling;
         titleSpan.innerHTML = statusText;
         // completed anim
-        if(accordionId) {
+        if (accordionId) {
           this.anim.destroy();
-            const element = document.getElementById(accordionId).nextSibling;
-            element.classList.add("success");
-            element.classList.remove("loading");
+          const element = document.getElementById(accordionId).nextSibling;
+          element.classList.add("success");
+          element.classList.remove("loading");
         }
         // basic anim
-        container.style.backgroundColor = 'transparent';
+        container.style.backgroundColor = "transparent";
         const animation = {
           container,
           renderer: "svg",
@@ -75,7 +127,7 @@ class VerifiedDetail extends Component {
         };
         this.anim = bodymovin.loadAnimation(animation);
         this.anim.setSpeed(0.4);
-        this.anim.addEventListener('complete', () => resolve());
+        this.anim.addEventListener("complete", () => resolve());
       } catch (err) {
         reject(err);
       }
@@ -304,7 +356,6 @@ class VerifiedDetail extends Component {
                     present.
                   </h5>
                 </div>
-
                 <p>
                   Subject: {vc.credentialSubject.id} ({subjectName})
                 </p>
@@ -348,7 +399,9 @@ class VerifiedDetail extends Component {
     return (
       <Fragment>
         <div>
-          <div id="notary" className="header-2">Checking for valid notarization...</div>
+          <div id="notary" className="header-2">
+            Checking for valid notarization...
+          </div>
           <Accordion
             id="digital-signed"
             title="Processing..."
@@ -358,18 +411,15 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
-            isExpanded
+            isExpanded={false}
           >
             <div className="tab-container">
-              <Tabset>
+              <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
                   <DigitalSignedGeneral />
                 </Tab>
-                <Tab eventKey="techinal" title="Technical Steps">
-                  <div className="tab--content">
-                    Retrieve the information stored on the blockchain at the De-centralized
-                    Identified address (DID) and resolve it to obtain the first JWT payload.
-                  </div>
+                <Tab eventKey="technical" title="Technical Steps">
+                  <DigitalSignedTechnical />
                 </Tab>
               </Tabset>
             </div>
@@ -383,8 +433,18 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
+            isExpanded={false}
           >
-            <Fragment />
+            <div className="tab-container">
+              <Tabset defaultActiveKey={"general"}>
+                <Tab eventKey="general" title="What's happening?">
+                  <CompareBlockchainGeneral />
+                </Tab>
+                <Tab eventKey="technical" title="Technical Steps">
+                  <CompareBlockchainTechnical />
+                </Tab>
+              </Tabset>
+            </div>
           </Accordion>
           <Accordion
             id="verify-notary"
@@ -395,10 +455,22 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
+            isExpanded={false}
           >
-            <Fragment />
+            <div className="tab-container">
+              <Tabset defaultActiveKey={"general"}>
+                <Tab eventKey="general" title="What's happening?">
+                  <VerifyNotaryGeneral />
+                </Tab>
+                <Tab eventKey="technical" title="Technical Steps">
+                  <VerifyNotaryTechnical />
+                </Tab>
+              </Tabset>
+            </div>
           </Accordion>
-          <div id="transfer" className="header-2">Checking for transferability...</div>
+          <div id="transfer" className="header-2">
+            Checking for transferability...
+          </div>
           <Accordion
             id="time-check"
             title="Processing..."
@@ -408,8 +480,18 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
+            isExpanded
           >
-            <Fragment />
+            <div className="tab-container">
+              <Tabset defaultActiveKey={"general"}>
+                <Tab eventKey="general" title="What's happening?">
+                  <TimeCheckGeneral />
+                </Tab>
+                <Tab eventKey="technical" title="Technical Steps">
+                  <TimeCheckTechnical />
+                </Tab>
+              </Tabset>
+            </div>
           </Accordion>
           <Accordion
             id="owner-signed"

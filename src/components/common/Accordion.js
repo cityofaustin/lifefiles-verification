@@ -31,7 +31,7 @@ class Accordion extends Component {
     const { id, title, icon, labelType } = { ...this.props };
     const { isExpanded } = { ...this.state };
     return (
-      <div className="tab">
+      <div className="accordion">
         <div>
           <input
             className="accordion-input"
@@ -40,14 +40,14 @@ class Accordion extends Component {
             checked={isExpanded}
             onChange={this.expandCollapse}
           />
-          <label className={'tab-label '+ (labelType === 'loading' ? 'loading' : '')} htmlFor={id}>
+          <label className={'accordion-label '+ (labelType === 'loading' ? 'loading' : '')} htmlFor={id}>
             <div className="left-header">
               {icon}
               <span>{title}</span>
             </div>
             <ChevronRight />
           </label>
-          <div className="tab-content">{this.props.children}</div>
+          <div className="accordion-content">{this.props.children}</div>
         </div>
       </div>
     );

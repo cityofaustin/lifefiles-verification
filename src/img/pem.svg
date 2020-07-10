@@ -1,17 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 458 174.834">
-  <g id="Group_2114" data-name="Group 2114" transform="translate(-438 -4317)">
-    <g id="Group_1979" data-name="Group 1979" transform="translate(366 4289)">
-      <g id="Group_1548" data-name="Group 1548" transform="translate(123.084 142.773)">
-        <text id="Julia_s_PEM_Key" data-name="Julia's PEM Key" transform="translate(131.916 43.227)" fill="#484848" font-size="15" font-family="Helvetica"><tspan x="0" y="0">Julia's PEM Key</tspan></text>
-      </g>
-      <g id="Group_1905" data-name="Group 1905" transform="translate(243.084 62.561)">
-        <g id="noun_Key_3192361" transform="translate(65.215 0) rotate(45)">
-          <path id="Path_1345" data-name="Path 1345" d="M29.79,92.229A29.781,29.781,0,1,1,41.853,35.213L76.531.535A1.826,1.826,0,0,1,77.841,0a.691.691,0,0,1,.2.018L89.277,1.346a1.86,1.86,0,0,1,1.6,1.623L92.21,14.185a1.792,1.792,0,0,1-.516,1.513l-7.268,7.268a1.826,1.826,0,0,1-2.619,0l-1.882-1.882-4.243,4.261,1.881,1.881a1.826,1.826,0,0,1,.535,1.31,1.784,1.784,0,0,1-.535,1.291l-5.5,5.5a1.837,1.837,0,0,1-2.6,0l-1.882-1.882-4.261,4.242,1.882,1.882a1.844,1.844,0,0,1,.553,1.31,1.876,1.876,0,0,1-.553,1.31l-8.19,8.19a29.423,29.423,0,0,1,2.545,12.064A29.789,29.789,0,0,1,29.79,92.229Zm3.154-32.944a9.121,9.121,0,0,0-15.568,6.456,9.121,9.121,0,0,0,18.243,0A9.132,9.132,0,0,0,32.944,59.285Z" transform="translate(0 0)" fill="#484848"/>
-        </g>
-        <text id="Private" transform="translate(68.916 46.439)" fill="#484848" font-size="13" font-family="Helvetica"><tspan x="0" y="0">Private</tspan></text>
-      </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" viewBox="0 0 425 156.861">
+  <g id="Group_1956" data-name="Group 1956" transform="translate(-733 -7795.973)">
+    <g id="Group_1952" data-name="Group 1952" transform="translate(751.084 7892.773)">
+      <text id="Julia_s_PEM_Key" data-name="Julia&apos;s PEM Key" transform="translate(131.916 43.227)" fill="#484848" font-size="15" font-family="Helvetica"><tspan x="0" y="0">Julia&apos;s PEM Key</tspan></text>
     </g>
-    <g id="noun_Happy_2199103" transform="translate(459.9 4344.5)">
+    <g id="Group_1953" data-name="Group 1953" transform="translate(871.084 7812.561)">
+      <g id="noun_Key_3192361" transform="translate(65.215 0) rotate(45)">
+        <path id="Path_1345" data-name="Path 1345" d="M29.79,92.229A29.781,29.781,0,1,1,41.853,35.213L76.531.535A1.826,1.826,0,0,1,77.841,0a.691.691,0,0,1,.2.018L89.277,1.346a1.86,1.86,0,0,1,1.6,1.623L92.21,14.185a1.792,1.792,0,0,1-.516,1.513l-7.268,7.268a1.826,1.826,0,0,1-2.619,0l-1.882-1.882-4.243,4.261,1.881,1.881a1.826,1.826,0,0,1,.535,1.31,1.784,1.784,0,0,1-.535,1.291l-5.5,5.5a1.837,1.837,0,0,1-2.6,0l-1.882-1.882-4.261,4.242,1.882,1.882a1.844,1.844,0,0,1,.553,1.31,1.876,1.876,0,0,1-.553,1.31l-8.19,8.19a29.423,29.423,0,0,1,2.545,12.064A29.789,29.789,0,0,1,29.79,92.229Zm3.154-32.944a9.121,9.121,0,0,0-15.568,6.456,9.121,9.121,0,0,0,18.243,0A9.132,9.132,0,0,0,32.944,59.285Z" transform="translate(0 0)" fill="#484848"/>
+      </g>
+      <text id="Private" transform="translate(68.916 46.439)" fill="#484848" font-size="13" font-family="Helvetica"><tspan x="0" y="0">Private</tspan></text>
+    </g>
+    <g id="noun_Happy_2199103" transform="translate(721.9 7805.5)">
       <g id="Group_1749" data-name="Group 1749" transform="translate(11.1 2.5)">
         <g id="Group_1748" data-name="Group 1748">
           <circle id="Ellipse_510" data-name="Ellipse 510" cx="5.835" cy="5.835" r="5.835" transform="translate(37.286 39.137)" fill="#484848"/>
@@ -21,9 +19,9 @@
         </g>
       </g>
     </g>
-    <g id="Group_1906" data-name="Group 1906" transform="translate(626 1076)">
+    <g id="Group_1954" data-name="Group 1954" transform="translate(888 4537)">
       <g id="Group_1907" data-name="Group 1907" transform="translate(-640 -121)">
-        <g id="Group_1906-2" data-name="Group 1906" transform="translate(772.171 3379.973)">
+        <g id="Group_1906" data-name="Group 1906" transform="translate(772.171 3379.973)">
           <g id="Rectangle_1264" data-name="Rectangle 1264" transform="translate(-0.171 31.027)" fill="#fff" stroke="#484848" stroke-width="3">
             <rect width="138" height="104" rx="18" stroke="none"/>
             <rect x="1.5" y="1.5" width="135" height="101" rx="16.5" fill="none"/>
@@ -60,10 +58,6 @@
 BB8D 8A6C 72EA D0919D42
 4FB4 1867 C696 91C0 F8BA" transform="translate(778 3619)" fill="#9bcfe9" font-size="6" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="0" y="0">6C7D 2CDB FE3D 79A9 EE82 </tspan><tspan x="0" y="7">90B1 FB99 BB41 F97C DB2C </tspan><tspan x="0" y="14" xml:space="preserve">0488 91DC  EC82 4F8C 2184 </tspan><tspan x="0" y="21">1337 825D FFE4 77C6 662B </tspan><tspan x="0" y="28">BB8D 8A6C 72EA D0919D42 </tspan><tspan x="0" y="35">4FB4 1867 C696 91C0 F8BA</tspan></text>
       </g>
-    </g>
-    <g id="Group_1931" data-name="Group 1931" transform="translate(0 771)">
-      <circle id="Ellipse_532" data-name="Ellipse 532" cx="23" cy="23" r="23" transform="translate(438 3546)" fill="#327495"/>
-      <text id="_3" data-name="3" transform="translate(461.5 3581)" fill="#fff" font-size="30" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-8.342" y="0">3</tspan></text>
     </g>
   </g>
 </svg>
