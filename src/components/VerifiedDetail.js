@@ -18,6 +18,8 @@ import VerifyNotaryGeneral from "./general-steps/VerifyNotaryGeneral";
 import VerifyNotaryTechnical from "./technical-steps/VerifyNotaryTechnical";
 import TimeCheckGeneral from "./general-steps/TimeCheckGeneral";
 import TimeCheckTechnical from "./technical-steps/TimeCheckTechnical";
+import OwnerSignedGeneral from "./general-steps/OwnerSignedGeneral";
+import OwnerSignedTechnical from "./technical-steps/OwnerSignedTechnical";
 
 class VerifiedDetail extends Component {
   constructor(props) {
@@ -28,13 +30,14 @@ class VerifiedDetail extends Component {
     this.setLoadingAnimations();
   }
 
+
   componentDidUpdate(prevProps) {
     if (
       prevProps.verifiedVC !== this.props.verifiedVC &&
       this.props.verifiedVC &&
       this.props.verifiedVC.jwt
     ) {
-      this.scrollToMyRef();
+      // this.scrollToMyRef();
     }
   }
 
@@ -102,7 +105,7 @@ class VerifiedDetail extends Component {
     title2.style.color = "rgb(83, 170, 86)";
   }
 
-  runAccordionAnimation(containerId, animationData, statusText, accordionId) {
+  runAccordionAnimation = (containerId, animationData, statusText, accordionId) => {
     return new Promise((resolve, reject) => {
       try {
         // change text
@@ -112,9 +115,7 @@ class VerifiedDetail extends Component {
         // completed anim
         if (accordionId) {
           this.anim.destroy();
-          const element = document.getElementById(accordionId).nextSibling;
-          element.classList.add("success");
-          element.classList.remove("loading");
+          this.handleSuccessFail(accordionId);
         }
         // basic anim
         container.style.backgroundColor = "transparent";
@@ -132,6 +133,23 @@ class VerifiedDetail extends Component {
         reject(err);
       }
     });
+  }
+
+  handleSuccessFail = (accordionId) => {
+    const element = document.getElementById(accordionId).nextSibling;
+    switch(accordionId) {
+      case 'digital-signed':
+        if(this.props.signedMd5) {
+          element.classList.add("success");
+        } else {
+          element.classList.add("warning");
+        }
+        element.classList.remove("loading");
+        break;
+      default:
+        element.classList.add("success");
+        element.classList.remove("loading");
+    }
   }
 
   scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
@@ -395,7 +413,25 @@ class VerifiedDetail extends Component {
   }
 
   render() {
-    const { verifiedVC } = { ...this.props };
+    const {
+      documentDID,
+      vpJwt,
+      ownerPublicKey,
+      verifiedVP,
+      verifiedVC,
+      notaryX509PublicKey,
+      signedMd5,
+      jwtMD5,
+
+      expirationDate,
+      iatDate,
+      nbfDate,
+      issuanceDate,
+      fileMD5,
+      signerName,
+      subjectName,
+      decodedJwt,
+    } = { ...this.props };
     return (
       <Fragment>
         <div>
@@ -411,15 +447,24 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
-            isExpanded={false}
+            isExpanded={true}
           >
             <div className="tab-container">
-              <Tabset defaultActiveKey={"general"}>
+              <Tabset defaultActiveKey={"technical"}>
                 <Tab eventKey="general" title="What's happening?">
                   <DigitalSignedGeneral />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
-                  <DigitalSignedTechnical />
+                  <DigitalSignedTechnical
+                    documentDID={documentDID}
+                    vpJwt={vpJwt}
+                    ownerPublicKey={ownerPublicKey}
+                    verifiedVP={verifiedVP}
+                    verifiedVC={verifiedVC}
+                    notaryX509PublicKey={notaryX509PublicKey}
+                    signedMd5={signedMd5}
+                    jwtMD5={jwtMD5}
+                  />
                 </Tab>
               </Tabset>
             </div>
@@ -480,10 +525,10 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
-            isExpanded={true}
+            isExpanded={false}
           >
             <div className="tab-container">
-              <Tabset defaultActiveKey={"technical"}>
+              <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
                   <TimeCheckGeneral />
                 </Tab>
@@ -503,16 +548,25 @@ class VerifiedDetail extends Component {
             }
             labelType="loading"
           >
-            <Fragment />
+            <div className="tab-container">
+              <Tabset defaultActiveKey={"general"}>
+                <Tab eventKey="general" title="What's happening?">
+                  <OwnerSignedGeneral />
+                </Tab>
+                <Tab eventKey="technical" title="Technical Steps">
+                  <OwnerSignedTechnical />
+                </Tab>
+              </Tabset>
+            </div>
           </Accordion>
         </div>
-        {verifiedVC && verifiedVC.jwt && (
+        {/* {verifiedVC && verifiedVC.jwt && (
           <div ref={this.myRef} id="middle" className="row middle-section">
             <div className="col"></div>
             <div className="col-9 text-center">{this.renderTabs()}</div>
             <div className="col"></div>
           </div>
-        )}
+        )} */}
       </Fragment>
     );
   }

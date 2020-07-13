@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import VerifiedCredentialUtil from '../util/VerifiedCredentialUtil';
 import './VerifiedSummary.scss';
-import {ReactComponent as KeySvg} from '../img/key.svg';
-import {ReactComponent as CalendarSvg} from '../img/calendar.svg';
+// import {ReactComponent as KeySvg} from '../img/key.svg';
+// import {ReactComponent as CalendarSvg} from '../img/calendar.svg';
 
 class VerifiedSummary extends Component {
 

@@ -14,13 +14,15 @@ import "./App.scss";
 
 class App extends Component {
   state = {
+    documentDID: "",
+    vpJwt: "",
+    ownerPublicKey: "",
     fileMD5: "",
     jwtMD5: "",
     signerDID: "",
     signerName: "",
     subjectName: "",
     submitClicked: false,
-    jwt: "",
     iatDate: "",
     nbfDate: "",
     issuanceDate: "",
@@ -28,6 +30,7 @@ class App extends Component {
     didTransactionTimestamp: "",
     verifiedVC: {},
     isLoading: false,
+    isDone: false,
   };
 
   handleOnDrop = async (file) => {
@@ -35,29 +38,51 @@ class App extends Component {
     this.setState({ fileMD5 });
   };
 
-  handleFileSubmit = async (did) => {
+  handleFileSubmit = async (documentDID) => {
     this.setState({ isLoading: true });
-    console.log('started');
-    const jwt = await DidResolverUtil.getJWTByDid(did);
+    console.log("started");
+    const { vpJwt, ownerPublicKey } = {
+      ...(await DidResolverUtil.getInfoByDocumentDid(documentDID)),
+    };
+    //1
+    this.setState({
+      documentDID,
+      vpJwt,
+      ownerPublicKey,
+    });
     let verifiedVP;
     let verifiedVC;
     try {
       const resolver = DidResolverUtil.getResolver();
       verifiedVP = await VerifiedCredentialUtil.getVerifiedPresentation(
-        jwt,
+        vpJwt,
         resolver
       );
-
+      //1a
+      this.setState({ verifiedVP });
       let vcJWT = verifiedVP.payload.vp.verifiableCredential[0];
       verifiedVC = await VerifiedCredentialUtil.getVerifiedCredential(
         vcJWT,
         resolver
       );
+      //1b
+      this.setState({ verifiedVC });
     } catch (e) {
       console.log(e);
       this.setState({ error: e.message, isLoading: false });
       return;
     }
+    //2
+    const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
+    const signedMd5 =
+      verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
+        .signedDocumentHash;
+    const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
+    this.setState({
+      notaryX509PublicKey,
+      signedMd5,
+      jwtMD5,
+    });
 
     // extracting key information from vc
     const iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString();
@@ -69,7 +94,7 @@ class App extends Component {
       verifiedVC.payload.vc.issuanceDate
     ).toUTCString();
     const didTransactionTimestamp = new Date(
-      (await Web3ContractUtil.getDidTransactionTimestamp(did)) * 1000
+      (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) * 1000
     ).toUTCString();
 
     const signerDID = verifiedVC.signer.owner;
@@ -78,37 +103,35 @@ class App extends Component {
       verifiedVC.payload.vc.credentialSubject.id
     );
 
-    const signedMd5 =
-      verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
-        .signedDocumentHash;
-    const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
-    const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
-    console.log('finished');
+    console.log("finished");
     this.setState({
       iatDate,
       nbfDate,
       expirationDate,
       issuanceDate,
       didTransactionTimestamp,
-      decodedJwt: JSON.stringify(verifiedVC),
       signerDID,
-      jwt,
-      verifiedVC,
       signerName,
       subjectName,
-      jwtMD5,
       isLoading: false,
+      isDone: true,
     });
   };
 
   render() {
     const {
-      fileMD5,
+      documentDID,
+      vpJwt,
+      ownerPublicKey,
+      verifiedVP,
+      verifiedVC,
+      notaryX509PublicKey,
+      signedMd5,
       jwtMD5,
+      fileMD5,
       signerDID,
       signerName,
       subjectName,
-      verifiedVC,
       expirationDate,
       didTransactionTimestamp,
       iatDate,
@@ -116,6 +139,7 @@ class App extends Component {
       issuanceDate,
       decodedJwt,
       isLoading,
+      isDone,
     } = { ...this.state };
     return (
       <div className="app-container">
@@ -124,30 +148,41 @@ class App extends Component {
           handleFileSubmit={this.handleFileSubmit}
           isLoading={isLoading}
         />
-        <VerifiedSummary
-          fileMD5={fileMD5}
-          jwtMD5={jwtMD5}
-          signerName={signerName}
-          verifiedVC={verifiedVC}
-          expirationDate={expirationDate}
-          iatDate={iatDate}
-          nbfDate={nbfDate}
-          issuanceDate={issuanceDate}
-        />
-        <VerifiedDetail
-          expirationDate={expirationDate}
-          iatDate={iatDate}
-          nbfDate={nbfDate}
-          issuanceDate={issuanceDate}
-          didTransactionTimestamp={didTransactionTimestamp}
-          verifiedVC={verifiedVC}
-          fileMD5={fileMD5}
-          jwtMD5={jwtMD5}
-          signerDID={signerDID}
-          signerName={signerName}
-          subjectName={subjectName}
-          decodedJwt={decodedJwt}
-        />
+        {isDone && (
+          <VerifiedSummary
+            fileMD5={fileMD5}
+            jwtMD5={jwtMD5}
+            signerName={signerName}
+            verifiedVC={verifiedVC}
+            expirationDate={expirationDate}
+            iatDate={iatDate}
+            nbfDate={nbfDate}
+            issuanceDate={issuanceDate}
+          />
+        )}
+        {(isLoading || isDone) && (
+          <VerifiedDetail
+            documentDID={documentDID}
+            vpJwt={vpJwt}
+            ownerPublicKey={ownerPublicKey}
+            verifiedVP={verifiedVP}
+            verifiedVC={verifiedVC}
+            notaryX509PublicKey={notaryX509PublicKey}
+            signedMd5={signedMd5}
+            jwtMD5={jwtMD5}
+            expirationDate={expirationDate}
+            iatDate={iatDate}
+            nbfDate={nbfDate}
+            issuanceDate={issuanceDate}
+            didTransactionTimestamp={didTransactionTimestamp}
+            fileMD5={fileMD5}
+            jwtMD5={jwtMD5}
+            signerDID={signerDID}
+            signerName={signerName}
+            subjectName={subjectName}
+            decodedJwt={decodedJwt}
+          />
+        )}
       </div>
     );
   }

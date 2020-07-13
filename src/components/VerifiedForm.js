@@ -18,37 +18,37 @@ import Accordion from "./common/Accordion";
 
 class VerifiedForm extends Component {
   state = {
-    did: "did:ethr:0xe0b1833c7032aAc1B8d4661aF9295623F40fc956",
+    did: "",
     pdfLink: undefined,
     displayHowTo: false,
-    documentAccordionExpanded: false,
+    documentAccordionExpanded: true,
   };
 
   anim = undefined;
 
   componentDidMount() {
-    this.setLoadingAnimations();
+    // this.setLoadingAnimations();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.isLoading !== this.props.isLoading && this.props.isLoading) {
-      this.setLoadingAnimations();
+      // this.setLoadingAnimations();
       this.setState({documentAccordionExpanded: false});
     }
   }
 
-  setLoadingAnimations() {
-    const animData = {
-      container: document.getElementById("bm-doc-loading"),
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      animationData: documentLoadingJson,
-    };
+  // setLoadingAnimations() {
+  //   const animData = {
+  //     container: document.getElementById("bm-doc-loading"),
+  //     renderer: "svg",
+  //     loop: true,
+  //     autoplay: true,
+  //     animationData: documentLoadingJson,
+  //   };
 
-    this.anim = bodymovin.loadAnimation(animData);
-    this.anim.setSpeed(0.2);
-  }
+  //   this.anim = bodymovin.loadAnimation(animData);
+  //   this.anim.setSpeed(0.2);
+  // }
 
   handleDidChange = (e) => {
     this.setState({ did: e.target.value });
