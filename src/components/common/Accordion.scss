@@ -85,6 +85,13 @@ $warning: rgb(254, 177, 67);
       background: darken($success, 10%);
     }
   }
+
+  .warning {
+    background: $warning;
+    &:hover {
+      background: darken($warning, 10%);
+    }
+  }
 }
 
 
@@ -117,5 +124,8 @@ input:checked {
 input:checked {
   + .success {
     background: darken($success, 10%);
+  }
+  + .warning {
+    background: darken($warning, 10%);
   }
 }

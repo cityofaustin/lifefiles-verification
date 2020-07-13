@@ -1,4 +1,5 @@
 $success: rgb(83, 170, 86);
+$warning: rgb(254, 177, 67);
 
 .diagram-section-1 {
   display: flex;
@@ -38,6 +39,13 @@ $success: rgb(83, 170, 86);
   align-items: center;
   .last-excerpt {
     font-weight: bold;
-    color: $success;
+    &.success {
+      color: $success;
+      background-color: transparent;
+    }
+    &.warning {
+      color: $warning;
+      background-color: transparent;
+    }
   }
 }

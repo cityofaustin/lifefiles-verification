@@ -38,6 +38,10 @@ html {
 .btn-primary {
   background-color: $midnight;
   border-color: $midnight;
+  &:hover {
+    background-color: lighten($midnight, 10);
+    border-color: lighten($midnight, 10);
+  }
   @include themify($themes) {
     background-color: themed("colorPrimary");
     border-color: themed("colorPrimary");

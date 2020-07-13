@@ -147,7 +147,7 @@ class VerifiedForm extends Component {
               <Button
                 className="margin-wide"
                 color="primary"
-                disabled={!pdfLink}
+                disabled={(!pdfLink || did.length <= 0)}
                 onClick={() => handleFileSubmit(did)}
               >
                 Submit

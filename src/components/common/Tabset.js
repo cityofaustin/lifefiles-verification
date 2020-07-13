@@ -59,7 +59,7 @@ class Tabset extends Component {
     const { children, tabType } = { ...this.props };
     return (
       <div>
-        <div className={`tabs ${tabType ? tabType : "success"}`}>
+        <div className={`tabs`}>
           {this.renderTabs(children)}
         </div>
         <div>{this.renderTabContent(children)}</div>

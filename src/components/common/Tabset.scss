@@ -1,11 +1,39 @@
 $success: rgb(83, 170, 86);
 $warning: rgb(254, 177, 67);
+$midnight: #2c3e50;
 
 .tabs {
   display: flex;
   cursor: pointer;
   font-size: 20px;
   font-weight: 700;
+  background-color: transparent;
+  border: 3px solid $midnight;
+  border-radius: 18px;
+  &:hover {
+    background-color: transparent;
+  }
+  .tab-item {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    padding: 9px;
+    background-color: transparent;
+    color: $midnight;
+    &.active {
+      color: white;
+      background-color: $midnight;
+    }
+    transition: all 600ms ease 0s;
+  }
+  .tab-item:first-child {
+    margin-left: -3px;
+    border-radius: 18px 0 0 18px;
+  }
+  .tab-item:last-child {
+    margin-right: -3px;
+    border-radius: 0 18px 18px 0;
+  }
   &.success {
     background-color: transparent;
     border: 3px solid $success;
@@ -23,6 +51,35 @@ $warning: rgb(254, 177, 67);
       &.active {
         color: white;
         background-color: $success;
+      }
+      transition: all 600ms ease 0s;
+    }
+    .tab-item:first-child {
+      margin-left: -3px;
+      border-radius: 18px 0 0 18px;
+    }
+    .tab-item:last-child {
+      margin-right: -3px;
+      border-radius: 0 18px 18px 0;
+    }
+  }
+  &.warning {
+    background-color: transparent;
+    border: 3px solid $warning;
+    border-radius: 18px;
+    &:hover {
+      background-color: transparent;
+    }
+    .tab-item {
+      display: flex;
+      flex: 1;
+      justify-content: space-evenly;
+      padding: 9px;
+      background-color: transparent;
+      color: $warning;
+      &.active {
+        color: white;
+        background-color: $warning;
       }
       transition: all 600ms ease 0s;
     }

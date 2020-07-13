@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import VerifiedCredentialUtil from '../util/VerifiedCredentialUtil';
 import './VerifiedSummary.scss';
-// import {ReactComponent as KeySvg} from '../img/key.svg';
-// import {ReactComponent as CalendarSvg} from '../img/calendar.svg';
+import {ReactComponent as KeySvg} from '../img/key2.svg';
+import {ReactComponent as CalendarSvg} from '../img/calendar2.svg';
 
 class VerifiedSummary extends Component {
 
@@ -15,26 +15,26 @@ class VerifiedSummary extends Component {
     const validtimestamps = VerifiedCredentialUtil.timestampsAreValid(expirationDate, iatDate, nbfDate, issuanceDate);
     let validStamp = (imagesMatches && signerVerified && validtimestamps) ? true : false;
 
-    // return (
-    //   <div className="summary-container">
-    //     <div className="summary">
-    //       <div className="section certified">
-    //         {/* icon */}
-    //         <div className="img"><KeySvg /></div>
-    //         <div>This document is a <span className="success">Certified Copy</span> of a <span className="success">Passport</span>. The subject of this document is <span className="general">Sally Owner</span> and the issuer is <span className="info">Billy Caseworker</span>.</div>
-    //       </div>
-    //       <div className="section registered">
-    //         <div className="img"><CalendarSvg /></div>
-    //         <div>This document was registered on <span className="success">Thu, 23 Apr 2020 19:53:45 GMT</span> and issued on <span className="success">Thu, 23 Apr 2020 19:53:44 GMT</span>.</div>
-    //       </div>
-    //       <div className="section valid">
-    //         <div className="img"><CalendarSvg /></div>
-    //         <div>This document is not valid until <span className="info">Thu, 23 Apr 2020 19:53:44 GMT</span>.</div>
-    //         <div className="expire">This document will expire on <span className="danger">Sun, 04 Apr 2021 00:00:00 GMT</span>.</div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
+    return (
+      <div className="summary-container">
+        <div className="summary">
+          <div className="section certified">
+            {/* icon */}
+            <div className="img"><KeySvg /></div>
+            <div>This document is a <span className="success">Certified Copy</span> of a <span className="success">Passport</span>. The subject of this document is <span className="general">Sally Owner</span> and the issuer is <span className="info">Billy Caseworker</span>.</div>
+          </div>
+          <div className="section registered">
+            <div className="img"><CalendarSvg /></div>
+            <div>This document was registered on <span className="success">Thu, 23 Apr 2020 19:53:45 GMT</span> and issued on <span className="success">Thu, 23 Apr 2020 19:53:44 GMT</span>.</div>
+          </div>
+          <div className="section valid">
+            <div className="img"><CalendarSvg /></div>
+            <div>This document is not valid until <span className="info">Thu, 23 Apr 2020 19:53:44 GMT</span>.</div>
+            <div className="expire">This document will expire on <span className="danger">Sun, 04 Apr 2021 00:00:00 GMT</span>.</div>
+          </div>
+        </div>
+      </div>
+    );
     if (!verifiedVC || !verifiedVC.jwt) {
       return <Fragment />;
     } else if (validStamp) {

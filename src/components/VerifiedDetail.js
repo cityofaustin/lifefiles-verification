@@ -8,6 +8,7 @@ import Accordion from "./common/Accordion";
 import bodymovin from "lottie-web";
 import loadingJson from "../img/loading.json";
 import loadSuccess from "../img/loadSuccess.json";
+import loadWarning from "../img/loadWarning.json";
 import Tabset from "./common/Tabset";
 import Tab from "./common/Tab";
 import DigitalSignedGeneral from "./general-steps/DigitalSignedGeneral";
@@ -30,7 +31,6 @@ class VerifiedDetail extends Component {
     this.setLoadingAnimations();
   }
 
-
   componentDidUpdate(prevProps) {
     if (
       prevProps.verifiedVC !== this.props.verifiedVC &&
@@ -47,9 +47,10 @@ class VerifiedDetail extends Component {
       loadingJson,
       "Decrypting message..."
     );
+    const isSuccessDigitalSigned = this.handleSuccessFail("digital-signed");
     this.runAccordionAnimation(
       "bm-digital-signed",
-      loadSuccess,
+      isSuccessDigitalSigned ? loadSuccess : loadWarning,
       "Document is digitally signed",
       "digital-signed"
     );
@@ -76,8 +77,12 @@ class VerifiedDetail extends Component {
       "verify-notary"
     );
     const title = document.getElementById("notary");
-    title.innerHTML = "Notarization is valid";
-    title.style.color = "rgb(83, 170, 86)";
+    title.innerHTML = isSuccessDigitalSigned
+      ? "Notarization is valid"
+      : "Notarization is invalid";
+    title.style.color = isSuccessDigitalSigned
+      ? "rgb(83, 170, 86)"
+      : "rgb(254, 177, 67)";
     await this.runAccordionAnimation(
       "bm-time-check",
       loadingJson,
@@ -103,9 +108,15 @@ class VerifiedDetail extends Component {
     const title2 = document.getElementById("transfer");
     title2.innerHTML = "Document is transferable";
     title2.style.color = "rgb(83, 170, 86)";
+    this.props.setDone();
   }
 
-  runAccordionAnimation = (containerId, animationData, statusText, accordionId) => {
+  runAccordionAnimation = (
+    containerId,
+    animationData,
+    statusText,
+    accordionId
+  ) => {
     return new Promise((resolve, reject) => {
       try {
         // change text
@@ -115,7 +126,20 @@ class VerifiedDetail extends Component {
         // completed anim
         if (accordionId) {
           this.anim.destroy();
-          this.handleSuccessFail(accordionId);
+          const isSuccess = this.handleSuccessFail(accordionId);
+          const accordionLabelEl = document.getElementById(accordionId)
+            .nextSibling;
+          const accordionContentEl = accordionLabelEl.nextSibling;
+          const tabContainerEl = accordionContentEl.firstElementChild;
+          const tabsEl = tabContainerEl.firstElementChild.firstElementChild;
+          if (isSuccess) {
+            tabsEl.classList.add("success");
+            accordionLabelEl.classList.add("success");
+          } else {
+            tabsEl.classList.add("warning");
+            accordionLabelEl.classList.add("warning");
+          }
+          accordionLabelEl.classList.remove("loading");
         }
         // basic anim
         container.style.backgroundColor = "transparent";
@@ -133,284 +157,21 @@ class VerifiedDetail extends Component {
         reject(err);
       }
     });
-  }
+  };
 
   handleSuccessFail = (accordionId) => {
-    const element = document.getElementById(accordionId).nextSibling;
-    switch(accordionId) {
-      case 'digital-signed':
-        if(this.props.signedMd5) {
-          element.classList.add("success");
-        } else {
-          element.classList.add("warning");
-        }
-        element.classList.remove("loading");
+    let isSuccess = false;
+    switch (accordionId) {
+      case "digital-signed":
+        isSuccess = !!this.props.signedMd5;
         break;
       default:
-        element.classList.add("success");
-        element.classList.remove("loading");
+        isSuccess = true;
     }
-  }
+    return isSuccess;
+  };
 
   scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
-
-  renderImageHashMatches() {
-    const { fileMD5, jwtMD5 } = { ...this.props };
-    return (
-      <div>
-        <input className="accordion-input" type="checkbox" id="chck5" />
-        <label className="tab-label" htmlFor="chck5">
-          <CheckboxAnimated /> Image Verification
-        </label>
-        <div className="tab-content">
-          <div className="rcorners">
-            <h5>The uploaded image matches the DID's image signature.</h5>
-          </div>
-          <p>Document Hash: {fileMD5} </p>
-          <p> Did Document Hash: {jwtMD5}</p>
-        </div>
-      </div>
-    );
-  }
-
-  renderImageHashDoesNotMatch() {
-    const { fileMD5, jwtMD5 } = { ...this.props };
-    return (
-      <div>
-        <input className="accordion-input" type="checkbox" id="chck5" />
-        <label className="tab-label" htmlFor="chck5">
-          <img style={{ width: "40px" }} src="./redx.png" alt=""></img> Image
-          Verification
-        </label>
-        <div className="tab-content">
-          <div className="rcorners-red">
-            <h5 style={{ color: "white" }}>
-              The uploaded image DOES NOT match the DID's image signature.
-              Please check that the you have the correct image for the correct
-              DID.
-            </h5>
-          </div>
-          <p>Document Hash: {fileMD5} </p>
-          <p> Did Document Hash: {jwtMD5}</p>
-        </div>
-      </div>
-    );
-  }
-
-  renderSignerInformationValid() {
-    const { signerDID, signerName } = { ...this.props };
-    return (
-      <div>
-        <input className="accordion-input" type="checkbox" id="chck3" />
-        <label className="tab-label" htmlFor="chck3">
-          <CheckboxAnimated />
-          Signer Information
-        </label>
-        <div className="tab-content">
-          <div className="rcorners">
-            <h5>The signer of this document is a Verified Notary</h5>
-          </div>
-          <p> Signer DID: {signerDID} </p>
-          <p> Signer Name: {signerName} - Verified Mypass Notary</p>
-        </div>
-      </div>
-    );
-  }
-
-  renderSignerInformationNotValid() {
-    const { signerDID } = { ...this.props };
-    return (
-      <div>
-        <input className="accordion-input" type="checkbox" id="chck3" />
-        <label className="tab-label" htmlFor="chck3">
-          <img style={{ width: "40px" }} src="./redx.png" alt=""></img>
-          Signer Information
-        </label>
-        <div className="tab-content">
-          <div className="rcorners-red">
-            <h5 style={{ color: "white" }}>
-              The signer of this document cannot be verified as a Verified
-              Notary
-            </h5>
-          </div>
-          <p> Signer DID: {signerDID} </p>
-          <p> Signer Name: - UNABLE TO LOCATE SIGNER NAME! - </p>
-        </div>
-      </div>
-    );
-  }
-
-  renderTimestampInformationValid() {
-    const {
-      expirationDate,
-      iatDate,
-      nbfDate,
-      issuanceDate,
-      didTransactionTimestamp,
-    } = {
-      ...this.props,
-    };
-    return (
-      <div>
-        <input className="accordion-input" type="checkbox" id="chck4" />
-        <label className="tab-label" htmlFor="chck4">
-          <CheckboxAnimated /> Timestamp Information
-        </label>
-        <div className="tab-content">
-          <div className="rcorners">
-            <h5>The timestamp information is valid</h5>
-          </div>
-          <p>iat ( The time the JWT was issued ) : {iatDate}</p>
-          <p>
-            nbf ( The time before which the JWT MUST NOT be accepted ) :{" "}
-            {nbfDate}
-          </p>
-          <p>Issuance Date ( Date of actual issuance ) : {issuanceDate}</p>
-          <p>
-            Expiration Date ( Date this document expires ) : {expirationDate}
-          </p>
-          <p>
-            Blockchain Transaction Date ( Date this document metadata was stored
-            into the blockchain ) : {didTransactionTimestamp}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  renderTimestampInformationNotValid() {
-    const {
-      expirationDate,
-      iatDate,
-      nbfDate,
-      issuanceDate,
-      didTransactionTimestamp,
-    } = {
-      ...this.props,
-    };
-    return (
-      <div>
-        <input className="accordion-input" type="checkbox" id="chck4" />
-        <label className="tab-label" htmlFor="chck4">
-          <img style={{ width: "40px" }} src="./redx.png" alt="" />
-          Timestamp Information
-        </label>
-        <div className="tab-content">
-          <div className="rcorners-red">
-            <h5 style={{ color: "white" }}>
-              The timestamp information is NOT valid
-            </h5>
-          </div>
-          <p>iat ( The time the JWT was issued ) : {iatDate}</p>
-          <p>
-            nbf ( The time before which the JWT MUST NOT be accepted ) :{" "}
-            {nbfDate}
-          </p>
-          <p>Issuance Date ( Date of actual issuance ) : {issuanceDate}</p>
-          <p>
-            Expiration Date ( Date this document expires ) : {expirationDate}
-          </p>
-          <p>
-            Blockchain Transaction Date ( Date this document metadata was stored
-            into the blockchain ) : {didTransactionTimestamp}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  renderTabs() {
-    const {
-      expirationDate,
-      iatDate,
-      nbfDate,
-      issuanceDate,
-      verifiedVC,
-      fileMD5,
-      jwtMD5,
-      signerName,
-      subjectName,
-      decodedJwt,
-    } = { ...this.props };
-    if (!verifiedVC || !verifiedVC.jwt) {
-      return <Fragment />;
-    } else {
-      const vc = verifiedVC.payload.vc;
-      const imagesMatches = fileMD5 === jwtMD5 ? true : false;
-      const signerVerified = signerName === "" ? false : true;
-      return (
-        <div>
-          <div className="rcorners">
-            <p>
-              This document is a{" "}
-              <span className="keywords">
-                {vc.credentialSubject.TexasDigitalNotary.type}
-              </span>{" "}
-              of a{" "}
-              <span className="keywords">
-                {vc.credentialSubject.TexasDigitalNotary.name}.{" "}
-              </span>{" "}
-              The subject of this document is{" "}
-              <span className="keywords">{subjectName}</span> and the issuer is{" "}
-              <span className="keywords">{signerName}</span>. This document was
-              issued at <span className="keywords">{iatDate}</span> and the
-              issuance Date is <span className="keywords">{issuanceDate}</span>.
-              This document is not valid until{" "}
-              <span className="keywords">{nbfDate}</span>. This document will
-              expire on <span className="keywords">{expirationDate}</span>
-            </p>
-          </div>
-
-          <div className="tabs">
-            <div className="tab">
-              <input className="accordion-input" type="checkbox" id="chck2" />
-              <label className="tab-label" htmlFor="chck2">
-                <CheckboxAnimated /> Document Information
-              </label>
-              <div className="tab-content">
-                <div className="rcorners">
-                  <h5>
-                    This document well formed and has all needed information
-                    present.
-                  </h5>
-                </div>
-                <p>
-                  Subject: {vc.credentialSubject.id} ({subjectName})
-                </p>
-                <p>
-                  Issuer: {vc.issuer.id} ({signerName})
-                </p>
-                <div style={{ textAlign: "left" }}>
-                  <ReactJson src={JSON.parse(decodedJwt)} theme="ocean" />
-                </div>
-              </div>
-            </div>
-            <div className="tab">
-              {imagesMatches === true
-                ? this.renderImageHashMatches()
-                : this.renderImageHashDoesNotMatch()}
-            </div>
-            <div className="tab">
-              {signerVerified === true
-                ? this.renderSignerInformationValid()
-                : this.renderSignerInformationNotValid()}
-            </div>
-
-            <div className="tab">
-              {VerifiedCredentialUtil.timestampsAreValid(
-                expirationDate,
-                iatDate,
-                nbfDate,
-                issuanceDate
-              ) === true
-                ? this.renderTimestampInformationValid()
-                : this.renderTimestampInformationNotValid()}
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
 
   render() {
     const {
@@ -447,12 +208,14 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
-            isExpanded={true}
+            isExpanded={false}
           >
             <div className="tab-container">
-              <Tabset defaultActiveKey={"technical"}>
+              <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
-                  <DigitalSignedGeneral />
+                  <DigitalSignedGeneral
+                    isSuccess={this.handleSuccessFail("digital-signed")}
+                  />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
                   <DigitalSignedTechnical

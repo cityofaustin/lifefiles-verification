@@ -39,6 +39,16 @@ class App extends Component {
   };
 
   handleFileSubmit = async (documentDID) => {
+    let {
+      iatDate,
+      nbfDate,
+      expirationDate,
+      issuanceDate,
+      didTransactionTimestamp,
+      signerDID,
+      signerName,
+      subjectName,
+    } = { ...this.state };
     this.setState({ isLoading: true });
     console.log("started");
     const { vpJwt, ownerPublicKey } = {
@@ -50,58 +60,60 @@ class App extends Component {
       vpJwt,
       ownerPublicKey,
     });
-    let verifiedVP;
-    let verifiedVC;
-    try {
-      const resolver = DidResolverUtil.getResolver();
-      verifiedVP = await VerifiedCredentialUtil.getVerifiedPresentation(
-        vpJwt,
-        resolver
+    if (vpJwt.length > 0) {
+      let verifiedVP;
+      let verifiedVC;
+      try {
+        const resolver = DidResolverUtil.getResolver();
+        verifiedVP = await VerifiedCredentialUtil.getVerifiedPresentation(
+          vpJwt,
+          resolver
+        );
+        //1a
+        this.setState({ verifiedVP });
+        let vcJWT = verifiedVP.payload.vp.verifiableCredential[0];
+        verifiedVC = await VerifiedCredentialUtil.getVerifiedCredential(
+          vcJWT,
+          resolver
+        );
+        //1b
+        this.setState({ verifiedVC });
+      } catch (e) {
+        console.log(e);
+        this.setState({ error: e.message, isLoading: false });
+        return;
+      }
+      //2
+      const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
+      const signedMd5 =
+        verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
+          .signedDocumentHash;
+      const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
+      this.setState({
+        notaryX509PublicKey,
+        signedMd5,
+        jwtMD5,
+      });
+
+      // extracting key information from vc
+      iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString();
+      nbfDate = new Date(verifiedVC.payload.nbf * 1000).toUTCString();
+      expirationDate = new Date(
+        verifiedVC.payload.vc.expirationDate
+      ).toUTCString();
+      issuanceDate = new Date(
+        verifiedVC.payload.vc.issuanceDate
+      ).toUTCString();
+      didTransactionTimestamp = new Date(
+        (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) * 1000
+      ).toUTCString();
+
+      signerDID = verifiedVC.signer.owner;
+      signerName = await Web3ContractUtil.getTextRecordByDID(signerDID);
+      subjectName = await Web3ContractUtil.getTextRecordByDID(
+        verifiedVC.payload.vc.credentialSubject.id
       );
-      //1a
-      this.setState({ verifiedVP });
-      let vcJWT = verifiedVP.payload.vp.verifiableCredential[0];
-      verifiedVC = await VerifiedCredentialUtil.getVerifiedCredential(
-        vcJWT,
-        resolver
-      );
-      //1b
-      this.setState({ verifiedVC });
-    } catch (e) {
-      console.log(e);
-      this.setState({ error: e.message, isLoading: false });
-      return;
     }
-    //2
-    const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
-    const signedMd5 =
-      verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
-        .signedDocumentHash;
-    const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
-    this.setState({
-      notaryX509PublicKey,
-      signedMd5,
-      jwtMD5,
-    });
-
-    // extracting key information from vc
-    const iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString();
-    const nbfDate = new Date(verifiedVC.payload.nbf * 1000).toUTCString();
-    const expirationDate = new Date(
-      verifiedVC.payload.vc.expirationDate
-    ).toUTCString();
-    const issuanceDate = new Date(
-      verifiedVC.payload.vc.issuanceDate
-    ).toUTCString();
-    const didTransactionTimestamp = new Date(
-      (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) * 1000
-    ).toUTCString();
-
-    const signerDID = verifiedVC.signer.owner;
-    const signerName = await Web3ContractUtil.getTextRecordByDID(signerDID);
-    const subjectName = await Web3ContractUtil.getTextRecordByDID(
-      verifiedVC.payload.vc.credentialSubject.id
-    );
 
     console.log("finished");
     this.setState({
@@ -113,8 +125,6 @@ class App extends Component {
       signerDID,
       signerName,
       subjectName,
-      isLoading: false,
-      isDone: true,
     });
   };
 
@@ -181,6 +191,7 @@ class App extends Component {
             signerName={signerName}
             subjectName={subjectName}
             decodedJwt={decodedJwt}
+            setDone={()=>this.setState({isLoading: false, isDone: true})}
           />
         )}
       </div>

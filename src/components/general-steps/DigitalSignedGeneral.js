@@ -8,7 +8,8 @@ import { ReactComponent as Stamp3Svg } from "../../img/stamp3.svg";
 import { ReactComponent as Stamp4Svg } from "../../img/stamp4.svg";
 import { ReactComponent as Stamp5Svg } from "../../img/stamp5.svg";
 import { ReactComponent as HashWhatSvg } from "../../img/hash-what.svg";
-import { ReactComponent as GreenCheck } from "../../img/green-check.svg";
+import { ReactComponent as GreenCheckSvg } from "../../img/green-check.svg";
+import { ReactComponent as WarningSvg } from "../../img/warning.svg";
 import "./DigitalSignedGeneral.scss";
 
 class DigitalSignedGeneral extends Component {
@@ -76,8 +77,9 @@ class DigitalSignedGeneral extends Component {
           </div>
         </div>
         <div className="last-step">
-          <GreenCheck />
-          <div className="last-excerpt">
+          {this.props.isSuccess && <GreenCheckSvg />}
+          {!this.props.isSuccess && <WarningSvg />}
+          <div className={`last-excerpt ${this.props.isSuccess ? 'success' : 'warning'}`}>
             This verification step checks to see whether or not the document has
             been properly signed and encrypted and to retrieve the hash of the
             document.
