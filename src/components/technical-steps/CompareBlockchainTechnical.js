@@ -4,7 +4,7 @@ import { ReactComponent as OutputSvg } from "../../img/output.svg";
 import { ReactComponent as Output2Svg } from "../../img/output2.svg";
 import { ReactComponent as LinkSvg } from "../../img/link.svg";
 import { ReactComponent as CompareSvg } from "../../img/compare.svg";
-import ReactJson from "react-json-view";
+import { ReactComponent as CompareWarnSvg } from "../../img/compare-warn.svg";
 
 class CompareBlockchainTechnical extends Component {
   render() {
@@ -36,7 +36,7 @@ class CompareBlockchainTechnical extends Component {
             <div className="section-desc">
               Base64 Code:
               <br />
-              JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi...
+              {this.props.base64 && this.props.base64.substring(0, 40)}...
             </div>
           </div>
         </div>
@@ -68,12 +68,14 @@ class CompareBlockchainTechnical extends Component {
             <div className="section-desc">
               Base64 Code:
               <br />
-              <textarea
+              {/* FIXME: need to figure out a way of making this not blocking */}
+              {/* <textarea
                 readOnly
-                value={base64.base64}
+                value={this.props.base64}
                 rows="6"
                 style={{ width: "100%" }}
-              />
+              /> */}
+              {this.props.base64 && this.props.base64.substring(0, 40)}...
             </div>
           </div>
         </div>
@@ -84,7 +86,7 @@ class CompareBlockchainTechnical extends Component {
           <div className="section-container">
             <div className="section-title">output</div>
             <div className="section-desc">
-              Hash String: 2A9A9D04C81DD86D7A8B307AC6E2A12B
+              Hash String: {this.props.fileMD5}
             </div>
           </div>
         </div>
@@ -105,7 +107,7 @@ class CompareBlockchainTechnical extends Component {
           <div className="step-num">5</div>
           <div className="step-desc">
             This hash string is then compared to the original hash string
-            decrypted using the Notary's PEM Key (Step 3). If both strings are
+            decrypted using the Notary's PEM Key (Step 2). If both strings are
             exactly the same, that means the document hasn't been altered in any
             way.
           </div>
@@ -117,15 +119,16 @@ class CompareBlockchainTechnical extends Component {
           <div className="section-container">
             <div className="section-title">original</div>
             <div className="section-desc">
-              Decrypted Hash String:<br />
+              Decrypted Hash String:
+              <br />
               <span style={{ color: "rgb(83, 170, 86)" }}>
-                FCCB13D5961A13DA9E955A44C8106E39
+                {this.props.jwtMD5}
               </span>
             </div>
           </div>
         </div>
         <div className="diagram-section-3" style={{ padding: "20px 0" }}>
-          <CompareSvg />
+          {this.props.isSuccess ? <CompareSvg /> : <CompareWarnSvg />}
         </div>
         <div className="step-section">
           <div className="section-icon">
@@ -134,17 +137,42 @@ class CompareBlockchainTechnical extends Component {
           <div className="section-container">
             <div className="section-title">verifiable image</div>
             <div className="section-desc">
-              Hash String:<br />
-              <span style={{ color: "rgb(83, 170, 86)" }}>
-                FCCB13D5961A13DA9E955A44C8106E39
+              Hash String:
+              <br />
+              <span style={{ color: this.props.isSuccess ? "rgb(83, 170, 86)" : "#feb143" }}>
+                {this.props.fileMD5}
               </span>
             </div>
           </div>
         </div>
-        <div className="last-step" style={{paddingTop: '20px', justifyContent: "center"}}>
-          <div style={{color: "#53aa56",fontWeight: 600,fontSize: '20px',textAlign: "center"}}>
-            We have a match!
-          </div>
+        <div
+          className="last-step"
+          style={{ paddingTop: "20px", justifyContent: "center" }}
+        >
+          {this.props.isSuccess && (
+            <div
+              style={{
+                color: "#53aa56",
+                fontWeight: 600,
+                fontSize: "20px",
+                textAlign: "center",
+              }}
+            >
+              We have a match!
+            </div>
+          )}
+          {!this.props.isSuccess && (
+            <div
+              style={{
+                color: "#feb143",
+                fontWeight: 600,
+                fontSize: "20px",
+                textAlign: "center",
+              }}
+            >
+              Hashes do not match
+            </div>
+          )}
         </div>
       </div>
     );

@@ -7,6 +7,7 @@ import { ReactComponent as CompareSvg } from "../../img/compare.svg";
 import { ReactComponent as CapitolSvg } from "../../img/capitol.svg";
 import { ReactComponent as DocCheckSvg } from "../../img/doc-check.svg";
 import { ReactComponent as KeySvg } from "../../img/key.svg";
+import { ReactComponent as CompareWarnSvg } from "../../img/compare-warn.svg";
 
 class OwnerSignedTechnical extends Component {
   render() {
@@ -26,7 +27,7 @@ class OwnerSignedTechnical extends Component {
           <div className="section-container">
             <div className="section-title">input</div>
             <div className="section-desc">
-              Node Hash:
+              {/* Node Hash:
               <br />
               <a
                 style={{ wordBreak: "break-all" }}
@@ -34,11 +35,22 @@ class OwnerSignedTechnical extends Component {
               >
                 0x3442daf145b62820466398f343a5666abd6b41e9144476431b4360e0007a214e
               </a>
-              <br />
-              <br />
+              <br /> */}
+              {/* <br /> */}
               Subject DID:
               <br />
-              did:ethr:0x2a6F1D5083fb19b9f2C653B598abCb5705eD0439
+              {this.props.subjectDID &&
+                this.props.subjectDID.split(":").length > 1 && (
+                  <a
+                    style={{ wordBreak: "break-all" }}
+                    href={`https://etherscan.io/address/${
+                      this.props.subjectDID.split(":")[2]
+                    }`}
+                  >
+                    https://etherscan.io/address/
+                    {this.props.subjectDID.split(":")[2]}
+                  </a>
+                )}
             </div>
           </div>
         </div>
@@ -49,26 +61,32 @@ class OwnerSignedTechnical extends Component {
           <div className="section-container">
             <div className="section-title">output</div>
             <div className="section-desc">
-              ‍VC Subject Signature by: Billy Case Worker
+              ‍VC Subject Signature by: {this.props.subjectName}
             </div>
           </div>
         </div>
-        <div className="step-section">
+        {/* <div className="step-section">
           <div className="section-icon">
             <LinkSvg />
           </div>
           <div className="section-container">
             <div className="section-desc">
               Try it yourself:{" "}
-              <a
-                style={{ wordBreak: "break-all" }}
-                href="https://etherscan.io/address/0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41#readContract"
-              >
-                https://etherscan.io/address/0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41#readContract
-              </a>
+              {this.props.subjectDID &&
+                this.props.subjectDID.split(":").length > 1 && (
+                  <a
+                    style={{ wordBreak: "break-all" }}
+                    href={`https://etherscan.io/address/${
+                      this.props.subjectDID.split(":")[2]
+                    }#readContract`}
+                  >
+                    https://etherscan.io/address/
+                    {this.props.subjectDID.split(":")[2]}#readContract
+                  </a>
+                )}
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="tech-step">
           <div className="step-num">12</div>
           <div className="step-desc">
@@ -84,13 +102,13 @@ class OwnerSignedTechnical extends Component {
             <div className="section-title">VC Public Key</div>
             <div className="section-desc">
               <span style={{ color: "rgb(83, 170, 86)" }}>
-                did:ethr:0x6efedeaec20e79071251fffa655F1bdDCa65c027
+                {this.props.subjectDID}
               </span>
             </div>
           </div>
         </div>
         <div className="diagram-section-3" style={{ padding: "20px 0" }}>
-          <CompareSvg />
+          {this.props.isSuccess ? <CompareSvg /> : <CompareWarnSvg />}
         </div>
         <div className="step-section">
           <div className="section-icon">
@@ -99,8 +117,12 @@ class OwnerSignedTechnical extends Component {
           <div className="section-container">
             <div className="section-title">Owner's Public Key</div>
             <div className="section-desc">
-              <span style={{ color: "rgb(83, 170, 86)" }}>
-                did:ethr:0x6efedeaec20e79071251fffa655F1bdDCa65c027
+              <span
+                style={{
+                  color: this.props.isSuccess ? "rgb(83, 170, 86)" : "#feb143",
+                }}
+              >
+                {this.props.verifiedVP && this.props.verifiedVP.payload.iss}
               </span>
             </div>
           </div>
@@ -113,16 +135,30 @@ class OwnerSignedTechnical extends Component {
             justifyContent: "center",
           }}
         >
-          <div
-            style={{
-              color: "#53aa56",
-              fontWeight: 600,
-              fontSize: "20px",
-              textAlign: "center",
-            }}
-          >
-            We have a match!
-          </div>
+          {this.props.isSuccess && (
+            <div
+              style={{
+                color: "#53aa56",
+                fontWeight: 600,
+                fontSize: "20px",
+                textAlign: "center",
+              }}
+            >
+              We have a match!
+            </div>
+          )}
+          {!this.props.isSuccess && (
+            <div
+              style={{
+                color: "#feb143",
+                fontWeight: 600,
+                fontSize: "20px",
+                textAlign: "center",
+              }}
+            >
+              Keys do not match
+            </div>
+          )}
         </div>
       </div>
     );

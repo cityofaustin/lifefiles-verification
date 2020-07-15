@@ -21,6 +21,7 @@ import TimeCheckGeneral from "./general-steps/TimeCheckGeneral";
 import TimeCheckTechnical from "./technical-steps/TimeCheckTechnical";
 import OwnerSignedGeneral from "./general-steps/OwnerSignedGeneral";
 import OwnerSignedTechnical from "./technical-steps/OwnerSignedTechnical";
+import { parse, isSameDay } from "date-fns";
 
 class VerifiedDetail extends Component {
   constructor(props) {
@@ -42,16 +43,19 @@ class VerifiedDetail extends Component {
   }
 
   async setLoadingAnimations() {
+    const {handleSuccessFail} = {...this.props};
     await this.runAccordionAnimation(
       "bm-digital-signed",
       loadingJson,
       "Decrypting message..."
     );
-    const isSuccessDigitalSigned = this.handleSuccessFail("digital-signed");
+    const isSuccessDigitalSigned = handleSuccessFail("digital-signed");
     this.runAccordionAnimation(
       "bm-digital-signed",
       isSuccessDigitalSigned ? loadSuccess : loadWarning,
-      "Document is digitally signed",
+      isSuccessDigitalSigned
+        ? "Document is digitally signed"
+        : "Digital signatures are missing",
       "digital-signed"
     );
     await this.runAccordionAnimation(
@@ -59,10 +63,15 @@ class VerifiedDetail extends Component {
       loadingJson,
       "Comparing image with version from blockchain..."
     );
+    const isSuccessCompareBlockchain = handleSuccessFail(
+      "compare-blockchain"
+    );
     this.runAccordionAnimation(
       "bm-compare-blockchain",
-      loadSuccess,
-      "Document has not been altered",
+      isSuccessCompareBlockchain ? loadSuccess : loadWarning,
+      isSuccessCompareBlockchain
+        ? "Document has not been altered"
+        : "Document has been altered",
       "compare-blockchain"
     );
     await this.runAccordionAnimation(
@@ -70,28 +79,40 @@ class VerifiedDetail extends Component {
       loadingJson,
       "Verifying notary’s secure key from state notary list..."
     );
+    const isSuccessVerifyNotary = handleSuccessFail("verify-notary");
     this.runAccordionAnimation(
       "bm-verify-notary",
-      loadSuccess,
-      "Signer is a registered notary",
+      isSuccessVerifyNotary ? loadSuccess : loadWarning,
+      isSuccessVerifyNotary
+        ? "Signer is a registered notary"
+        : "Signer is not a registered notary",
       "verify-notary"
     );
     const title = document.getElementById("notary");
-    title.innerHTML = isSuccessDigitalSigned
-      ? "Notarization is valid"
-      : "Notarization is invalid";
-    title.style.color = isSuccessDigitalSigned
-      ? "rgb(83, 170, 86)"
-      : "rgb(254, 177, 67)";
+    title.innerHTML =
+      isSuccessDigitalSigned &&
+      isSuccessCompareBlockchain &&
+      isSuccessVerifyNotary
+        ? "Notarization is valid"
+        : "Notarization is invalid";
+    title.style.color =
+      isSuccessDigitalSigned &&
+      isSuccessCompareBlockchain &&
+      isSuccessVerifyNotary
+        ? "rgb(83, 170, 86)"
+        : "rgb(254, 177, 67)";
     await this.runAccordionAnimation(
       "bm-time-check",
       loadingJson,
       "Checking the timestamp of block registration..."
     );
+    const isSuccessTimeCheck = handleSuccessFail("time-check");
     this.runAccordionAnimation(
       "bm-time-check",
-      loadSuccess,
-      "Notarized Document is original not a copy",
+      isSuccessTimeCheck ? loadSuccess : loadWarning,
+      isSuccessTimeCheck
+        ? "Notarized Document is original not a copy"
+        : "Notarized document is a copy not an original",
       "time-check"
     );
     await this.runAccordionAnimation(
@@ -99,15 +120,24 @@ class VerifiedDetail extends Component {
       loadingJson,
       "Checking that the name of the owner is linked to the public key of the presentation..."
     );
+    const isSuccessOwnerSigned = handleSuccessFail("owner-signed");
     this.runAccordionAnimation(
       "bm-owner-signed",
-      loadSuccess,
-      "Notarized Document is signed by its owner",
+      isSuccessOwnerSigned ? loadSuccess : loadWarning,
+      isSuccessOwnerSigned
+        ? "Notarized Document is signed by its owner"
+        : "Notarized document is not signed by its owner",
       "owner-signed"
     );
     const title2 = document.getElementById("transfer");
-    title2.innerHTML = "Document is transferable";
-    title2.style.color = "rgb(83, 170, 86)";
+    title2.innerHTML =
+      isSuccessTimeCheck && isSuccessOwnerSigned
+        ? "Document is transferable"
+        : "Document is not transferable";
+    title2.style.color =
+      isSuccessTimeCheck && isSuccessOwnerSigned
+        ? "rgb(83, 170, 86)"
+        : "rgb(254, 177, 67)";
     this.props.setDone();
   }
 
@@ -117,6 +147,7 @@ class VerifiedDetail extends Component {
     statusText,
     accordionId
   ) => {
+    const {handleSuccessFail} = {...this.props};
     return new Promise((resolve, reject) => {
       try {
         // change text
@@ -126,7 +157,7 @@ class VerifiedDetail extends Component {
         // completed anim
         if (accordionId) {
           this.anim.destroy();
-          const isSuccess = this.handleSuccessFail(accordionId);
+          const isSuccess = handleSuccessFail(accordionId);
           const accordionLabelEl = document.getElementById(accordionId)
             .nextSibling;
           const accordionContentEl = accordionLabelEl.nextSibling;
@@ -151,24 +182,12 @@ class VerifiedDetail extends Component {
           animationData,
         };
         this.anim = bodymovin.loadAnimation(animation);
-        this.anim.setSpeed(0.4);
+        this.anim.setSpeed(0.3);
         this.anim.addEventListener("complete", () => resolve());
       } catch (err) {
         reject(err);
       }
     });
-  };
-
-  handleSuccessFail = (accordionId) => {
-    let isSuccess = false;
-    switch (accordionId) {
-      case "digital-signed":
-        isSuccess = !!this.props.signedMd5;
-        break;
-      default:
-        isSuccess = true;
-    }
-    return isSuccess;
   };
 
   scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
@@ -183,15 +202,20 @@ class VerifiedDetail extends Component {
       notaryX509PublicKey,
       signedMd5,
       jwtMD5,
+      base64,
+      fileMD5,
+      signerDID,
+      signerName,
+      issuanceDate,
+      didTransactionTimestamp,
+      subjectDID,
 
       expirationDate,
       iatDate,
       nbfDate,
-      issuanceDate,
-      fileMD5,
-      signerName,
       subjectName,
       decodedJwt,
+      handleSuccessFail
     } = { ...this.props };
     return (
       <Fragment>
@@ -214,7 +238,7 @@ class VerifiedDetail extends Component {
               <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
                   <DigitalSignedGeneral
-                    isSuccess={this.handleSuccessFail("digital-signed")}
+                    isSuccess={handleSuccessFail("digital-signed")}
                   />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
@@ -246,10 +270,17 @@ class VerifiedDetail extends Component {
             <div className="tab-container">
               <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
-                  <CompareBlockchainGeneral />
+                  <CompareBlockchainGeneral
+                    isSuccess={handleSuccessFail("compare-blockchain")}
+                  />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
-                  <CompareBlockchainTechnical />
+                  <CompareBlockchainTechnical
+                    base64={base64}
+                    fileMD5={fileMD5}
+                    jwtMD5={jwtMD5}
+                    isSuccess={handleSuccessFail("compare-blockchain")}
+                  />
                 </Tab>
               </Tabset>
             </div>
@@ -271,7 +302,11 @@ class VerifiedDetail extends Component {
                   <VerifyNotaryGeneral />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
-                  <VerifyNotaryTechnical />
+                  <VerifyNotaryTechnical
+                    notaryX509PublicKey={notaryX509PublicKey}
+                    signerDID={signerDID}
+                    signerName={signerName}
+                  />
                 </Tab>
               </Tabset>
             </div>
@@ -293,10 +328,17 @@ class VerifiedDetail extends Component {
             <div className="tab-container">
               <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
-                  <TimeCheckGeneral />
+                  <TimeCheckGeneral
+                    isSuccess={handleSuccessFail("time-check")}
+                  />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
-                  <TimeCheckTechnical />
+                  <TimeCheckTechnical
+                    documentDID={documentDID}
+                    didTransactionTimestamp={didTransactionTimestamp}
+                    issuanceDate={issuanceDate}
+                    isSuccess={handleSuccessFail("time-check")}
+                  />
                 </Tab>
               </Tabset>
             </div>
@@ -310,14 +352,23 @@ class VerifiedDetail extends Component {
               </div>
             }
             labelType="loading"
+            isExpanded={false}
           >
             <div className="tab-container">
               <Tabset defaultActiveKey={"general"}>
                 <Tab eventKey="general" title="What's happening?">
-                  <OwnerSignedGeneral />
+                  <OwnerSignedGeneral
+                    isSuccess={handleSuccessFail("owner-signed")}
+                  />
                 </Tab>
                 <Tab eventKey="technical" title="Technical Steps">
-                  <OwnerSignedTechnical />
+                  <OwnerSignedTechnical
+                    subjectDID={subjectDID}
+                    subjectName={subjectName}
+                    verifiedVP={verifiedVP}
+                    subjectDID={subjectDID}
+                    isSuccess={handleSuccessFail("owner-signed")}
+                  />
                 </Tab>
               </Tabset>
             </div>

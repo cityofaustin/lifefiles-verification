@@ -5,6 +5,7 @@ import { ReactComponent as BlockchainSvg } from "../../img/blockchain.svg";
 import { ReactComponent as DidSvg } from "../../img/did.svg";
 import { ReactComponent as DocumentCopyDiagramSvg } from "../../img/document-copy-diagram.svg";
 import { ReactComponent as GreenCheckSvg } from "../../img/green-check.svg";
+import { ReactComponent as WarningSvg } from "../../img/warning.svg";
 import "./TimeCheckGeneral.scss";
 
 class TimeCheckGeneral extends Component {
@@ -58,9 +59,12 @@ class TimeCheckGeneral extends Component {
           <DocumentCopyDiagramSvg />
         </div>
         <div className="last-step">
-          <GreenCheckSvg />
+          {this.props.isSuccess && <GreenCheckSvg />}
+          {!this.props.isSuccess && <WarningSvg />}
           <div
-            className="last-excerpt"
+            className={`last-excerpt ${
+              this.props.isSuccess ? "success" : "warning"
+            }`}
             style={{ paddingLeft: "24px", textAlign: "left" }}
           >
             This verification step checks whether or not the document is the

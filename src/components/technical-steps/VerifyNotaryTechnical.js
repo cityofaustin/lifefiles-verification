@@ -27,9 +27,15 @@ class VerifyNotaryTechnical extends Component {
             <div className="section-desc">
               Notary's DID Address:
               <br />
-              <a href="https://etherscan.io/address/0x2a6F1D5083fb19b9f2C653B598abCb5705eD0439">
-                0x2a6F1D5083fb19b9f2C653B598abCb5705eD0439
-              </a>
+              {this.props.signerDID && this.props.signerDID.split(":").length > 1 && (
+                <a
+                  href={`https://etherscan.io/address/${
+                    this.props.signerDID.split(":")[2]
+                  }`}
+                >
+                  {this.props.signerDID.split(":")[2]}
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -39,7 +45,9 @@ class VerifyNotaryTechnical extends Component {
           </div>
           <div className="section-container">
             <div className="section-title">output</div>
-            <div className="section-desc">Notary Name: Billy Case Worker</div>
+            <div className="section-desc">
+              Notary Name: {this.props.signerName}
+            </div>
           </div>
         </div>
         <div className="step-section">
@@ -77,10 +85,11 @@ class VerifyNotaryTechnical extends Component {
           </div>
           <div className="section-container">
             <div className="section-title">output</div>
-            <div className="section-desc">
+            <div className="section-desc" style={{ wordBreak: "break-all" }}>
               Notary's PEM Public Key:
               <br />
-              did:ethr:0x2a6F1D5083fb19b9f2C653B598abCb5705eD0439
+              {this.props.notaryX509PublicKey &&
+                this.props.notaryX509PublicKey}
             </div>
           </div>
         </div>
@@ -107,7 +116,7 @@ class VerifyNotaryTechnical extends Component {
             Security State page to obtain their PEM public key.
           </div>
         </div>
-        <div className="step-section">
+        {/* <div className="step-section">
           <div className="section-icon">
             <CapitolSvg />
           </div>
@@ -126,7 +135,7 @@ class VerifyNotaryTechnical extends Component {
         </div>
         <div className="diagram-section-3" style={{ padding: "20px 0" }}>
           <CompareSvg />
-        </div>
+        </div> */}
         <div className="step-section">
           <div className="section-icon">
             <DocCheckSvg />
@@ -134,17 +143,18 @@ class VerifyNotaryTechnical extends Component {
           <div className="section-container">
             <div className="section-title">verifiable image</div>
             <div className="section-desc">
-            Name: Billy Case Worker
+              Name: Billy Case Worker
               <br />
               PEM Public key listed on the VC:
               <br />
-              <span style={{ color: "rgb(83, 170, 86)" }}>
-                0x2a6F1D5083fb19b9f2C653B598abCb5705eD0439
+              <span style={{ color: "rgb(83, 170, 86)", wordBreak: "break-all" }}>
+              {this.props.notaryX509PublicKey &&
+                this.props.notaryX509PublicKey}
               </span>
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className="last-step"
           style={{
             flexDirection: "column",
@@ -173,7 +183,7 @@ class VerifyNotaryTechnical extends Component {
           >
             Yes, we have a match!
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

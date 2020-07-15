@@ -10,17 +10,23 @@ import VerifiedDetail from "./VerifiedDetail";
 import EncryptionUtil from "../util/EncryptionUtil";
 import VerifiedCredentialUtil from "../util/VerifiedCredentialUtil";
 import HashingUtil from "../util/HashingUtil";
+import StringUtil from "../util/StringUtil";
 import "./App.scss";
+// import NotarySearchUtil from "../util/NotarySearchUtil";
+import { format, addMinutes, parse, isSameDay } from "date-fns";
 
 class App extends Component {
   state = {
     documentDID: "",
     vpJwt: "",
     ownerPublicKey: "",
+    file: undefined,
     fileMD5: "",
     jwtMD5: "",
     signerDID: "",
     signerName: "",
+    signerId: "",
+    subjectDID: "",
     subjectName: "",
     submitClicked: false,
     iatDate: "",
@@ -34,8 +40,9 @@ class App extends Component {
   };
 
   handleOnDrop = async (file) => {
-    const fileMD5 = await HashingUtil.fileToMd5(file);
-    this.setState({ fileMD5 });
+    // const fileMD5 = await HashingUtil.fileToMd5(file);
+    // this.setState({ fileMD5 });
+    this.setState({ file });
   };
 
   handleFileSubmit = async (documentDID) => {
@@ -44,13 +51,18 @@ class App extends Component {
       nbfDate,
       expirationDate,
       issuanceDate,
+      issuanceDateIso,
       didTransactionTimestamp,
+      didTransactionDate,
       signerDID,
       signerName,
+      subjectDID,
       subjectName,
+      signerId,
     } = { ...this.state };
+    const { file } = { ...this.state };
     this.setState({ isLoading: true });
-    console.log("started");
+    // console.log("started");
     const { vpJwt, ownerPublicKey } = {
       ...(await DidResolverUtil.getInfoByDocumentDid(documentDID)),
     };
@@ -76,10 +88,11 @@ class App extends Component {
           vcJWT,
           resolver
         );
+        // TODO: compare vp.payload.iss to vc.payload.vc.credentialSubject.id subjectDID for step 12?
         //1b
         this.setState({ verifiedVC });
       } catch (e) {
-        console.log(e);
+        console.error(e.message);
         this.setState({ error: e.message, isLoading: false });
         return;
       }
@@ -94,39 +107,109 @@ class App extends Component {
         signedMd5,
         jwtMD5,
       });
+      //3
+      const base64 = await StringUtil.fileContentsToString(file);
+      this.setState({ base64: base64 });
+      //4
+      const fileMD5 = await HashingUtil.fileToMd5(file);
+      this.setState({ fileMD5 });
+      //6
+      signerDID = verifiedVC.payload.vc.issuer.id;
+      signerName = await Web3ContractUtil.getTextRecordByDID(signerDID);
+      //7
+      signerId = verifiedVC.payload.vc.issuer.notaryId;
 
       // extracting key information from vc
-      iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString();
-      nbfDate = new Date(verifiedVC.payload.nbf * 1000).toUTCString();
+      const dateFormat = "yyyy-MM-dd H:mm:ss";
+      iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString(); // (Issued At) Claim
+      nbfDate = new Date(verifiedVC.payload.nbf * 1000).toUTCString(); // (Not Before) Claim
       expirationDate = new Date(
         verifiedVC.payload.vc.expirationDate
       ).toUTCString();
-      issuanceDate = new Date(
-        verifiedVC.payload.vc.issuanceDate
-      ).toUTCString();
-      didTransactionTimestamp = new Date(
-        (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) * 1000
-      ).toUTCString();
-
-      signerDID = verifiedVC.signer.owner;
-      signerName = await Web3ContractUtil.getTextRecordByDID(signerDID);
-      subjectName = await Web3ContractUtil.getTextRecordByDID(
-        verifiedVC.payload.vc.credentialSubject.id
+      const issuanceDt = new Date(verifiedVC.payload.vc.issuanceDate);
+      issuanceDate = format(
+        addMinutes(issuanceDt, issuanceDt.getTimezoneOffset()),
+        dateFormat
       );
+      issuanceDateIso = issuanceDt.toUTCString();
+      const didTransactionDt = new Date(
+        (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) * 1000
+      );
+      didTransactionDate = didTransactionDt.toUTCString();
+      didTransactionTimestamp = format(
+        addMinutes(didTransactionDt, didTransactionDt.getTimezoneOffset()),
+        dateFormat
+      );
+      // signerDID = verifiedVC.signer.owner; can also get it from here
+      subjectDID = verifiedVC.payload.vc.credentialSubject.id;
+      subjectName = await Web3ContractUtil.getTextRecordByDID(subjectDID);
     }
 
-    console.log("finished");
+    // console.log("finished");
     this.setState({
       iatDate,
       nbfDate,
       expirationDate,
       issuanceDate,
+      issuanceDateIso,
       didTransactionTimestamp,
+      didTransactionDate,
       signerDID,
       signerName,
       subjectName,
+      subjectDID,
     });
   };
+
+  handleSuccessFail = (accordionId) => {
+    const {
+      fileMD5,
+      signedMd5,
+      didTransactionTimestamp,
+      issuanceDate,
+      verifiedVP,
+      subjectDID,
+    } = {
+      ...this.state,
+    };
+    let isSuccess = false;
+    switch (accordionId) {
+      case "digital-signed":
+        isSuccess = !!signedMd5;
+        break;
+      case "compare-blockchain":
+        isSuccess = fileMD5 && signedMd5 && fileMD5 === signedMd5;
+        break;
+      case "verify-notary":
+        isSuccess = true; // FIXME: we can't compare this yet
+        break;
+      case "time-check":
+        const dateFormat = "yyyy-MM-dd H:mm:ss";
+        const a = parse(didTransactionTimestamp, dateFormat, new Date());
+        const b = parse(issuanceDate, dateFormat, new Date());
+        const isSameDay1 = isSameDay(a, b);
+        isSuccess = didTransactionTimestamp && issuanceDate && isSameDay1;
+        break;
+      case "owner-signed":
+        isSuccess =
+          verifiedVP &&
+          verifiedVP.payload.iss &&
+          subjectDID &&
+          subjectDID === verifiedVP.payload.iss;
+        break;
+      default:
+        isSuccess = true;
+    }
+    return isSuccess;
+  };
+
+  isNotarizedDocument() {
+    return this.handleSuccessFail("digital-signed") &&
+    this.handleSuccessFail("compare-blockchain") &&
+    this.handleSuccessFail("verify-notary") &&
+    this.handleSuccessFail("time-check") &&
+    this.handleSuccessFail("owner-signed");
+  }
 
   render() {
     const {
@@ -138,15 +221,19 @@ class App extends Component {
       notaryX509PublicKey,
       signedMd5,
       jwtMD5,
+      base64,
       fileMD5,
       signerDID,
+      subjectDID,
       signerName,
       subjectName,
       expirationDate,
       didTransactionTimestamp,
+      didTransactionDate,
       iatDate,
       nbfDate,
       issuanceDate,
+      issuanceDateIso,
       decodedJwt,
       isLoading,
       isDone,
@@ -160,14 +247,17 @@ class App extends Component {
         />
         {isDone && (
           <VerifiedSummary
-            fileMD5={fileMD5}
-            jwtMD5={jwtMD5}
+            // fileMD5={fileMD5}
+            // jwtMD5={jwtMD5}
             signerName={signerName}
-            verifiedVC={verifiedVC}
+            subjectName={subjectName}
+            didTransactionTimestamp={didTransactionDate}
+            issuanceDate={issuanceDateIso}
             expirationDate={expirationDate}
-            iatDate={iatDate}
-            nbfDate={nbfDate}
-            issuanceDate={issuanceDate}
+            isSuccess={this.isNotarizedDocument()}
+            // verifiedVC={verifiedVC}
+            // iatDate={iatDate}
+            // nbfDate={nbfDate}
           />
         )}
         {(isLoading || isDone) && (
@@ -180,18 +270,21 @@ class App extends Component {
             notaryX509PublicKey={notaryX509PublicKey}
             signedMd5={signedMd5}
             jwtMD5={jwtMD5}
+            base64={base64}
+            fileMD5={fileMD5}
+            signerDID={signerDID}
+            signerName={signerName}
+            didTransactionTimestamp={didTransactionTimestamp}
+            issuanceDate={issuanceDate}
             expirationDate={expirationDate}
             iatDate={iatDate}
             nbfDate={nbfDate}
-            issuanceDate={issuanceDate}
-            didTransactionTimestamp={didTransactionTimestamp}
-            fileMD5={fileMD5}
             jwtMD5={jwtMD5}
-            signerDID={signerDID}
-            signerName={signerName}
+            subjectDID={subjectDID}
             subjectName={subjectName}
             decodedJwt={decodedJwt}
-            setDone={()=>this.setState({isLoading: false, isDone: true})}
+            setDone={() => this.setState({ isLoading: false, isDone: true })}
+            handleSuccessFail={this.handleSuccessFail}
           />
         )}
       </div>

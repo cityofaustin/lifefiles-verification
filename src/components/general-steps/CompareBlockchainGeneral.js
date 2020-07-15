@@ -3,7 +3,9 @@ import { ReactComponent as HashSvg } from "../../img/hash.svg";
 import { ReactComponent as Hash2Svg } from "../../img/hash2.svg";
 import { ReactComponent as HashDiagram1 } from "../../img/hash-diagram-1.svg";
 import { ReactComponent as HashDiagram2 } from "../../img/hash-diagram-2.svg";
-import { ReactComponent as GreenCheck } from "../../img/green-check.svg";
+import { ReactComponent as GreenCheckSvg } from "../../img/green-check.svg";
+import { ReactComponent as WarningSvg } from "../../img/warning.svg";
+
 
 class CompareBlockchainGeneral extends Component {
   render() {
@@ -39,8 +41,9 @@ class CompareBlockchainGeneral extends Component {
           hashes won't match.
         </div>
         <div className="last-step">
-          <GreenCheck />
-          <div className="last-excerpt" style={{paddingLeft: '24px',textAlign: "left"}}>
+          {this.props.isSuccess && <GreenCheckSvg />}
+          {!this.props.isSuccess && <WarningSvg />}
+          <div className={`last-excerpt ${this.props.isSuccess ? 'success' : 'warning'}`} style={{paddingLeft: '24px',textAlign: "left"}}>
             This verification step checks whether or not the document has been
             modified from its originally uploaded version on file.
           </div>

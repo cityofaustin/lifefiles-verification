@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ReactComponent as OwnerSignedSvg } from "../../img/owner-signed.svg";
 import { ReactComponent as OwnerNotSignedSvg } from "../../img/owner-not-signed.svg";
 import { ReactComponent as GreenCheckSvg } from "../../img/green-check.svg";
+import { ReactComponent as WarningSvg } from "../../img/warning.svg";
 
 class OwnerSignedGeneral extends Component {
   render() {
@@ -27,7 +28,7 @@ class OwnerSignedGeneral extends Component {
             signed by its rightful owner Bob.
           </div>
         </div>
-        <div className="section-4" style={{padding: "20px 0 0 0"}}>
+        <div className="section-4" style={{ padding: "20px 0 0 0" }}>
           <OwnerNotSignedSvg />
         </div>
         <div
@@ -43,14 +44,17 @@ class OwnerSignedGeneral extends Component {
             transfearable because it lacks its owner's signature.
           </div>
         </div>
-        <div className="section-6" style={{padding: "20px 0"}}>
+        <div className="section-6" style={{ padding: "20px 0" }}>
           For a full breakdown of how encryption keys and signatures work,
           please see step one.
         </div>
         <div className="last-step">
-          <GreenCheckSvg />
+          {this.props.isSuccess && <GreenCheckSvg />}
+          {!this.props.isSuccess && <WarningSvg />}
           <div
-            className="last-excerpt"
+            className={`last-excerpt ${
+              this.props.isSuccess ? "success" : "warning"
+            }`}
             style={{ paddingLeft: "24px", textAlign: "left" }}
           >
             This verification step checks whether or not the document is the

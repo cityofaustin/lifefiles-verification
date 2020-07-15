@@ -7,6 +7,7 @@ import { ReactComponent as CompareSvg } from "../../img/compare.svg";
 import { ReactComponent as CapitolSvg } from "../../img/capitol.svg";
 import { ReactComponent as DocCheckSvg } from "../../img/doc-check.svg";
 import { ReactComponent as CalendarSvg } from "../../img/calendar.svg";
+import { ReactComponent as CompareWarnSvg } from "../../img/compare-warn.svg";
 
 class TimeCheckTechnical extends Component {
   render() {
@@ -28,9 +29,16 @@ class TimeCheckTechnical extends Component {
             <div className="section-desc">
               Document DID:
               <br />
-              <a href="https://etherscan.io/address/0x27dFC5414aa6Ca1515411392581e71af2Ef0B921">
-                did:ethr:0x27dFC5414aa6Ca1515411392581e71af2Ef0B921
-              </a>
+              {this.props.documentDID &&
+                this.props.documentDID.split(":").length > 1 && (
+                  <a
+                    href={`https://etherscan.io/address/${
+                      this.props.documentDID.split(":")[2]
+                    }`}
+                  >
+                    {this.props.documentDID}
+                  </a>
+                )}
             </div>
           </div>
         </div>
@@ -41,7 +49,7 @@ class TimeCheckTechnical extends Component {
           <div className="section-container">
             <div className="section-title">output</div>
             <div className="section-desc">
-              ‍Registration Date: 2020-04-23 19:58:35
+              ‍Registration Date: {this.props.didTransactionTimestamp}
             </div>
           </div>
         </div>
@@ -72,13 +80,13 @@ class TimeCheckTechnical extends Component {
             <div className="section-title">ORIGINAL REGISTRATION DATE</div>
             <div className="section-desc">
               <span style={{ color: "rgb(83, 170, 86)" }}>
-                2020-04-23 19:58:35
+                {this.props.didTransactionTimestamp}
               </span>
             </div>
           </div>
         </div>
         <div className="diagram-section-3" style={{ padding: "20px 0" }}>
-          <CompareSvg />
+          {this.props.isSuccess ? <CompareSvg /> : <CompareWarnSvg />}
         </div>
         <div className="step-section">
           <div className="section-icon">
@@ -87,8 +95,12 @@ class TimeCheckTechnical extends Component {
           <div className="section-container">
             <div className="section-title">VC ISSUANCE DATE</div>
             <div className="section-desc">
-              <span style={{ color: "rgb(83, 170, 86)" }}>
-                2020-04-23 19:58:35
+              <span
+                style={{
+                  color: this.props.isSuccess ? "rgb(83, 170, 86)" : "#feb143",
+                }}
+              >
+                {this.props.issuanceDate}
               </span>
             </div>
           </div>
@@ -109,8 +121,9 @@ class TimeCheckTechnical extends Component {
               paddingBottom: "20px",
             }}
           >
-            Is this document a verified original and not a copy? 
+            Is this document a verified original and not a copy?
           </div>
+          {this.props.isSuccess && (
           <div
             style={{
               color: "#53aa56",
@@ -120,7 +133,18 @@ class TimeCheckTechnical extends Component {
             }}
           >
             Yes, we have a match!
-          </div>
+          </div>)}
+          {!this.props.isSuccess && (
+          <div
+            style={{
+              color: "#feb143",
+              fontWeight: 600,
+              fontSize: "20px",
+              textAlign: "center",
+            }}
+          >
+            Dates do not match
+          </div>)}
         </div>
       </div>
     );
