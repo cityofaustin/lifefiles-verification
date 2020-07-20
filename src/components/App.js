@@ -101,7 +101,9 @@ class App extends Component {
       const signedMd5 =
         verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
           .signedDocumentHash;
+
       const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
+
       this.setState({
         notaryX509PublicKey,
         signedMd5,
@@ -165,6 +167,7 @@ class App extends Component {
     const {
       fileMD5,
       signedMd5,
+      jwtMD5,
       didTransactionTimestamp,
       issuanceDate,
       verifiedVP,
@@ -178,7 +181,7 @@ class App extends Component {
         isSuccess = !!signedMd5;
         break;
       case "compare-blockchain":
-        isSuccess = fileMD5 && signedMd5 && fileMD5 === signedMd5;
+        isSuccess = fileMD5 && jwtMD5 && fileMD5 === jwtMD5;
         break;
       case "verify-notary":
         isSuccess = true; // FIXME: we can't compare this yet
@@ -204,11 +207,13 @@ class App extends Component {
   };
 
   isNotarizedDocument() {
-    return this.handleSuccessFail("digital-signed") &&
-    this.handleSuccessFail("compare-blockchain") &&
-    this.handleSuccessFail("verify-notary") &&
-    this.handleSuccessFail("time-check") &&
-    this.handleSuccessFail("owner-signed");
+    return (
+      this.handleSuccessFail("digital-signed") &&
+      this.handleSuccessFail("compare-blockchain") &&
+      this.handleSuccessFail("verify-notary") &&
+      this.handleSuccessFail("time-check") &&
+      this.handleSuccessFail("owner-signed")
+    );
   }
 
   render() {
