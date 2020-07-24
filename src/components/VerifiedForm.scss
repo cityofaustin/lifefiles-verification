@@ -72,7 +72,7 @@
     justify-content: center;
     padding-top: 12px;
     .pdf-container {
-      height: 494px;
+      // height: 494px;
       .react-pdf__Document {
         .react-pdf__Page {
           border: 13px solid #676767;
@@ -81,6 +81,7 @@
       .paginate {
         display: flex;
         justify-content: center;
+        // padding-bottom: 30px;
         .prev {
           cursor: pointer;
           text-transform: capitalize;
@@ -331,7 +332,7 @@
 
   .submit-section {
     // padding-top: 50px;
-    padding: 40px 0 20px 0;
+    padding: 30px 0 20px 0;
     display: flex;
     justify-content: center;
   }

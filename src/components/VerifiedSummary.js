@@ -2,8 +2,9 @@ import React, { Component, Fragment } from "react";
 import * as PropTypes from "prop-types";
 import VerifiedCredentialUtil from "../util/VerifiedCredentialUtil";
 import "./VerifiedSummary.scss";
-import { ReactComponent as KeySvg } from "../img/key2.svg";
+import { ReactComponent as KeySvg } from "../img/key1.svg";
 import { ReactComponent as CalendarSvg } from "../img/calendar2.svg";
+import { ReactComponent as ClockSvg } from "../img/clock.svg";
 
 class VerifiedSummary extends Component {
   render() {
@@ -64,7 +65,7 @@ class VerifiedSummary extends Component {
           </div>
           <div className="section valid">
             <div className="img">
-              <CalendarSvg />
+              <ClockSvg />
             </div>
             <div>
               This document is not valid until{" "}
