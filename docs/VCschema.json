@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1"
+  ],
+  "id": "ex:unique_URL_pointing_to_this_document",
+  "type": ["VerifiableCredential", "TexasNotaryCredential"],
+
+  "issuer": {
+    "id": "did:example:NotaryDID",
+    "ensDomain": "ex:mypass.eth",
+    "notaryId": "ex:StateIssuedID",
+    "NotaryPublicKey": "ex:x509KeyHash"
+    },
+
+  "issuanceDate": "ex:date",
+  "expirationDate": "ex:date",
+
+  "credentialSubject": {
+    "id": "ex:did:example:DocumentOwnerDID",
+    "ensDomain": "ex:mypass.eth",
+    "TexasDigitalNotary": {
+      "type": "ex:certifiedCopy",
+      "signedDocumentHash": "ex:DocumentHashEncryptedWithNotaryPrivateKey", 
+      "hashType": "ex:MD5"
+      }
+  }
+}
+
+
