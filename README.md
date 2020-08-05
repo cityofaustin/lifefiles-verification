@@ -11,7 +11,7 @@ Copy .env.local or .env.prod to .env
 
     npm start
 
-In the browser open http://localhost:3001
+In the browser open http://localhost:3000
 
 ## Project Background
 
