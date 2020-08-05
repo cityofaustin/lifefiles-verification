@@ -4,7 +4,7 @@ import { getResolver } from "ethr-did-resolver";
 class DidResolverUtil {
   static async getInfoByDocumentDid(did) {
     const UNIRESOLVER_API =
-      "https://cors-anywhere.herokuapp.com/https://uniresolver.io/1.0/identifiers/";
+      "https://cors-elsewhere.herokuapp.com/https://uniresolver.io/1.0/identifiers/";
     const response = await fetch(UNIRESOLVER_API + did);
     const jsonResponse = await response.json();
     const { didDocument } = { ...jsonResponse };

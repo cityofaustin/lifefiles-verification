@@ -12,7 +12,7 @@ import VerifiedCredentialUtil from "../util/VerifiedCredentialUtil";
 import HashingUtil from "../util/HashingUtil";
 import StringUtil from "../util/StringUtil";
 import "./App.scss";
-// import NotarySearchUtil from "../util/NotarySearchUtil";
+import NotarySearchUtil from "../util/NotarySearchUtil";
 import { format, addMinutes, parse, isSameDay } from "date-fns";
 
 class App extends Component {
@@ -28,6 +28,7 @@ class App extends Component {
     signerId: "",
     subjectDID: "",
     subjectName: "",
+    notaryInfo: {},
     submitClicked: false,
     iatDate: "",
     nbfDate: "",
@@ -37,6 +38,28 @@ class App extends Component {
     verifiedVC: {},
     isLoading: false,
     isDone: false,
+  };
+
+  componentDidMount() {
+    this.wakeUpProxyServer();
+    if (window.location.href.indexOf("texas-notary-lookup") !== -1) {
+      let notaryIdStartIndex = window.location.href.lastIndexOf("/");
+      let notaryId = window.location.href.slice(
+        notaryIdStartIndex + 1,
+        window.location.href.length
+      );
+      this.notaryLookkup(notaryId);
+    }
+  }
+
+  // Since we are using a free heroku proxy server we need to "wake it up" on load
+  wakeUpProxyServer = async () => {
+    fetch("https://cors-elsewhere.herokuapp.com/");
+  };
+
+  notaryLookkup = async (notaryId) => {
+    let notaryInfo = await NotarySearchUtil.findNotary(notaryId);
+    this.setState({ notaryInfo });
   };
 
   handleOnDrop = async (file) => {
@@ -59,6 +82,7 @@ class App extends Component {
       subjectDID,
       subjectName,
       signerId,
+      notaryInfo,
     } = { ...this.state };
     const { file } = { ...this.state };
     this.setState({ isLoading: true });
@@ -121,6 +145,9 @@ class App extends Component {
       //7
       signerId = verifiedVC.payload.vc.issuer.notaryId;
 
+      //8
+      notaryInfo = await NotarySearchUtil.findNotary(signerId);
+
       // extracting key information from vc
       const dateFormat = "yyyy-MM-dd H:mm:ss";
       iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString(); // (Issued At) Claim
@@ -147,7 +174,6 @@ class App extends Component {
       subjectName = await Web3ContractUtil.getTextRecordByDID(subjectDID);
     }
 
-    // console.log("finished");
     this.setState({
       iatDate,
       nbfDate,
@@ -160,6 +186,8 @@ class App extends Component {
       signerName,
       subjectName,
       subjectDID,
+      signerId,
+      notaryInfo,
     });
   };
 
@@ -217,6 +245,28 @@ class App extends Component {
   }
 
   render() {
+    if (window.location.href.indexOf("texas-notary-lookup") !== -1) {
+      return (
+        <div>
+          {" "}
+          <div className="section-desc">
+            Notary Name: {this.state.notaryInfo && this.state.notaryInfo.Name}
+          </div>
+          <div className="section-desc">
+            Notary Address:{" "}
+            {this.state.notaryInfo && this.state.notaryInfo.Address}
+          </div>
+          <div className="section-desc">
+            Notary Expires:{" "}
+            {this.state.notaryInfo && this.state.notaryInfo.Expires}
+          </div>
+          <div className="section-desc">
+            Notary County:{" "}
+            {this.state.notaryInfo && this.state.notaryInfo.County}
+          </div>
+        </div>
+      );
+    }
     const {
       documentDID,
       vpJwt,
@@ -240,6 +290,8 @@ class App extends Component {
       issuanceDate,
       issuanceDateIso,
       decodedJwt,
+      signerId,
+      notaryInfo,
       isLoading,
       isDone,
     } = { ...this.state };
@@ -288,6 +340,8 @@ class App extends Component {
             subjectDID={subjectDID}
             subjectName={subjectName}
             decodedJwt={decodedJwt}
+            signerId={signerId}
+            notaryInfo={notaryInfo}
             setDone={() => this.setState({ isLoading: false, isDone: true })}
             handleSuccessFail={this.handleSuccessFail}
           />

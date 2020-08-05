@@ -27,15 +27,16 @@ class VerifyNotaryTechnical extends Component {
             <div className="section-desc">
               Notary's DID Address:
               <br />
-              {this.props.signerDID && this.props.signerDID.split(":").length > 1 && (
-                <a
-                  href={`https://etherscan.io/address/${
-                    this.props.signerDID.split(":")[2]
-                  }`}
-                >
-                  {this.props.signerDID.split(":")[2]}
-                </a>
-              )}
+              {this.props.signerDID &&
+                this.props.signerDID.split(":").length > 1 && (
+                  <a
+                    href={`https://etherscan.io/address/${
+                      this.props.signerDID.split(":")[2]
+                    }`}
+                  >
+                    {this.props.signerDID.split(":")[2]}
+                  </a>
+                )}
             </div>
           </div>
         </div>
@@ -76,7 +77,22 @@ class VerifyNotaryTechnical extends Component {
           </div>
           <div className="section-container">
             <div className="section-title">input</div>
-            <div className="section-desc">Notary ID: 347892</div>
+            <div className="section-desc">Notary ID: {this.props.signerId}</div>
+            <div className="section-desc">
+              Notary Name: {this.props.notaryInfo && this.props.notaryInfo.Name}
+            </div>
+            <div className="section-desc">
+              Notary Address:{" "}
+              {this.props.notaryInfo && this.props.notaryInfo.Address}
+            </div>
+            <div className="section-desc">
+              Notary Expires:{" "}
+              {this.props.notaryInfo && this.props.notaryInfo.Expires}
+            </div>
+            <div className="section-desc">
+              Notary County:{" "}
+              {this.props.notaryInfo && this.props.notaryInfo.County}
+            </div>
           </div>
         </div>
         <div className="step-section">
@@ -88,8 +104,7 @@ class VerifyNotaryTechnical extends Component {
             <div className="section-desc" style={{ wordBreak: "break-all" }}>
               Notary's PEM Public Key:
               <br />
-              {this.props.notaryX509PublicKey &&
-                this.props.notaryX509PublicKey}
+              {this.props.notaryX509PublicKey && this.props.notaryX509PublicKey}
             </div>
           </div>
         </div>
@@ -147,9 +162,11 @@ class VerifyNotaryTechnical extends Component {
               <br />
               PEM Public key listed on the VC:
               <br />
-              <span style={{ color: "rgb(83, 170, 86)", wordBreak: "break-all" }}>
-              {this.props.notaryX509PublicKey &&
-                this.props.notaryX509PublicKey}
+              <span
+                style={{ color: "rgb(83, 170, 86)", wordBreak: "break-all" }}
+              >
+                {this.props.notaryX509PublicKey &&
+                  this.props.notaryX509PublicKey}
               </span>
             </div>
           </div>

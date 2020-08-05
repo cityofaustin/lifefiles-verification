@@ -43,7 +43,7 @@ class VerifiedDetail extends Component {
   }
 
   async setLoadingAnimations() {
-    const {handleSuccessFail} = {...this.props};
+    const { handleSuccessFail } = { ...this.props };
     await this.runAccordionAnimation(
       "bm-digital-signed",
       loadingJson,
@@ -63,9 +63,7 @@ class VerifiedDetail extends Component {
       loadingJson,
       "Comparing image with version from blockchain..."
     );
-    const isSuccessCompareBlockchain = handleSuccessFail(
-      "compare-blockchain"
-    );
+    const isSuccessCompareBlockchain = handleSuccessFail("compare-blockchain");
     this.runAccordionAnimation(
       "bm-compare-blockchain",
       isSuccessCompareBlockchain ? loadSuccess : loadWarning,
@@ -147,7 +145,7 @@ class VerifiedDetail extends Component {
     statusText,
     accordionId
   ) => {
-    const {handleSuccessFail} = {...this.props};
+    const { handleSuccessFail } = { ...this.props };
     return new Promise((resolve, reject) => {
       try {
         // change text
@@ -209,13 +207,15 @@ class VerifiedDetail extends Component {
       issuanceDate,
       didTransactionTimestamp,
       subjectDID,
+      signerId,
+      notaryInfo,
 
       expirationDate,
       iatDate,
       nbfDate,
       subjectName,
       decodedJwt,
-      handleSuccessFail
+      handleSuccessFail,
     } = { ...this.props };
     return (
       <Fragment>
@@ -306,6 +306,8 @@ class VerifiedDetail extends Component {
                     notaryX509PublicKey={notaryX509PublicKey}
                     signerDID={signerDID}
                     signerName={signerName}
+                    signerId={signerId}
+                    notaryInfo={notaryInfo}
                   />
                 </Tab>
               </Tabset>
