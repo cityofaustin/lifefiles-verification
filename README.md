@@ -21,8 +21,8 @@ The MyPass project at the City of Austin explored the enforceability and usefuln
 
 In order to meet the criteria laid out in the state statutes, we crafted two templates for notarization.  
 
-1. Template for the handling of [recordable documents](https://github.com/cityofaustin/mypass-verification/docs/CopyCertificationbyDocumentCustodianTemplate.pdf) such as birth certificates and court documents 
-2. Template for [certified copies of non-recordable documents](https://github.com/cityofaustin/mypass-verification/docs/CertifiedCopyTemplate.pdf), which covers everything else 
+1. Template for the handling of [recordable documents](/docs/CopyCertificationbyDocumentCustodianTemplate.pdf) such as birth certificates and court documents 
+2. Template for [certified copies of non-recordable documents](/docs/CertifiedCopyTemplate.pdf), which covers everything else 
 
 **Template** 
 
@@ -32,7 +32,7 @@ In order to meet the criteria laid out in the state statutes, we crafted two tem
 
 <kbd><img src="/docs/CertCopyExample.png" align="middle" width="800" ></kbd>
  
-Next we had to create a means for a notary to cryptographically sign it and for that signature to be recorded with an immutable time stamp.  For this, we utilized an existing W3C data standard called a [verifiable credential](https://www.w3.org/TR/vc-data-model/), and we designed a [VC schema](https://github.com/cityofaustin/mypass-verification/docs/VCschema.json) specifically for Texas notarizations.  It contains a record of the notarization issuance with all pertinent information about the notarization and no personally identifiable information about the owner of the document being notarized.  This allows for a fully GDPR compliant solution where records of notarizations can be made public while the privacy of the document owners is protected.     
+Next we had to create a means for a notary to cryptographically sign it and for that signature to be recorded with an immutable time stamp.  For this, we utilized an existing W3C data standard called a [verifiable credential](https://www.w3.org/TR/vc-data-model/), and we designed a [VC schema](docs/VCschema.json) specifically for Texas notarizations.  It contains a record of the notarization issuance with all pertinent information about the notarization and no personally identifiable information about the owner of the document being notarized.  This allows for a fully GDPR compliant solution where records of notarizations can be made public while the privacy of the document owners is protected.     
 
 <img src="/docs/Schema.png" align="middle" width="600" >
 
