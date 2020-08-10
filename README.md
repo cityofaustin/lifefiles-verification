@@ -39,7 +39,7 @@ Next we had to create a means for a notary to cryptographically sign it and for 
 These two things, the notarization template, and transaction record work together to
 fulfill all the requirements of the texas statues for digital notarizations
 
-### 2. Notariztion Tools
+### 2. Notarization Tools
 
 We created the tools to allow any registered notary in the state of texas to package a digital notarization using our templates and sign it according to Verifiable Credential spec.  These tools are embedded in the upload and notarize interface of the [MyPass web application](https://github.com/cityofaustin/mypass).  
 
