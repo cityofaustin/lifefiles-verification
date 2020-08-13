@@ -15,7 +15,7 @@ In the browser open http://localhost:3000
 
 ## Project Background
 
-The MyPass project at the City of Austin explored the enforceability and usefulness of scanned copies of important documents.  One of the options available to texas is to employ a notary public to create a certified copy of the document in digital form.  Although state statutes are quite clear on the requirements to make a digital notarization our team was unable to find any existing tools to create digitally notarized certified copies.  So in the spirit of problem-solving for the common good, we created three things to enable the digital notarization ecosystem in Texas.  
+The MyPass project at the City of Austin explored the enforceability and usefulness of scanned copies of important documents.  One of the options available to people in Texas is to employ a notary public to create a certified copy of the document in digital form.  Although state statutes are quite clear on the requirements to make a digital notarization our team was unable to find any existing tools to create digitally notarized certified copies.  So in the spirit of problem-solving for the common good, we created three things to enable the digital notarization ecosystem in Texas.  
 
 ### 1. A Data Standard
 
@@ -32,7 +32,7 @@ In order to meet the criteria laid out in the state statutes, we crafted two tem
 
 <kbd><img src="/docs/CertCopyExample.png" align="middle" width="800" ></kbd>
  
-Next we had to create a means for a notary to cryptographically sign it and for that signature to be recorded with an immutable time stamp.  For this, we utilized an existing W3C data standard called a [verifiable credential](https://www.w3.org/TR/vc-data-model/), and we designed a [VC schema](docs/VCschema.json) specifically for Texas notarizations.  It contains a record of the notarization issuance with all pertinent information about the notarization and no personally identifiable information about the owner of the document being notarized.  This allows for a fully GDPR compliant solution where records of notarizations can be made public while the privacy of the document owners is protected.     
+Next we had to create a means for a notary to cryptographically sign it and for that signature to be recorded with an immutable time stamp.  For this, we utilized an existing W3C data standard called a [verifiable credential](https://www.w3.org/TR/vc-data-model/), and we designed a [VC schema](docs/VCschema.json) specifically for Texas notarizations.  The schema contains a record of the notarization issuance with all pertinent information about the notarization and no personally identifiable information about the owner of the document being notarized.  This allows for a fully GDPR compliant solution where records of notarizations can be made public while the privacy of the document owners is protected.     
 
 <img src="/docs/Schema.png" align="middle" width="600" >
 
@@ -51,4 +51,4 @@ Our tool currently utilizes the Etherium distributed public ledger to record a n
 
 <img src="/docs/Verify.png" align="middle" width="800" >
 
-We created this decentralized verification tool so the public would be able to verify the authenticity of a digitally notarized document.  Rather than a black box solution that gives a user a stamp of valid or invalid with no explanation of why, we created a tool that was fully transparent to technical and non-technical users alike.  Our desire is that anyone could understand the steps that were being taken, and could independently verify that the steps were performed correctly.  In this way, we hope to promote decentralized trust through both understanding and transparency.  This Repo contains the decentralized verification solution.
+We created this decentralized verification tool so the public would be able to verify the authenticity of a digitally notarized document.  Rather than a black box solution that gives a user a stamp of valid or invalid with no explanation of why, we created a tool that was fully transparent to technical and non-technical users alike.  Our desire is that anyone could understand the steps that were being taken, and could independently verify that the steps were performed correctly.  In this way, we hope to promote decentralized trust through both understanding and transparency.  This Repo contains the decentralized verification solution.  Although these tools were developed specifically for digital notarizations according to texas statutes, the changes required to make this solution work for other states are trivial, and we encourage folks from other states to fork these tools for themselves.
