@@ -38,6 +38,7 @@ class App extends Component {
     verifiedVC: {},
     isLoading: false,
     isDone: false,
+    awsTimestamp: -1,
   };
 
   componentDidMount() {
@@ -87,15 +88,19 @@ class App extends Component {
     const { file } = { ...this.state };
     this.setState({ isLoading: true });
     // console.log("started");
-    const { vpJwt, ownerPublicKey } = {
+    const { vpJwt, ownerPublicKey, timestamp } = {
       ...(await DidResolverUtil.getInfoByDocumentDid(documentDID)),
     };
+
     //1
     this.setState({
       documentDID,
       vpJwt,
       ownerPublicKey,
     });
+
+    this.setState({ awsTimestamp: timestamp });
+
     if (vpJwt.length > 0) {
       let verifiedVP;
       let verifiedVC;
@@ -161,9 +166,18 @@ class App extends Component {
         dateFormat
       );
       issuanceDateIso = issuanceDt.toUTCString();
-      const didTransactionDt = new Date(
-        (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) * 1000
-      );
+
+      let didTransactionDt;
+
+      if (this.state.awsTimestamp > -1) {
+        didTransactionDt = new Date(this.state.awsTimestamp * 1000);
+      } else {
+        didTransactionDt = new Date(
+          (await Web3ContractUtil.getDidTransactionTimestamp(documentDID)) *
+            1000
+        );
+      }
+
       didTransactionDate = didTransactionDt.toUTCString();
       didTransactionTimestamp = format(
         addMinutes(didTransactionDt, didTransactionDt.getTimezoneOffset()),

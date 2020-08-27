@@ -3,11 +3,29 @@ import { getResolver } from "ethr-did-resolver";
 
 class DidResolverUtil {
   static async getInfoByDocumentDid(did) {
+    const awsResponse = await fetch(
+      `https://cors-elsewhere.herokuapp.com/https://mypass-notarized-vpjwt.s3.us-east-2.amazonaws.com/did%3Aethr%3A${
+        did.split(":")[2]
+      }.json`
+    );
+
+    if (awsResponse.status !== 403) {
+      return this.getInfoFromAws(did, awsResponse);
+    }
+
     const UNIRESOLVER_API =
       "https://cors-elsewhere.herokuapp.com/https://uniresolver.io/1.0/identifiers/";
-    const response = await fetch(UNIRESOLVER_API + did);
+    const universalResolverResponse = await fetch(UNIRESOLVER_API + did);
+
+    if (universalResolverResponse) {
+      return this.getInfoFromUniresolver(did, universalResolverResponse);
+    }
+  }
+
+  static async getInfoFromUniresolver(did, response) {
     const jsonResponse = await response.json();
     const { didDocument } = { ...jsonResponse };
+
     const vpJwt =
       didDocument.service &&
       didDocument.service.length > 0 &&
@@ -20,7 +38,18 @@ class DidResolverUtil {
       didDocument.publicKey[0].id
         ? didDocument.publicKey[0].id
         : "";
-    return { vpJwt, ownerPublicKey };
+
+    const timestamp = -1;
+    return { vpJwt, ownerPublicKey, timestamp };
+  }
+
+  static async getInfoFromAws(did, response) {
+    const jsonResponse = await response.json();
+
+    const vpJwt = jsonResponse.vpJwt;
+    const timestamp = jsonResponse.timestamp;
+    const ownerPublicKey = did;
+    return { vpJwt, ownerPublicKey, timestamp };
   }
 
   static getResolver() {
