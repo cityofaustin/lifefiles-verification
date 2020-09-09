@@ -16,8 +16,12 @@
   "issuanceDate": "ex:date",
   "expirationDate": "ex:date",
 
+  "VerifiablePresentationReference":{
+    "id":"ex:did:example:VerifiablePresentationDID"
+     },
+
   "credentialSubject": {
-    "id": "ex:did:example:DocumentOwnerDID",
+    "id": "ex:did:example:DocumentCustodianDID",
     "ensDomain": "ex:mypass.eth",
     "TexasDigitalNotary": {
       "type": "ex:certifiedCopy",
