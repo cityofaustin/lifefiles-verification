@@ -1,0 +1,42 @@
+$midnight: #2c3e50;
+
+.notarize-headers {
+  color: #919191;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Montserrat;
+}
+
+.notarize-labels {
+  padding-bottom: 30px;
+}
+
+.custodian-name {
+  width: 350px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notarization-components {
+  .form-control {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  ::placeholder {
+    color: lightgrey;
+  }
+
+  //#327495
+  .accordion-label {
+    font-size: 20px;
+    font-family: Segoe UI;
+    font-weight: 600;
+    background: #327495 !important;
+  }
+
+  .btn {
+    background: #327495;
+  }
+}
