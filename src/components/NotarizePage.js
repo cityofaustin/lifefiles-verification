@@ -9,15 +9,27 @@ import NotarySignature from "./NotarizePageComponents/NotarySignature";
 import NotarizationRecord from "./NotarizePageComponents/NotarizationRecord";
 import axios from "axios";
 import { Button } from "reactstrap";
+import ip from "ip";
+
+let DOMAIN = "http://3.129.87.17:5004";
+
+const ipAddress = ip.address(); // my ip address
+
+if (ipAddress === "127.0.0.1") {
+  DOMAIN = "http://localhost:5004";
+}
+
+console.log({ DOMAIN });
 
 const S3_JWT_BUCKET_URL =
   "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aethr%3A";
 const API_GATEWAY_UPLOAD_REQUEST_URL =
   "https://h80bdb0zm6.execute-api.us-east-1.amazonaws.com/uploads";
-let GENERATE_EMAIL_TO_DID_URL = "http://localhost:5004/api/generate-email-did";
-let GET_TXT_RECORD_URL = "http://localhost:5004/api/get-txt-record/";
-let GENERATE_DOCUMENT_DID_URL =
-  "http://localhost:5004/api/generate-document-did";
+const GENERATE_EMAIL_TO_DID_URL = `${DOMAIN}/api/generate-email-did`;
+const GET_TXT_RECORD_URL = `${DOMAIN}/api/get-txt-record/`;
+const GENERATE_DOCUMENT_DID_URL = `${DOMAIN}/api/generate-document-did`;
+
+// api gateway for this - "https://7b19eg6lz6.execute-api.us-east-2.amazonaws.com/prod"
 
 class NotarizePage extends Component {
   state = {
