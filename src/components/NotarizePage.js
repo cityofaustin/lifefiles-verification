@@ -10,6 +10,8 @@ import NotarizationRecord from "./NotarizePageComponents/NotarizationRecord";
 import axios from "axios";
 import { Button } from "reactstrap";
 import ip from "ip";
+import EthCrypto from "eth-crypto";
+import NotarizationComplete from "./NotarizePageComponents/NotarizationComplete";
 
 let DOMAIN = "http://3.129.87.17:5004";
 
@@ -19,8 +21,6 @@ if (ipAddress === "127.0.0.1") {
   DOMAIN = "http://localhost:5004";
 }
 
-console.log({ DOMAIN });
-
 const S3_JWT_BUCKET_URL =
   "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aethr%3A";
 const API_GATEWAY_UPLOAD_REQUEST_URL =
@@ -28,36 +28,47 @@ const API_GATEWAY_UPLOAD_REQUEST_URL =
 const GENERATE_EMAIL_TO_DID_URL = `${DOMAIN}/api/generate-email-did`;
 const GET_TXT_RECORD_URL = `${DOMAIN}/api/get-txt-record/`;
 const GENERATE_DOCUMENT_DID_URL = `${DOMAIN}/api/generate-document-did`;
+const STORE_JWT_TO_ETH_BLOCKCHAIN = `${DOMAIN}/api/store-jwt`;
 
 // api gateway for this - "https://7b19eg6lz6.execute-api.us-east-2.amazonaws.com/prod"
 
 class NotarizePage extends Component {
   state = {
-    imageBase64: "",
-    notaryDigitalSealBase64: "",
-    vc: "",
-    notaryType: "",
+    imageBase64: undefined,
+    notaryDigitalSealBase64: undefined,
+    vc: undefined,
+    notaryType: undefined,
     expirationDate: undefined,
-    notaryId: -1,
-    documentDidAddress: "",
-    notaryEmail: "",
-    notaryEthAddress: "",
-    notaryEthPrivateKey: "",
-    notaryPemPublicKey: "",
-    notaryPemPrivateKey: "",
-    custodianEthAddress: "",
-    documentType: "",
-    custodianFullname: "",
-    custodianEmail: "",
-    notaryFullname: "",
+    notaryId: undefined,
+    documentDidAddress: undefined,
+    notaryEmail: undefined,
+    notaryEthAddress: undefined,
+    notaryEthPrivateKey: undefined,
+    notaryPemPublicKey: undefined,
+    notaryPemPrivateKey: undefined,
+    custodianEthAddress: undefined,
+    documentType: undefined,
+    custodianFullname: undefined,
+    custodianEmail: undefined,
+    notaryFullname: undefined,
     loading: true,
     base64Pdf: undefined,
     isLoading: false,
-    vcJwtS3Link: undefined,
+    vcJwtLink: undefined,
+    uniresolverLink: undefined,
+    network: "s3",
     custodianMessage: "",
   };
 
   async componentDidMount() {
+    // TODO: Have fields for these:
+    this.setState({ notaryType: "certifiedCopy" });
+    this.setState({ expirationDate: new Date("2030-1-1") });
+    // this.setTestData();
+  }
+
+  setTestData = async () => {
+    // START For debugging
     this.setState({
       imageBase64:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnklEQVR42u3RAQ0AAAQAMAqorJCQapj9FZ411cEZKUQIQoQgRAhChCBEiBAhCBGCECEIEYIQIQhBiBCECEGIEIQIQQhChCBECEKEIEQIQhAiBCFCECIEIUIQghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghAhCBGCECEIESJECEKEIEQIQr5bryyAId6SZokAAAAASUVORK5CYII=",
@@ -66,8 +77,7 @@ class NotarizePage extends Component {
       notaryDigitalSealBase64:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAoUlEQVR42u3RMQ0AMAgAsCFoGpHKhw5sENJaaHT9fKwRQoQgRAhChCBECEKECBGCECEIEYIQIQgRghCECEGIEIQIQYgQhCBECEKEIEQIQoQgBCFCECIEIUIQIgQhCBGCECEIEYIQIQhBiBCECEGIEIQIQQhChCBECEKEIEQIQhAiBCFCECIEIUIQghAhCBGCECEIEYIQIUKEIEQIQoQg5LoBTwr0iRuuiJwAAAAASUVORK5CYII=",
     });
-    this.setState({ notaryType: "certifiedCopy" });
-    this.setState({ expirationDate: new Date("2030-1-1") });
+
     this.setState({ notaryId: 12345 });
     this.setState({
       notaryEthAddress: "0x8540cb6900d9E941e328aC49cf13e207088669eD",
@@ -112,27 +122,26 @@ class NotarizePage extends Component {
     });
 
     this.setState({ documentType: "Passport" });
-    this.setState({ custodianFullname: "Owner Owner" });
-    this.setState({ notaryFullname: "Caseworker Caseworker" });
+    this.setState({ custodianFullname: "Custodian Custodian" });
+    this.setState({ notaryFullname: "Notary Notary" });
 
-    // // Document Did Priavate Key - 85b33218262e2a46129c8e451231171b13c91bf93f2219425c21e501ea491b58
+    // Document Did Priavate Key - 85b33218262e2a46129c8e451231171b13c91bf93f2219425c21e501ea491b58
     this.setState({
       documentDidAddress: "0xeb885e57d3b38d3954fd1653e861584eb0eb2078",
     });
 
     this.setState({ custodianEmail: "custodian@custodian.com" });
-
     this.setState({ county: "Travis" });
+    // END For debugging
 
     await this.setState({ loading: false });
-  }
+  };
 
   generateEmailToDid = async (email, custodian = false) => {
     let result = await axios.post(GENERATE_EMAIL_TO_DID_URL, {
       email: email,
       custodian: custodian,
     });
-    console.log(result.data);
     return result.data;
   };
 
@@ -145,6 +154,7 @@ class NotarizePage extends Component {
   };
 
   generateVC = async () => {
+    console.log("Starting VC");
     let custodianEmail = this.state.custodianEmail;
     let custodianDid;
     let emailTxtRecord = await axios.get(GET_TXT_RECORD_URL + custodianEmail);
@@ -205,10 +215,34 @@ class NotarizePage extends Component {
     const base64Pdf = vc.doc.output("datauristring");
     this.setState({ base64Pdf });
 
-    await this.uploadVCToS3(documentDidAddress);
+    let uniresolverLink;
+    let vcJwtLink;
+    let blockChainResult;
 
-    let vcJwtS3Link = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
-    this.setState({ vcJwtS3Link });
+    if (this.state.network === "s3") {
+      await this.uploadVCToS3(documentDidAddress);
+      vcJwtLink = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
+    } else if (this.state.network === "testnet") {
+      blockChainResult = await axios.post(STORE_JWT_TO_ETH_BLOCKCHAIN, {
+        vcJwt: this.state.vc.vc,
+        documentDidPrivateKey: docDidRes.data.didPrivateKey,
+        network: "eth-testnet",
+      });
+    } else if (this.state.network === "blockchain") {
+      blockChainResult = await axios.post(STORE_JWT_TO_ETH_BLOCKCHAIN, {
+        vcJwt: this.state.vc.vc,
+        documentDidPrivateKey: docDidRes.data.didPrivateKey,
+        network: "eth-mainnet",
+      });
+    }
+
+    if (blockChainResult !== undefined) {
+      vcJwtLink = blockChainResult.data.didUrl;
+      uniresolverLink = blockChainResult.data.resolverUrl;
+    }
+
+    this.setState({ vcJwtLink });
+    this.setState({ uniresolverLink });
   };
 
   uploadVCToS3 = async (documentDid) => {
@@ -223,8 +257,6 @@ class NotarizePage extends Component {
     let uploadRes = await axios.put(res.data.uploadURL, vcToUpload, {
       headers: { "Content-Type": "application/json" },
     });
-
-    console.log(uploadRes.data);
   };
 
   // TODO: Fix file handling
@@ -245,11 +277,58 @@ class NotarizePage extends Component {
 
   handleFileSubmit = async (documentDID) => {};
 
+  setSeal = (files) => {
+    this.setState({ notaryDigitalSealBase64: files.base64 });
+  };
+
+  setPemKey = async (files) => {
+    const file = files.file;
+    try {
+      if (file !== null) {
+        let pubPrivPem = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            let privatePem1 = ev.target.result;
+            let publicPem1;
+            try {
+              publicPem1 = NotaryUtil.getPublicKeyFromPrivateKey(privatePem1);
+            } catch (err) {
+              reject(err);
+            }
+            resolve({ publicPem: publicPem1, privatePem: privatePem1 });
+          };
+          reader.onerror = reject;
+          reader.readAsText(file);
+        });
+        this.setState({ notaryPemPublicKey: pubPrivPem.publicPem });
+        this.setState({ notaryPemPrivateKey: pubPrivPem.privatePem });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  onNetworkChanged = async (payload) => {
+    let value = payload.target.id;
+    this.setState({ network: value });
+  };
+
   onInfoChanged = async (payload) => {
     let key = payload.target.name;
     let value = payload.target.value;
 
     this.setState({ [key]: value });
+
+    if (key == "notaryEthPrivateKey") {
+      try {
+        const publicKey = EthCrypto.publicKeyByPrivateKey(value);
+        const address = EthCrypto.publicKey.toAddress(publicKey);
+        this.setState({ notaryEthAddress: address });
+      } catch (err) {
+        console.log("setting public key error");
+        console.log(err);
+      }
+    }
 
     if (key == "custodianEmail") {
       if (this.isEmail(value)) {
@@ -266,6 +345,10 @@ class NotarizePage extends Component {
         this.setState({ custodianMessage: message });
       }
     }
+
+    if (key === "documentType" && value === "test") {
+      this.setTestData();
+    }
   };
 
   isEmail = (email) => {
@@ -273,38 +356,118 @@ class NotarizePage extends Component {
     return re.test(String(email).toLowerCase());
   };
 
+  isSubmitEnabled = () => {
+    const {
+      notaryType,
+      expirationDate,
+      notaryId,
+      documentDidAddress,
+      notaryEthAddress,
+      notaryEthPrivateKey,
+      notaryPemPublicKey,
+      notaryPemPrivateKey,
+      custodianEthAddress,
+      custodianEmail,
+      imageBase64,
+      notaryDigitalSealBase64,
+      documentType,
+      custodianFullname,
+      notaryFullname,
+      county,
+    } = { ...this.state };
+
+    let disabled = true;
+
+    if (
+      notaryType &&
+      expirationDate &&
+      notaryId &&
+      notaryEthAddress &&
+      notaryEthPrivateKey &&
+      notaryPemPublicKey &&
+      notaryPemPrivateKey &&
+      custodianEmail &&
+      imageBase64 &&
+      notaryDigitalSealBase64 &&
+      documentType &&
+      custodianFullname &&
+      notaryFullname &&
+      county
+    ) {
+      disabled = false;
+    }
+
+    return disabled;
+  };
+
   render() {
     const { isLoading } = { ...this.state };
-    return (
-      <div className="app-container">
+
+    let toRender = (
+      <div>
         <VerifiedFormNotarize
           handleOnDrop={this.handleOnDrop}
           handleFileSubmit={this.handleFileSubmit}
           isLoading={isLoading}
         />
-
-        <div className="notarization-components">
-          <DocumentInformation onInfoChanged={this.onInfoChanged} />
-          <NotaryInformation
-            notaryEthPrivateKey={this.state.notaryEthPrivateKey}
-            generateEmailDid={this.generateEmailDid}
-            onInfoChanged={this.onInfoChanged}
-          />
-          <CustodianInformation
-            custodianMessage={this.state.custodianMessage}
-            onInfoChanged={this.onInfoChanged}
-          />
-          <NotarySignature onInfoChanged={this.onInfoChanged} />
-          <NotarizationRecord onInfoChanged={this.onInfoChanged} />
-          <div className="text-center">
-            <Button onClick={this.generateVC}>Notarize Document</Button>
-          </div>
+        <DocumentInformation
+          values={this.state}
+          onInfoChanged={this.onInfoChanged}
+        />
+        <NotaryInformation
+          values={this.state}
+          notaryEthPrivateKey={this.state.notaryEthPrivateKey}
+          generateEmailDid={this.generateEmailDid}
+          onInfoChanged={this.onInfoChanged}
+          setSeal={this.setSeal}
+          setPemKey={this.setPemKey}
+        />
+        <CustodianInformation
+          values={this.state}
+          custodianMessage={this.state.custodianMessage}
+          onInfoChanged={this.onInfoChanged}
+        />
+        <NotarySignature
+          values={this.state}
+          onInfoChanged={this.onInfoChanged}
+        />
+        <NotarizationRecord
+          values={this.state}
+          onInfoChanged={this.onInfoChanged}
+          onNetworkChanged={this.onNetworkChanged}
+        />
+        <div className="text-center">
+          <Button disabled={this.isSubmitEnabled()} onClick={this.generateVC}>
+            Notarize Document
+          </Button>
         </div>
+      </div>
+    );
+
+    if (this.state.base64Pdf !== undefined) {
+      toRender = (
+        <NotarizationComplete
+          savePdf={() => this.state.vc.doc.save()}
+          base64Pdf={this.state.base64Pdf}
+        />
+      );
+    }
+
+    return (
+      <div className="app-container">
+        <div className="notarization-components">{toRender}</div>
 
         <br></br>
-        {this.state.base64Pdf && <PdfPreview fileURL={this.state.base64Pdf} />}
-        <p>{this.state.vc.vc}</p>
-        <a href={this.state.vcJwtS3Link}> Link to VC on Ledger </a>
+        {/* {this.state.base64Pdf && <PdfPreview fileURL={this.state.base64Pdf} />}*/}
+        {this.state.base64Pdf && (
+          <a href={this.state.vcJwtLink}> Link to VC on Ledger </a>
+        )}
+        <br></br>
+        {this.state.base64Pdf && (
+          <a href={this.state.uniresolverLink}>
+            Link to Uniresolver (Blockchain only):
+          </a>
+        )}
       </div>
     );
   }

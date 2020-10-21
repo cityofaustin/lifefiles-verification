@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { ReactComponent as DocumentSvg } from "../../img/document.svg";
+import { ReactComponent as DocumentSvg } from "../../img/notarize-record-info.svg";
 import Accordion from "../common/Accordion";
 import {
   Button,
@@ -24,6 +24,10 @@ class NotarizationRecord extends Component {
     this.setState({ documentTitle: e.target.value });
   };
 
+  handleNetworkChange = (e) => {
+    console.log(e.target);
+  };
+
   renderDocumentTitle = () => {
     return (
       <Container>
@@ -43,37 +47,41 @@ class NotarizationRecord extends Component {
 
         <Row>
           <Col>
-            <div className="text-center">
-              <Input
-                className="custodian-name"
-                type="text"
-                name="didInput"
-                id="didInput"
-                value={this.state.documentTitle}
-                onChange={this.handleDocumentTitleChange}
-                placeholder="Notary Name"
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <Label className="notarize-headers">Select a ledger</Label>
             <FormGroup tag="fieldset">
               <FormGroup check>
                 <Label check>
-                  <Input type="radio" name="radio1" /> Ethereum Blockchain -
-                  $50.00
+                  <Input
+                    onClick={this.props.onNetworkChanged}
+                    defaultChecked
+                    id="s3"
+                    type="radio"
+                    name="radio1"
+                  />{" "}
+                  Amazon S3 - $0.00
+                </Label>
+              </FormGroup>
+
+              <FormGroup check>
+                <Label check>
+                  <Input
+                    onClick={this.props.onNetworkChanged}
+                    id="testnet"
+                    type="radio"
+                    name="radio1"
+                  />{" "}
+                  Ethereum Testnet - $0.00
                 </Label>
               </FormGroup>
               <FormGroup check>
                 <Label check>
-                  <Input type="radio" name="radio1" /> Ethereum Testnet - $0.00
-                </Label>
-              </FormGroup>
-              <FormGroup check>
-                <Label check>
-                  <Input type="radio" name="radio1" /> Amazon S3
+                  <Input
+                    onClick={this.props.onNetworkChanged}
+                    id="blockchain"
+                    type="radio"
+                    name="radio1"
+                  />{" "}
+                  Ethereum Blockchain - $50.00
                 </Label>
               </FormGroup>
             </FormGroup>

@@ -5,6 +5,7 @@ import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 import NotarizePage from "./components/NotarizePage";
+import ChooseToolPage from "./components/ChooseToolPage";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,8 +14,11 @@ ReactDOM.render(
         <Route path="/notarize">
           <NotarizePage />
         </Route>
-        <Route path="/">
+        <Route path="/verify">
           <App />
+        </Route>
+        <Route path="/">
+          <ChooseToolPage />
         </Route>
       </Switch>
     </Router>

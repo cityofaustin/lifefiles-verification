@@ -12,6 +12,8 @@ import bodymovin from "lottie-web";
 import documentLoadingJson from "../img/document-loading.json";
 import Accordion from "./common/Accordion";
 
+import "./NotarizePageComponents/NotarizePageComponents.scss";
+
 class VerifiedFormNotarize extends Component {
   state = {
     did: "",
@@ -69,8 +71,8 @@ class VerifiedFormNotarize extends Component {
           <Fragment>
             <section className="dropzone-container">
               {!pdfLink && this.renderFileUpload(getRootProps, getInputProps)}
-              {/* {pdfLink && <PdfPreview fileURL={pdfLink} />} */}
-              <div>{pdfLink && <img src={pdfLink} />}</div>
+              {pdfLink &&
+                this.renderUploadedFile(getRootProps, getInputProps, pdfLink)}
             </section>
           </Fragment>
         )}
@@ -102,6 +104,18 @@ class VerifiedFormNotarize extends Component {
     );
   }
 
+  renderUploadedFile(getRootProps, getInputProps, pdfLink) {
+    return (
+      <div {...getRootProps()} className="dropzone-form">
+        <div className="upload">
+          <div className="caption">
+            <img style={{ width: "300px" }} src={pdfLink}></img>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { did, pdfLink, documentAccordionExpanded } = { ...this.state };
     const { handleFileSubmit, isLoading } = { ...this.props };
@@ -117,6 +131,7 @@ class VerifiedFormNotarize extends Component {
         <h4>
           Texas Digital Notarization
           <img
+            style={{ marginLeft: "20px" }}
             className="notarized-check-img"
             src={notarizedCheck}
             width="50"

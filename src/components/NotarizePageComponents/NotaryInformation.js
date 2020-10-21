@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { ReactComponent as DocumentSvg } from "../../img/document.svg";
+import { ReactComponent as DocumentSvg } from "../../img/notarize-notary-info.svg";
 import Accordion from "../common/Accordion";
 import {
   Button,
@@ -13,13 +13,25 @@ import {
 
 import "./NotarizePageComponents.scss";
 import FileBase64 from "react-file-base64";
+import PemKeyImg from "../../img/pemkeyimg.png";
 
 class NotaryInformation extends Component {
   state = {
-    documentTitle: "",
+    sealBase64: undefined,
+    pemKey: undefined,
   };
 
   componentDidMount() {}
+
+  setSeal = (file) => {
+    this.setState({ sealBase64: file.base64 });
+    this.props.setSeal(file);
+  };
+
+  setPemKey = (file) => {
+    this.setState({ pemKey: "set" });
+    this.props.setPemKey(file);
+  };
 
   renderDocumentTitle = () => {
     return (
@@ -32,6 +44,7 @@ class NotaryInformation extends Component {
               name="notaryFullname"
               onChange={this.props.onInfoChanged}
               placeholder="Who is the notary?"
+              value={this.props.values && this.props.values.notaryFullname}
             />
           </Col>
 
@@ -42,6 +55,7 @@ class NotaryInformation extends Component {
               name="notaryId"
               onChange={this.props.onInfoChanged}
               placeholder="What your notary ID?"
+              value={this.props.values && this.props.values.notaryId}
             />
           </Col>
         </Row>
@@ -53,6 +67,7 @@ class NotaryInformation extends Component {
               name="county"
               onChange={this.props.onInfoChanged}
               placeholder="What county are you notarizing this in?"
+              value={this.props.values && this.props.values.county}
             />
           </Col>
 
@@ -73,12 +88,16 @@ class NotaryInformation extends Component {
         <Row>
           <Col xs="4">
             <Label className="notarize-headers">Notarial Seal</Label>
-            <FileBase64 />
+            {!this.state.sealBase64 && <FileBase64 onDone={this.setSeal} />}
+            {this.state.sealBase64 && (
+              <img width="200px" src={this.state.sealBase64}></img>
+            )}
           </Col>
 
           <Col xs="4">
-            <Label className="notarize-headers">Notarial Seal</Label>
-            <FileBase64 />
+            <Label className="notarize-headers">PEM Key*</Label>
+            {!this.state.pemKey && <FileBase64 onDone={this.setPemKey} />}
+            {this.state.pemKey && <img width="200px" src={PemKeyImg}></img>}
           </Col>
 
           <Col xs="4">

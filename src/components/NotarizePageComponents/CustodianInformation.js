@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { ReactComponent as DocumentSvg } from "../../img/document.svg";
+import { ReactComponent as DocumentSvg } from "../../img/notarize-custodian-info.svg";
 import Accordion from "../common/Accordion";
 import {
   Button,
@@ -35,6 +35,7 @@ class CustodianInformation extends Component {
               name="custodianFullname"
               onChange={this.props.onInfoChanged}
               placeholder="What is the document custodian's name?"
+              value={this.props.values && this.props.values.custodianFullname}
             />
           </Col>
 
@@ -45,6 +46,7 @@ class CustodianInformation extends Component {
               name="custodianEmail"
               onChange={this.props.onInfoChanged}
               placeholder="What is the document custodian's email?"
+              value={this.props.values && this.props.values.custodianEmail}
             />
             <p>{this.props.custodianMessage}</p>
           </Col>
@@ -58,14 +60,21 @@ class CustodianInformation extends Component {
         </Row>
         <Row>
           <Col>
-            <Input type="checkbox" /> I accept the use of digital signatures
+            <div
+              className="notarization-checkboxes"
+              style={{ paddingLeft: "50px" }}
+            >
+              <Input style={{ zoom: 2 }} type="checkbox" />
+              <p> I accept the use of digital signatures </p>
+              <Input style={{ zoom: 2 }} type="checkbox" />{" "}
+              <p>
+                I affirm that the scanned document is true, exact, complete, and
+                unaltered copy of the original document in my possession
+              </p>
+              <Input style={{ zoom: 2 }} type="checkbox" />{" "}
+              <p>I accept the following as my digital signature</p>
+            </div>
             <br></br>
-            <Input type="checkbox" /> I affirm that the scanned document is
-            true, exact, complete, and unaltered copy of the original document
-            in my possession
-            <br></br>
-            <Input type="checkbox" /> I accept the following as my digital
-            signature
           </Col>
         </Row>
 

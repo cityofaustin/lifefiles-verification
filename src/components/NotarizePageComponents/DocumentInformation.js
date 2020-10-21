@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { ReactComponent as DocumentSvg } from "../../img/document.svg";
+import { ReactComponent as DocumentSvg } from "../../img/notarize-doc-info.svg";
 import Accordion from "../common/Accordion";
 import {
   Button,
@@ -35,6 +35,7 @@ class DocumentInformation extends Component {
               name="documentType"
               onChange={this.props.onInfoChanged}
               placeholder="What is the name of this document?"
+              value={this.props.values && this.props.values.documentType}
             />
           </Col>
 
