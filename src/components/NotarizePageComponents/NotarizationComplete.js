@@ -92,8 +92,8 @@ class NotarizationComplete extends Component {
           <p style={{ fontSize: "22px" }}>
             A verifiable credential recording of the notarization has been
             registered to the ledger at the following address:
-            Dm31Lpo1kJsm3123lk
           </p>
+          <a href={this.props.vcJwtLink}> Link to VC on Selected Ledger </a>
 
           <div style={{ width: 960 }}></div>
         </div>

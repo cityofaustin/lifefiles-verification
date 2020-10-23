@@ -41,7 +41,7 @@ class ChooseToolPage extends Component {
           <Container>
             <Row>
               <Col>
-                <a href="verify">
+                <a href="notarize">
                   <Card style={{ backgroundColor: "#327495" }} body inverse>
                     <CardTitle>
                       <img
@@ -67,7 +67,7 @@ class ChooseToolPage extends Component {
                 </a>
               </Col>
               <Col>
-                <a href="notarize">
+                <a href="verify">
                   <Card body inverse color="success">
                     <CardTitle>
                       <img

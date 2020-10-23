@@ -15,9 +15,16 @@ import NotarizationComplete from "./NotarizePageComponents/NotarizationComplete"
 
 let DOMAIN = "http://3.129.87.17:5004";
 
-const ipAddress = ip.address(); // my ip address
+// const ipAddress = ip.address(); // my ip address
 
-if (ipAddress === "127.0.0.1") {
+// if (ipAddress === "127.0.0.1") {
+//   DOMAIN = "http://localhost:5004";
+// }
+
+if (
+  window.location.host.includes("localhost") ||
+  window.location.host.includes("127.0.0.1")
+) {
   DOMAIN = "http://localhost:5004";
 }
 
@@ -447,6 +454,7 @@ class NotarizePage extends Component {
     if (this.state.base64Pdf !== undefined) {
       toRender = (
         <NotarizationComplete
+          vcJwtLink={this.state.vcJwtLink}
           savePdf={() => this.state.vc.doc.save()}
           base64Pdf={this.state.base64Pdf}
         />
