@@ -1,7 +1,7 @@
 # mypass-verification
 This is a standalone site that performs the notarty verification of a document notarized by Mypass
 
-[Live Site Demo](https://texas-digital-notary.s3.us-east-2.amazonaws.com/index.html) - *this is hosted just for demonstration purposes, and will be taken down at the conclusion of the MyPass project.*
+[Live Site Demo](http://texas-digital-notary.s3-website.us-east-2.amazonaws.com/) - *this is hosted just for demonstration purposes, and will be taken down at the conclusion of the MyPass project.*
 
 ## Getting started
 
