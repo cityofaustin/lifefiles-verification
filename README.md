@@ -49,6 +49,8 @@ We created the tools to allow any registered notary in the state of texas to pac
 
 Our tool currently utilizes the Etherium distributed public ledger to record a notarization's issuance and to support privacy through decentralized public key infrastructure.  However, our use of Etherium services is not a hard requirement of the tool or the data standard.  By using a DID based data standard any connection to the Etherium ecosystem can be replaced with a standard web URL, and records can be stored on a standard server.  Our team does not plan to implement these tools as stand-alone web services but we encourage others to fork our repo and extract these tools for themselves.
 
+More information and documentation can be found here - https://github.com/cityofaustin/mypass-verification/tree/main/src/components/NotarizePageComponents
+
 ### 3. Decentralized Verification
 
 <img src="/docs/Verify.png" align="middle" width="800" >
