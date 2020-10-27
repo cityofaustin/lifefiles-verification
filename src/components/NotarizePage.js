@@ -71,11 +71,6 @@ class NotarizePage extends Component {
     ethFundingPrivateKey: "",
   };
 
-  constructor(props) {
-    super(props);
-    this.ethClient = new EtheriumBlockChainService();
-  }
-
   async componentDidMount() {
     // TODO: Have fields for these:
     this.setState({ notaryType: "certifiedCopy" });
@@ -205,6 +200,7 @@ class NotarizePage extends Component {
       notaryFullname,
       county,
       ethFundingPrivateKey,
+
       network,
     } = { ...this.state };
 
@@ -237,31 +233,31 @@ class NotarizePage extends Component {
     let uniresolverLink;
     let vcJwtLink;
 
-    if (this.state.network === "s3") {
+    if (network === "s3") {
       await this.uploadVCToS3(documentDidAddress);
       // vcJwtLink = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
       // https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A0xd54a349B70142879A0c6e0d54B7580BA81F4DB48.json
       vcJwtLink = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
     }
-    if (
-      this.state.network === "testnet" ||
-      this.state.network === "blockchain"
-    ) {
+    if (network === "testnet" || this.state.network === "blockchain") {
       let didUrl;
       let resolverUrl;
       const vcJwt = this.state.vc.vc;
-      const vcUnpacked = await this.ethClient.verifyVC(
-        ethFundingPrivateKey,
-        vcJwt
+
+      const ethClient = new EtheriumBlockChainService(
+        network,
+        ethFundingPrivateKey
       );
+      const vcUnpacked = await ethClient.verifyVC(vcJwt);
+
       const documentDidAddress = vcUnpacked.payload.vc.id.split(":")[2];
-      if (this.state.network === "testnet") {
+      if (network === "testnet") {
         didUrl = "https://ropsten.etherscan.io/address/" + documentDidAddress;
         resolverUrl =
           "https://dev.uniresolver.io/1.0/identifiers/did%3Aethr%3Aropsten%3A" +
           documentDidAddress;
       }
-      if (this.state.network === "blockchain") {
+      if (network === "blockchain") {
         didUrl = "https://etherscan.io/address/" + documentDidAddress;
         resolverUrl =
           "https://dev.uniresolver.io/1.0/identifiers/did%3Aethr%3A" +
@@ -274,8 +270,7 @@ class NotarizePage extends Component {
       const validityTimeSeconds = Math.round((expirationDate - now) / 1000);
       const documentDidPrivateKey = docDidRes.data.didPrivateKey;
       // mainnet vs testnet are from the .env infura provider.
-      this.ethClient.storeDataOnEthereumBlockchain(
-        ethFundingPrivateKey,
+      ethClient.storeDataOnEthereumBlockchain(
         documentDidAddress,
         documentDidPrivateKey,
         validityTimeSeconds,

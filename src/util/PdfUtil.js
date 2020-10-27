@@ -169,7 +169,12 @@ export default class PdfUtil {
     doc.setFontSize(2.3 * 6);
     doc.text("(Signature of notary)", 288, 364);
 
-    doc.setFontSize(4 * 6); // 4 * 6 factor of 6
+    if (documentDID.includes("web:")) {
+      doc.setFontSize(4 * 2); // 4 * 6 factor of 6
+    } else {
+      doc.setFontSize(4 * 6); // 4 * 6 factor of 6
+    }
+
     doc.text(documentDID, margin, 410.5);
 
     const pdfArrayBuffer = doc.output("arraybuffer");
