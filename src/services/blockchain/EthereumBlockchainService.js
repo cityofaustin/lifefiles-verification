@@ -7,14 +7,16 @@ import { getResolver } from "ethr-did-resolver";
 
 class EthereumBlockchainService {
   INFURA_URI = "https://mainnet.infura.io/v3/f89f8f95ce6c4199849037177b155d08";
+  ROPSTEN_URI = "https://mainnet.ropsten.io/v3/f89f8f95ce6c4199849037177b155d08";
   ETHER_GAS_STATION_API = "https://ethgasstation.info/api/ethgasAPI.json";
   CONTRACT_DEFAULT_GAS = 300000;
   FUND_ACCOUNT_GAS = 21000;
   NAME_KEY = "0x6469642f7376632f76706a777400000000000000000000000000000000000000"; // did/svc/vpjwt
   REFUND_GAS_PRICE = 1000000000;
 
-  initialSetup(ethFundingPrivateKey) {
-    this.web3 = new Web3(new Web3.providers.HttpProvider(this.INFURA_URI));
+  constructor(network, ethFundingPrivateKey) {
+    const web3Host = network === "blockchain" ? this.INFURA_URI : this.ROPSTEN_URI;
+    this.web3 = new Web3(new Web3.providers.HttpProvider(web3Host));
     this.fundingAccount = this.web3.eth.accounts.privateKeyToAccount(ethFundingPrivateKey);
     this.web3.eth.accounts.wallet.add(this.fundingAccount);
     this.didRegContract = new this.web3.eth.Contract(DidRegistryContract.abi);
@@ -30,20 +32,17 @@ class EthereumBlockchainService {
     this.nonceOverhead = 0;
   }
 
-  async verifyVC(ethFundingPrivateKey, vcJwt) {
-    this.initialSetup(ethFundingPrivateKey);
+  async verifyVC(vcJwt) {
     const verifiedVC = await verifyCredential(vcJwt, this.resolver);
     return verifiedVC;
   }
 
   async storeDataOnEthereumBlockchain(
-    ethFundingPrivateKey,
     didAddress,
     didPrivateKey,
     validityTime,
     dataToStore
   ) {
-    this.initialSetup(ethFundingPrivateKey);
     const didAccount = this.web3.eth.accounts.privateKeyToAccount(
       "0x" + didPrivateKey
     );
