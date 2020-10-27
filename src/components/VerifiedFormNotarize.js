@@ -71,6 +71,9 @@ class VerifiedFormNotarize extends Component {
           <Fragment>
             <section className="dropzone-container">
               {!pdfLink && this.renderFileUpload(getRootProps, getInputProps)}
+              {/* {pdfLink && <PdfPreview fileURL={pdfLink} />} */}
+              {/* <div>{pdfLink && <img src={pdfLink} />}</div>
+               */}
               {pdfLink &&
                 this.renderUploadedFile(getRootProps, getInputProps, pdfLink)}
             </section>
@@ -109,8 +112,10 @@ class VerifiedFormNotarize extends Component {
       <div {...getRootProps()} className="dropzone-form">
         <div className="upload">
           <div className="caption">
+            {" "}
             <img style={{ width: "300px" }} src={pdfLink}></img>
           </div>
+          {/* <UploadSvg /> */}
         </div>
       </div>
     );

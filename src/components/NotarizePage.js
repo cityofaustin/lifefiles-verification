@@ -29,8 +29,10 @@ if (
   DOMAIN = "http://localhost:5004";
 }
 
+// const S3_JWT_BUCKET_URL =
+//   "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aethr%3A";
 const S3_JWT_BUCKET_URL =
-  "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aethr%3A";
+  "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A";
 const API_GATEWAY_UPLOAD_REQUEST_URL =
   "https://h80bdb0zm6.execute-api.us-east-1.amazonaws.com/uploads";
 const GENERATE_EMAIL_TO_DID_URL = `${DOMAIN}/api/generate-email-did`;
@@ -202,7 +204,8 @@ class NotarizePage extends Component {
       custodianFullname,
       notaryFullname,
       county,
-      ethFundingPrivateKey
+      ethFundingPrivateKey,
+      network,
     } = { ...this.state };
 
     let vc = await NotaryUtil.createNotarizedDocument(
@@ -220,7 +223,8 @@ class NotarizePage extends Component {
       documentType,
       custodianFullname,
       notaryFullname,
-      county
+      county,
+      network
     );
 
     console.log({ vc });
@@ -235,6 +239,8 @@ class NotarizePage extends Component {
 
     if (this.state.network === "s3") {
       await this.uploadVCToS3(documentDidAddress);
+      // vcJwtLink = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
+      // https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A0xd54a349B70142879A0c6e0d54B7580BA81F4DB48.json
       vcJwtLink = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
     }
     if (
@@ -244,7 +250,10 @@ class NotarizePage extends Component {
       let didUrl;
       let resolverUrl;
       const vcJwt = this.state.vc.vc;
-      const vcUnpacked = await this.ethClient.verifyVC(ethFundingPrivateKey, vcJwt);
+      const vcUnpacked = await this.ethClient.verifyVC(
+        ethFundingPrivateKey,
+        vcJwt
+      );
       const documentDidAddress = vcUnpacked.payload.vc.id.split(":")[2];
       if (this.state.network === "testnet") {
         didUrl = "https://ropsten.etherscan.io/address/" + documentDidAddress;
@@ -277,6 +286,7 @@ class NotarizePage extends Component {
   };
 
   uploadVCToS3 = async (documentDid) => {
+    //https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A0xE3854B41Ae72Ef164279C457dAA65E82984C201b.json
     const res = await axios.get(API_GATEWAY_UPLOAD_REQUEST_URL, {
       headers: {
         did: documentDid,

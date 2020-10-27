@@ -4,6 +4,9 @@ import NodeRSA from "node-rsa";
 import DidJWTVC from "did-jwt-vc";
 import PDFUtil from "./PdfUtil";
 
+const selfResolveUrl =
+  "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A";
+
 const createVerifiableCredential = DidJWTVC.createVerifiableCredential;
 const createPresentation = DidJWTVC.createPresentation;
 
@@ -24,11 +27,18 @@ class NotaryUtil {
     documentType,
     ownerFullname,
     caseworkerFullname,
-    county
+    county,
+    network
   ) {
     try {
-      const documentDID = "did:ethr:" + documentDidAddress;
+      let documentDID = "did:ethr:" + documentDidAddress;
       const vpDocumentDid = "";
+
+      if (network === "s3") {
+        // https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A0xd54a349B70142879A0c6e0d54B7580BA81F4DB48.json
+        documentDID =
+          "did:web:" + selfResolveUrl + documentDidAddress + ".json";
+      }
 
       const now = Date.now();
       const issueTime = Math.floor(now / 1000);
