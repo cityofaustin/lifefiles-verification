@@ -244,7 +244,6 @@ class NotarizePage extends Component {
       let didUrl;
       let resolverUrl;
       const vcJwt = this.state.vc.vc;
-      debugger;
       const vcUnpacked = await this.ethClient.verifyVC(ethFundingPrivateKey, vcJwt);
       const documentDidAddress = vcUnpacked.payload.vc.id.split(":")[2];
       if (this.state.network === "testnet") {
