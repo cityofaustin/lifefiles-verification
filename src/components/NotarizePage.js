@@ -12,6 +12,7 @@ import { Button } from "reactstrap";
 import ip from "ip";
 import EthCrypto from "eth-crypto";
 import NotarizationComplete from "./NotarizePageComponents/NotarizationComplete";
+import EtheriumBlockChainService from "../services/blockchain/EthereumBlockchainService";
 
 let DOMAIN = "http://3.129.87.17:5004";
 
@@ -65,7 +66,13 @@ class NotarizePage extends Component {
     uniresolverLink: undefined,
     network: "s3",
     custodianMessage: "",
+    ethFundingPrivateKey: "",
   };
+
+  constructor(props) {
+    super(props);
+    this.ethClient = new EtheriumBlockChainService();
+  }
 
   async componentDidMount() {
     // TODO: Have fields for these:
@@ -195,6 +202,7 @@ class NotarizePage extends Component {
       custodianFullname,
       notaryFullname,
       county,
+      ethFundingPrivateKey
     } = { ...this.state };
 
     let vc = await NotaryUtil.createNotarizedDocument(
@@ -224,32 +232,48 @@ class NotarizePage extends Component {
 
     let uniresolverLink;
     let vcJwtLink;
-    let blockChainResult;
 
     if (this.state.network === "s3") {
       await this.uploadVCToS3(documentDidAddress);
       vcJwtLink = S3_JWT_BUCKET_URL + documentDidAddress + ".json";
-    } else if (this.state.network === "testnet") {
-      blockChainResult = await axios.post(STORE_JWT_TO_ETH_BLOCKCHAIN, {
-        vcJwt: this.state.vc.vc,
-        documentDidPrivateKey: docDidRes.data.didPrivateKey,
-        network: "eth-testnet",
-      });
-    } else if (this.state.network === "blockchain") {
-      blockChainResult = await axios.post(STORE_JWT_TO_ETH_BLOCKCHAIN, {
-        vcJwt: this.state.vc.vc,
-        documentDidPrivateKey: docDidRes.data.didPrivateKey,
-        network: "eth-mainnet",
-      });
     }
-
-    if (blockChainResult !== undefined) {
-      vcJwtLink = blockChainResult.data.didUrl;
-      uniresolverLink = blockChainResult.data.resolverUrl;
+    if (
+      this.state.network === "testnet" ||
+      this.state.network === "blockchain"
+    ) {
+      let didUrl;
+      let resolverUrl;
+      const vcJwt = this.state.vc.vc;
+      const vcUnpacked = await this.ethClient.verifyVC(ethFundingPrivateKey, vcJwt);
+      const documentDidAddress = vcUnpacked.payload.vc.id.split(":")[2];
+      if (this.state.network === "testnet") {
+        didUrl = "https://ropsten.etherscan.io/address/" + documentDidAddress;
+        resolverUrl =
+          "https://dev.uniresolver.io/1.0/identifiers/did%3Aethr%3Aropsten%3A" +
+          documentDidAddress;
+      }
+      if (this.state.network === "blockchain") {
+        didUrl = "https://etherscan.io/address/" + documentDidAddress;
+        resolverUrl =
+          "https://dev.uniresolver.io/1.0/identifiers/did%3Aethr%3A" +
+          documentDidAddress;
+      }
+      vcJwtLink = didUrl;
+      uniresolverLink = resolverUrl;
+      const expirationDate = new Date(vcUnpacked.payload.vc.expirationDate);
+      const now = new Date();
+      const validityTimeSeconds = Math.round((expirationDate - now) / 1000);
+      const documentDidPrivateKey = docDidRes.data.didPrivateKey;
+      // mainnet vs testnet are from the .env infura provider.
+      this.ethClient.storeDataOnEthereumBlockchain(
+        ethFundingPrivateKey,
+        documentDidAddress,
+        documentDidPrivateKey,
+        validityTimeSeconds,
+        vcJwt
+      );
     }
-
-    this.setState({ vcJwtLink });
-    this.setState({ uniresolverLink });
+    this.setState({ vcJwtLink, uniresolverLink });
   };
 
   uploadVCToS3 = async (documentDid) => {

@@ -122,6 +122,18 @@ class NotaryInformation extends Component {
           </Col>
         </Row>
         <Row>
+        <Col>
+            <Label className="notarize-headers">Funding Private ETH Key</Label>
+            <Input
+              type="text"
+              name="ethFundingPrivateKey"
+              value={this.props.ethFundingPrivateKey}
+              onChange={this.props.onInfoChanged}
+              placeholder="What is your private Ethereum key for funding"
+            />
+          </Col>
+        </Row>
+        <Row>
           <Col>
             <p className="text-center" style={{ color: "blue", fontSize: 10 }}>
               *Your PEM key is used to cryptographically sign and encrypt the
