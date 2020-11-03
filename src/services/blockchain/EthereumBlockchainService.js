@@ -7,29 +7,49 @@ import { getResolver } from "ethr-did-resolver";
 
 class EthereumBlockchainService {
   INFURA_URI = "https://mainnet.infura.io/v3/f89f8f95ce6c4199849037177b155d08";
-  ROPSTEN_URI = "https://mainnet.ropsten.io/v3/f89f8f95ce6c4199849037177b155d08";
+  ROPSTEN_URI = "https://ropsten.infura.io/v3/f89f8f95ce6c4199849037177b155d08";
   ETHER_GAS_STATION_API = "https://ethgasstation.info/api/ethgasAPI.json";
   CONTRACT_DEFAULT_GAS = 300000;
   FUND_ACCOUNT_GAS = 21000;
-  NAME_KEY = "0x6469642f7376632f76706a777400000000000000000000000000000000000000"; // did/svc/vpjwt
+  NAME_KEY =
+    "0x6469642f7376632f76706a777400000000000000000000000000000000000000"; // did/svc/vpjwt
   REFUND_GAS_PRICE = 1000000000;
 
   constructor(network, ethFundingPrivateKey) {
-    const web3Host = network === "blockchain" ? this.INFURA_URI : this.ROPSTEN_URI;
-    this.web3 = new Web3(new Web3.providers.HttpProvider(web3Host));
-    this.fundingAccount = this.web3.eth.accounts.privateKeyToAccount(ethFundingPrivateKey);
+    const infuraNetworkURI =
+      network === "blockchain" ? this.INFURA_URI : this.ROPSTEN_URI;
+
+    this.web3 = new Web3(new Web3.providers.HttpProvider(infuraNetworkURI));
+    this.fundingAccount = this.web3.eth.accounts.privateKeyToAccount(
+      ethFundingPrivateKey
+    );
     this.web3.eth.accounts.wallet.add(this.fundingAccount);
     this.didRegContract = new this.web3.eth.Contract(DidRegistryContract.abi);
+
     // mainnet or ropsten
-    this.didRegContract.options.address = "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b";
+    this.didRegContract.options.address =
+      "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b";
+
     // more providers - https://github.com/decentralized-identity/ethr-did-resolver/blob/develop/README.md
     const providerConfig = {
       name: "mainnet",
       registry: "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b",
-      rpcUrl: this.INFURA_URI,
+      rpcUrl: infuraNetworkURI,
     };
+
     this.resolver = new Resolver(getResolver(providerConfig));
     this.nonceOverhead = 0;
+  }
+
+  static async createNewDID() {
+    let web3 = new Web3();
+    const account = web3.eth.accounts.create();
+    const privKeyWithoutHeader = account.privateKey.substring(2);
+    let did = {
+      didAddress: account.address,
+      didPrivateKey: privKeyWithoutHeader,
+    };
+    return did;
   }
 
   async verifyVC(vcJwt) {
@@ -48,14 +68,11 @@ class EthereumBlockchainService {
     );
     const identity = didAddress;
     const value = this.web3.utils.asciiToHex(dataToStore);
-
     let gasStationPrice = await axios.get(this.ETHER_GAS_STATION_API);
-
     let payAmount = this.CONTRACT_DEFAULT_GAS;
 
     this.web3.eth.accounts.wallet.add(didAccount);
     this.web3.eth.transactionPollingTimeout = 3600;
-
     let nonce =
       (await this.web3.eth.getTransactionCount(this.fundingAccount.address)) +
       this.nonceOverhead;

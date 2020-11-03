@@ -19,6 +19,7 @@ class App extends Component {
   state = {
     documentDID: "",
     vpJwt: "",
+    vcJwt: "",
     ownerPublicKey: "",
     file: undefined,
     fileMD5: "",
@@ -42,6 +43,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    // let { did, jwt } = useParams();
     this.wakeUpProxyServer();
     if (window.location.href.indexOf("texas-notary-lookup") !== -1) {
       let notaryIdStartIndex = window.location.href.lastIndexOf("/");
@@ -51,6 +53,14 @@ class App extends Component {
       );
       this.notaryLookkup(notaryId);
     }
+
+    // TODO: Get did from params
+    // console.log(window.location.query.jwt);
+    // let params = new URL(document.location).did;
+    // if (params !== undefined && params.get("did") !== undefined) {
+    //   this.setState({ documentDID: params.get("did") });
+    //   console.log();
+    // }
   }
 
   // Since we are using a free heroku proxy server we need to "wake it up" on load
@@ -64,8 +74,6 @@ class App extends Component {
   };
 
   handleOnDrop = async (file) => {
-    // const fileMD5 = await HashingUtil.fileToMd5(file);
-    // this.setState({ fileMD5 });
     this.setState({ file });
   };
 
@@ -87,88 +95,116 @@ class App extends Component {
     } = { ...this.state };
     const { file } = { ...this.state };
     this.setState({ isLoading: true });
-    // console.log("started");
-    const { vpJwt, ownerPublicKey, timestamp } = {
+
+    const { vpJwt, vcJwt, ownerPublicKey, timestamp } = {
       ...(await DidResolverUtil.getInfoByDocumentDid(documentDID)),
     };
 
     //1
-    this.setState({
+    await this.setState({
       documentDID,
       vpJwt,
+      vcJwt,
       ownerPublicKey,
     });
 
+    console.log({ vpJwt });
+    console.log({ vcJwt });
+
+    if (vpJwt === undefined && vcJwt === undefined) {
+      console.error("JWT Not found!");
+      return;
+    }
+
     this.setState({ awsTimestamp: timestamp });
 
-    if (vpJwt.length > 0) {
-      let verifiedVP;
-      let verifiedVC;
-      try {
-        const resolver = DidResolverUtil.getResolver();
+    let verifiedVP;
+    let verifiedVC;
+    try {
+      const resolver = DidResolverUtil.getResolver();
+
+      if (vpJwt !== undefined && vpJwt.length > 0) {
         verifiedVP = await VerifiedCredentialUtil.getVerifiedPresentation(
           vpJwt,
           resolver
         );
+
         //1a
         this.setState({ verifiedVP });
-        let vcJWT = verifiedVP.payload.vp.verifiableCredential[0];
-        verifiedVC = await VerifiedCredentialUtil.getVerifiedCredential(
-          vcJWT,
-          resolver
-        );
-        // TODO: compare vp.payload.iss to vc.payload.vc.credentialSubject.id subjectDID for step 12?
-        //1b
-        this.setState({ verifiedVC });
-      } catch (e) {
-        console.error(e.message);
-        this.setState({ error: e.message, isLoading: false });
-        return;
       }
-      //2
-      const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
-      const signedMd5 =
-        verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
-          .signedDocumentHash;
 
-      const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
+      let vcJWTFromVp;
 
-      this.setState({
-        notaryX509PublicKey,
-        signedMd5,
-        jwtMD5,
-      });
-      //3
-      const base64 = await StringUtil.fileContentsToString(file);
-      this.setState({ base64: base64 });
-      //4
-      const fileMD5 = await HashingUtil.fileToMd5(file);
-      this.setState({ fileMD5 });
-      //6
-      signerDID = verifiedVC.payload.vc.issuer.id;
-      signerName = await Web3ContractUtil.getTextRecordByDID(signerDID);
-      //7
-      signerId = verifiedVC.payload.vc.issuer.notaryId;
-
-      //8
-      notaryInfo = await NotarySearchUtil.findNotary(signerId);
-
-      // extracting key information from vc
-      const dateFormat = "yyyy-MM-dd H:mm:ss";
-      iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString(); // (Issued At) Claim
-      nbfDate = new Date(verifiedVC.payload.nbf * 1000).toUTCString(); // (Not Before) Claim
-      expirationDate = new Date(
-        verifiedVC.payload.vc.expirationDate
-      ).toUTCString();
-      const issuanceDt = new Date(verifiedVC.payload.vc.issuanceDate);
-      issuanceDate = format(
-        addMinutes(issuanceDt, issuanceDt.getTimezoneOffset()),
-        dateFormat
+      if (vcJwt !== undefined && vcJwt.length > 0) {
+        vcJWTFromVp = vcJwt;
+      } else {
+        vcJWTFromVp = verifiedVP.payload.vp.verifiableCredential[0];
+      }
+      verifiedVC = await VerifiedCredentialUtil.getVerifiedCredential(
+        vcJWTFromVp,
+        resolver
       );
-      issuanceDateIso = issuanceDt.toUTCString();
+      // TODO: compare vp.payload.iss to vc.payload.vc.credentialSubject.id subjectDID for step 12?
+      //1b
+      console.log({ verifiedVC });
+      this.setState({ verifiedVC });
+    } catch (e) {
+      console.error(e.message);
+      this.setState({ error: e.message, isLoading: false });
+      return;
+    }
 
-      let didTransactionDt;
+    //2
+    const notaryX509PublicKey = verifiedVC.payload.vc.issuer.notaryPublicKey;
+    const signedMd5 =
+      verifiedVC.payload.vc.credentialSubject.TexasDigitalNotary
+        .signedDocumentHash;
 
+    console.log({ notaryX509PublicKey });
+    console.log({ signedMd5 });
+    const jwtMD5 = EncryptionUtil.decryptX509(notaryX509PublicKey, signedMd5);
+
+    this.setState({
+      notaryX509PublicKey,
+      signedMd5,
+      jwtMD5,
+    });
+
+    //3
+    const base64 = await StringUtil.fileContentsToString(file);
+    this.setState({ base64: base64 });
+
+    //4
+    const fileMD5 = await HashingUtil.fileToMd5(file);
+    this.setState({ fileMD5 });
+
+    //6
+    signerDID = verifiedVC.payload.vc.issuer.id;
+    signerName = await Web3ContractUtil.getTextRecordByDID(signerDID);
+
+    //7
+    signerId = verifiedVC.payload.vc.issuer.notaryId;
+
+    //8
+    notaryInfo = await NotarySearchUtil.findNotary(signerId);
+
+    // extracting key information from vc
+    const dateFormat = "yyyy-MM-dd H:mm:ss";
+    iatDate = new Date(verifiedVC.payload.iat * 1000).toUTCString(); // (Issued At) Claim
+    nbfDate = new Date(verifiedVC.payload.nbf * 1000).toUTCString(); // (Not Before) Claim
+    expirationDate = new Date(
+      verifiedVC.payload.vc.expirationDate
+    ).toUTCString();
+    const issuanceDt = new Date(verifiedVC.payload.vc.issuanceDate);
+    issuanceDate = format(
+      addMinutes(issuanceDt, issuanceDt.getTimezoneOffset()),
+      dateFormat
+    );
+    issuanceDateIso = issuanceDt.toUTCString();
+
+    let didTransactionDt;
+
+    try {
       if (this.state.awsTimestamp > -1) {
         didTransactionDt = new Date(this.state.awsTimestamp * 1000);
       } else {
@@ -177,16 +213,27 @@ class App extends Component {
             1000
         );
       }
-
-      didTransactionDate = didTransactionDt.toUTCString();
-      didTransactionTimestamp = format(
-        addMinutes(didTransactionDt, didTransactionDt.getTimezoneOffset()),
-        dateFormat
+    } catch (err) {
+      console.error(
+        "invalid date, continuing with ropsten testnet transaction"
       );
-      // signerDID = verifiedVC.signer.owner; can also get it from here
-      subjectDID = verifiedVC.payload.vc.credentialSubject.id;
-      subjectName = await Web3ContractUtil.getTextRecordByDID(subjectDID);
     }
+
+    if (didTransactionDt.toString() == "Invalid Date") {
+      didTransactionDt = new Date();
+      console.error(
+        "invalid date, continuing because this is with ropsten testnet transaction"
+      );
+    }
+
+    didTransactionDate = didTransactionDt.toUTCString();
+    didTransactionTimestamp = format(
+      addMinutes(didTransactionDt, didTransactionDt.getTimezoneOffset()),
+      dateFormat
+    );
+    // signerDID = verifiedVC.signer.owner; can also get it from here
+    subjectDID = verifiedVC.payload.vc.credentialSubject.id;
+    subjectName = await Web3ContractUtil.getTextRecordByDID(subjectDID);
 
     this.setState({
       iatDate,

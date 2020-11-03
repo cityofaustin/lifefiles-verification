@@ -46,19 +46,7 @@ class NotarizationComplete extends Component {
           />
         </h4>
 
-        <div style={{ width: 960 }}>
-          {/* <Accordion
-            id="checkDoc"
-            title="Document"
-            icon={<DocumentSvg />}
-            isExpanded={documentAccordionExpanded}
-            setExpanded={(isExpanded) =>
-              this.setState({ documentAccordionExpanded: isExpanded })
-            }
-          >
-            <Fragment>{this.renderFileUploadContainer()}</Fragment>
-          </Accordion> */}
-        </div>
+        <div style={{ width: 960 }}></div>
       </div>
     );
   };
@@ -68,6 +56,17 @@ class NotarizationComplete extends Component {
   };
 
   render() {
+    let documentDid;
+
+    console.log(this.props.vcJwtLink);
+
+    if (
+      this.props.vcJwtLink !== undefined &&
+      this.props.vcJwtLink.includes("did%3Aweb") == true
+    ) {
+      documentDid = "did:web:" + this.props.vcJwtLink;
+    }
+
     return (
       <div>
         <div id="top" className="form-section">
@@ -93,6 +92,7 @@ class NotarizationComplete extends Component {
             A verifiable credential recording of the notarization has been
             registered to the ledger at the following address:
           </p>
+          <p>{documentDid}</p>
           <a href={this.props.vcJwtLink}> Link to VC on Selected Ledger </a>
 
           <div style={{ width: 960 }}></div>
@@ -147,7 +147,7 @@ class NotarizationComplete extends Component {
           </Row>
           <Row>
             <Col style={{ textAlign: "center" }}>
-              <a href="/notarize">
+              <a href="/verify">
                 Click here to verify the validity of this notarized document
               </a>
             </Col>

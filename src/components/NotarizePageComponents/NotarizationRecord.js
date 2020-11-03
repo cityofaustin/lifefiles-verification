@@ -15,7 +15,7 @@ import "./NotarizePageComponents.scss";
 
 class NotarizationRecord extends Component {
   state = {
-    documentTitle: "",
+    network: "s3",
   };
 
   componentDidMount() {}
@@ -26,6 +26,8 @@ class NotarizationRecord extends Component {
 
   handleNetworkChange = (e) => {
     console.log(e.target);
+    this.setState({ network: e.target.id });
+    this.props.onNetworkChanged(e);
   };
 
   renderDocumentTitle = () => {
@@ -52,7 +54,7 @@ class NotarizationRecord extends Component {
               <FormGroup check>
                 <Label check>
                   <Input
-                    onClick={this.props.onNetworkChanged}
+                    onClick={this.handleNetworkChange}
                     defaultChecked
                     id="s3"
                     type="radio"
@@ -65,7 +67,7 @@ class NotarizationRecord extends Component {
               <FormGroup check>
                 <Label check>
                   <Input
-                    onClick={this.props.onNetworkChanged}
+                    onClick={this.handleNetworkChange}
                     id="testnet"
                     type="radio"
                     name="radio1"
@@ -76,7 +78,7 @@ class NotarizationRecord extends Component {
               <FormGroup check>
                 <Label check>
                   <Input
-                    onClick={this.props.onNetworkChanged}
+                    onClick={this.handleNetworkChange}
                     id="blockchain"
                     type="radio"
                     name="radio1"
@@ -85,6 +87,15 @@ class NotarizationRecord extends Component {
                 </Label>
               </FormGroup>
             </FormGroup>
+            {this.state.network !== "s3" && (
+              <Input
+                onChange={this.props.onInfoChanged}
+                id="ethFundingPrivateKey"
+                type="text"
+                name="ethFundingPrivateKey"
+                placeholder="Funding Ethereum Private Key"
+              />
+            )}
           </Col>
         </Row>
       </Container>

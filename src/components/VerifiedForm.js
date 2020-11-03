@@ -1,11 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Dropzone from "react-dropzone";
-import {
-  Button,
-  FormGroup,
-  Input,
-  Label,
-} from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 import { ReactComponent as UploadSvg } from "../img/upload-drop.svg";
 import { ReactComponent as DocumentSvg } from "../img/document.svg";
 import PdfPreview from "./PdfPreview";
@@ -33,7 +28,7 @@ class VerifiedForm extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.isLoading !== this.props.isLoading && this.props.isLoading) {
       // this.setLoadingAnimations();
-      this.setState({documentAccordionExpanded: false});
+      this.setState({ documentAccordionExpanded: false });
     }
   }
 
@@ -71,10 +66,10 @@ class VerifiedForm extends Component {
       <Dropzone onDrop={this.handleOnDrop}>
         {({ getRootProps, getInputProps }) => (
           <Fragment>
-          <section className="dropzone-container">
-            {!pdfLink && this.renderFileUpload(getRootProps, getInputProps)}
-            {pdfLink && <PdfPreview fileURL={pdfLink} />}
-          </section>
+            <section className="dropzone-container">
+              {!pdfLink && this.renderFileUpload(getRootProps, getInputProps)}
+              {pdfLink && <PdfPreview fileURL={pdfLink} />}
+            </section>
           </Fragment>
         )}
       </Dropzone>
@@ -135,19 +130,21 @@ class VerifiedForm extends Component {
           </div>
         </FormGroup>
         <Accordion
-        id="checkDoc"
-        title="Document"
-        icon={<DocumentSvg />}
-        isExpanded={documentAccordionExpanded}
-        setExpanded={(isExpanded) => this.setState({documentAccordionExpanded: isExpanded})}
+          id="checkDoc"
+          title="Document"
+          icon={<DocumentSvg />}
+          isExpanded={documentAccordionExpanded}
+          setExpanded={(isExpanded) =>
+            this.setState({ documentAccordionExpanded: isExpanded })
+          }
         >
-        <Fragment>
+          <Fragment>
             {this.renderFileUploadContainer()}
             <div className="submit-section">
               <Button
                 className="margin-wide"
                 color="primary"
-                disabled={(!pdfLink || did.length <= 0)}
+                disabled={!pdfLink || did.length <= 0}
                 onClick={() => handleFileSubmit(did)}
               >
                 Submit

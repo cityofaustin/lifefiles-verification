@@ -12,7 +12,8 @@ import { Button } from "reactstrap";
 import ip from "ip";
 import EthCrypto from "eth-crypto";
 import NotarizationComplete from "./NotarizePageComponents/NotarizationComplete";
-import EtheriumBlockChainService from "../services/blockchain/EthereumBlockchainService";
+import EthereumBlockchainService from "../services/blockchain/EthereumBlockchainService";
+import NodeRSA from "node-rsa";
 
 let DOMAIN = "http://3.129.87.17:5004";
 
@@ -98,14 +99,26 @@ class NotarizePage extends Component {
         "061fe9cc7053ecd3fdf4747d53ea904c18faef2e35b78a774da94172e8c29f9e",
     });
 
+    // this.setState({
+    //   notaryPemPublicKey:
+    //     "-----BEGIN PUBLIC KEY-----\n" +
+    //     "MIGJAoGBAJxgZCDrhIhZPOgGKt3LaAA1/hVwlsPotX5csgDPFxifKpR75ta2Ye1V\n" +
+    //     "/yYcrL8YXi5G4RoGvT0S3nnIg5aBbNQXXGiFYS+mXaQAgGCpagvEaZAKi7ZHF1OY\n" +
+    //     "AlK/AZ9WZhsd8uq9eh1lj3/izecOPOV3teTQfsFFOnrJqh+FijfPAgMBAAE=\n" +
+    //     "-----END PUBLIC KEY-----",
+    // });
+
+    let tstzero =
+      "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAJxgZCDrhIhZPOgGKt3LaAA1/hVwlsPotX5csgDPFxifKpR75ta2Ye1V\n/yYcrL8YXi5G4RoGvT0S3nnIg5aBbNQXXGiFYS+mXaQAgGCpagvEaZAKi7ZHF1OY\nAlK/AZ9WZhsd8uq9eh1lj3/izecOPOV3teTQfsFFOnrJqh+FijfPAgMBAAE=\n-----END RSA PUBLIC KEY-----";
+
+    // let tster =
+    //   "-----BEGIN RSA PUBLIC KEY-----MIGJAoGBAJxgZCDrhIhZPOgGKt3LaAA1/hVwlsPotX5csgDPFxifKpR75ta2Ye1V/yYcrL8YXi5G4RoGvT0S3nnIg5aBbNQXXGiFYS+mXaQAgGCpagvEaZAKi7ZHF1OYAlK/AZ9WZhsd8uq9eh1lj3/izecOPOV3teTQfsFFOnrJqh+FijfPAgMBAAE=-----END RSA PUBLIC KEY-----";
+
+    // const pubKey = new NodeRSA();
+    // pubKey.importKey(tstzero, "pkcs1-public-pem");
+
     this.setState({
-      notaryPemPublicKey:
-        "-----BEGIN PUBLIC KEY-----\n" +
-        "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCcYGQg64SIWTzoBirdy2gANf4V\n" +
-        "cJbD6LV+XLIAzxcYnyqUe+bWtmHtVf8mHKy/GF4uRuEaBr09Et55yIOWgWzUF1xo\n" +
-        "hWEvpl2kAIBgqWoLxGmQCou2RxdTmAJSvwGfVmYbHfLqvXodZY9/4s3nDjzld7Xk\n" +
-        "0H7BRTp6yaofhYo3zwIDAQAB\n" +
-        "-----END PUBLIC KEY-----",
+      notaryPemPublicKey: tstzero,
     });
 
     this.setState({
@@ -137,8 +150,16 @@ class NotarizePage extends Component {
     this.setState({ notaryFullname: "Notary Notary" });
 
     // Document Did Priavate Key - 85b33218262e2a46129c8e451231171b13c91bf93f2219425c21e501ea491b58
+    // this.setState({
+    //   documentDidAddress: "0xeb885e57d3b38d3954fd1653e861584eb0eb2078",
+    // });
+
+    let newDid = await EthereumBlockchainService.createNewDID();
+
+    console.log({ newDid });
+
     this.setState({
-      documentDidAddress: "0xeb885e57d3b38d3954fd1653e861584eb0eb2078",
+      documentDidAddress: newDid.didAddress,
     });
 
     this.setState({ custodianEmail: "custodian@custodian.com" });
@@ -200,7 +221,6 @@ class NotarizePage extends Component {
       notaryFullname,
       county,
       ethFundingPrivateKey,
-
       network,
     } = { ...this.state };
 
@@ -244,7 +264,7 @@ class NotarizePage extends Component {
       let resolverUrl;
       const vcJwt = this.state.vc.vc;
 
-      const ethClient = new EtheriumBlockChainService(
+      const ethClient = new EthereumBlockchainService(
         network,
         ethFundingPrivateKey
       );
@@ -336,6 +356,9 @@ class NotarizePage extends Component {
           reader.onerror = reject;
           reader.readAsText(file);
         });
+
+        console.log("PUBLIC!");
+        console.log(pubPrivPem.publicPem);
         this.setState({ notaryPemPublicKey: pubPrivPem.publicPem });
         this.setState({ notaryPemPrivateKey: pubPrivPem.privatePem });
       }
@@ -486,6 +509,7 @@ class NotarizePage extends Component {
           vcJwtLink={this.state.vcJwtLink}
           savePdf={() => this.state.vc.doc.save()}
           base64Pdf={this.state.base64Pdf}
+          did={this.state}
         />
       );
     }

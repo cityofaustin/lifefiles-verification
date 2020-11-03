@@ -14,7 +14,8 @@ ReactDOM.render(
         <Route path="/notarize">
           <NotarizePage />
         </Route>
-        <Route path="/verify">
+
+        <Route path="/verify/">
           <App />
         </Route>
         <Route path="/">
