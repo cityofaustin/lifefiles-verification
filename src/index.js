@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
@@ -9,7 +9,7 @@ import ChooseToolPage from "./components/ChooseToolPage";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router hashType="slash">
       <Switch>
         <Route path="/notarize">
           <NotarizePage />

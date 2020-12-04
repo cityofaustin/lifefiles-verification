@@ -15,6 +15,8 @@ import {
   CardText,
   Col,
 } from "reactstrap";
+import { Link } from "react-router-dom";
+
 class ChooseToolPage extends Component {
   state = {};
 
@@ -37,11 +39,11 @@ class ChooseToolPage extends Component {
           <h3 style={{ fontFamily: "Segoe UI" }}>What would you like to do?</h3>
         </div>
 
-        <div style={{ textAlign: "center", paddingTop: "100px" }}>
+        <div className="choose-tool" style={{ textAlign: "center", paddingTop: "100px" }}>
           <Container>
             <Row>
               <Col>
-                <a href="notarize">
+                <Link to="notarize">
                   <Card style={{ backgroundColor: "#327495" }} body inverse>
                     <CardTitle>
                       <img
@@ -53,7 +55,7 @@ class ChooseToolPage extends Component {
                       />
                     </CardTitle>
                     <CardText>
-                      <p
+                      <span
                         style={{
                           fontFamily: "Montserrat",
                           fontSize: 24,
@@ -61,13 +63,13 @@ class ChooseToolPage extends Component {
                         }}
                       >
                         Digitally notarize a document
-                      </p>
+                      </span>
                     </CardText>
                   </Card>
-                </a>
+                </Link>
               </Col>
               <Col>
-                <a href="verify">
+                <Link to="verify">
                   <Card body inverse color="success">
                     <CardTitle>
                       <img
@@ -79,18 +81,19 @@ class ChooseToolPage extends Component {
                       />
                     </CardTitle>
                     <CardText>
-                      <p
+                      <span
                         style={{
                           fontFamily: "Montserrat",
                           fontSize: 24,
                           fontWeight: "bold",
+                          textDecoration: "none"
                         }}
                       >
                         Verify a digitally notarized document
-                      </p>
+                      </span>
                     </CardText>
                   </Card>
-                </a>
+                </Link>
               </Col>
             </Row>
           </Container>

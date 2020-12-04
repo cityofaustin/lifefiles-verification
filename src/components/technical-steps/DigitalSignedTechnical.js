@@ -53,7 +53,7 @@ class DigitalSignedTechnical extends Component {
               JWT Payload:
               <br />
               <a href={`https://jwt.io?access_token=${this.props.vpJwt}`}>
-                {this.props.vpJwt.substring(0, 40)}...
+                {this.props.vpJwt && this.props.vpJwt.substring(0, 40)}...
               </a>
             </div>
           </div>
@@ -79,7 +79,7 @@ class DigitalSignedTechnical extends Component {
               JWT Payload:
               <br />
               <a href={`https://jwt.io?access_token=${this.props.vpJwt}`}>
-                {this.props.vpJwt.substring(0, 40)}...
+                {this.props.vpJwt && this.props.vpJwt.substring(0, 40)}...
               </a>
             </div>
           </div>
