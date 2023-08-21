@@ -1,7 +1,7 @@
-# mypass-verification
-This is a standalone site that performs the notarty verification of a document notarized by Mypass
+# lifefiles-verification
+This is a standalone site that performs the notarty verification of a document notarized by Lifefiles
 
-[Live Site Demo](http://texas-digital-notary.s3-website.us-east-2.amazonaws.com/) - *this is hosted just for demonstration purposes, and will be taken down at the conclusion of the MyPass project.*
+[Live Site Demo](http://texas-digital-notary.s3-website.us-east-2.amazonaws.com/) - *this is hosted just for demonstration purposes, and will be taken down at the conclusion of the Lifefiles project.*
 
 ## Getting started
 
@@ -17,7 +17,7 @@ In the browser open http://localhost:3000
 
 ## Project Background
 
-The MyPass project at the City of Austin explored the enforceability and usefulness of scanned copies of important documents.  One of the options available to people in Texas is to employ a notary public to create a certified copy of the document in digital form.  Although state statutes are quite clear on the requirements to make a digital notarization our team was unable to find any existing tools to create digitally notarized certified copies.  So in the spirit of problem-solving for the common good, we created three things to enable the digital notarization ecosystem in Texas.  
+The Lifefiles project at the City of Austin explored the enforceability and usefulness of scanned copies of important documents.  One of the options available to people in Texas is to employ a notary public to create a certified copy of the document in digital form.  Although state statutes are quite clear on the requirements to make a digital notarization our team was unable to find any existing tools to create digitally notarized certified copies.  So in the spirit of problem-solving for the common good, we created three things to enable the digital notarization ecosystem in Texas.  
 
 ### 1. A Data Standard
 
@@ -43,13 +43,13 @@ fulfill all the requirements of the texas statues for digital notarizations
 
 ### 2. Notarization Tools
 
-We created the tools to allow any registered notary in the state of texas to package a digital notarization using our templates and sign it according to Verifiable Credential spec.  These tools are embedded in the upload and notarize interface of the [MyPass web application](https://github.com/cityofaustin/mypass).  
+We created the tools to allow any registered notary in the state of texas to package a digital notarization using our templates and sign it according to Verifiable Credential spec.  These tools are embedded in the upload and notarize interface of the [Lifefiles web application](https://github.com/cityofaustin/lifefiles-project).  
 
 <img src="/docs/Notarize.png" align="middle" width="800" >
 
 Our tool currently utilizes the Etherium distributed public ledger to record a notarization's issuance and to support privacy through decentralized public key infrastructure.  However, our use of Etherium services is not a hard requirement of the tool or the data standard.  By using a DID based data standard any connection to the Etherium ecosystem can be replaced with a standard web URL, and records can be stored on a standard server.  Our team does not plan to implement these tools as stand-alone web services but we encourage others to fork our repo and extract these tools for themselves.
 
-More information and documentation can be found here - https://github.com/cityofaustin/mypass-verification/tree/main/src/components/NotarizePageComponents
+More information and documentation can be found here - https://github.com/cityofaustin/lifefiles-verification/tree/main/src/components/NotarizePageComponents
 
 ### 3. Decentralized Verification
 
