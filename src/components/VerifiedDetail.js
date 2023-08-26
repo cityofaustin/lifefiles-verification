@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import ReactJson from "react-json-view";
+// import ReactJson from "react-json-view";
 import { ReactComponent as CheckboxAnimated } from "../img/checkbox-animated.svg";
 import VerifiedCredentialUtil from "../util/VerifiedCredentialUtil";
 import * as PropTypes from "prop-types";
@@ -368,7 +368,6 @@ class VerifiedDetail extends Component {
                     subjectDID={subjectDID}
                     subjectName={subjectName}
                     verifiedVP={verifiedVP}
-                    subjectDID={subjectDID}
                     isSuccess={handleSuccessFail("owner-signed")}
                   />
                 </Tab>

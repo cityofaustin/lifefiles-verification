@@ -63,9 +63,10 @@ class App extends Component {
     // }
   }
 
+  // NOTE: this isn't there anymore
   // Since we are using a free heroku proxy server we need to "wake it up" on load
   wakeUpProxyServer = async () => {
-    fetch("https://cors-elsewhere.herokuapp.com/");
+    //   fetch("https://cors-elsewhere.herokuapp.com/");
   };
 
   notaryLookkup = async (notaryId) => {
@@ -219,7 +220,7 @@ class App extends Component {
       );
     }
 
-    if (didTransactionDt.toString() == "Invalid Date") {
+    if (didTransactionDt.toString() === "Invalid Date") {
       didTransactionDt = new Date();
       console.error(
         "invalid date, continuing because this is with ropsten testnet transaction"
@@ -397,7 +398,6 @@ class App extends Component {
             expirationDate={expirationDate}
             iatDate={iatDate}
             nbfDate={nbfDate}
-            jwtMD5={jwtMD5}
             subjectDID={subjectDID}
             subjectName={subjectName}
             decodedJwt={decodedJwt}

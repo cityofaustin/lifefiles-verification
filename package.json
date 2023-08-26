@@ -1,37 +1,40 @@
 {
   "name": "document-verification",
   "version": "0.1.0",
-  "private": true,
+  "engines": {
+    "node": ">=v18.12.1"
+  },
   "dependencies": {
-    "axios": "^0.19.2",
-    "bootstrap": "^4.4.1",
-    "crypto-js": "^4.0.0",
-    "date-fns": "^2.16.1",
-    "did-jwt-vc": "^0.1.6",
-    "did-resolver": "^1.1.0",
-    "eth-crypto": "^1.8.0",
-    "ethr-did": "^1.1.0",
-    "ethr-did-resolver": "^2.2.0",
-    "ip": "^1.1.5",
-    "jspdf": "^2.1.1",
-    "lottie-web": "^5.6.10",
+    "axios": "^1.5.0",
+    "bootstrap": "^5.3.1",
+    "buffer": "^6.0.3",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.30.0",
+    "did-jwt-vc": "^3.2.5",
+    "did-resolver": "^4.1.0",
+    "eth-crypto": "^2.6.0",
+    "ethr-did": "^2.3.18",
+    "ethr-did-registry": "0.0.3",
+    "ethr-did-resolver": "^8.1.2",
+    "ip": "^1.1.8",
+    "jspdf": "^2.5.1",
+    "lottie-web": "^5.12.2",
     "md5": "^2.3.0",
     "node-rsa": "^1.1.1",
-    "node-sass": "^4.14.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-dropzone": "^10.2.1",
+    "node-sass": "^9.0.0",
+    "react": "^18.2.0",
+    "react-ace": "^10.1.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-file-base64": "^1.0.3",
-    "react-json-view": "^1.19.1",
-    "react-pdf": "^4.1.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "reactstrap": "^8.4.1",
-    "web3": "^1.2.7"
+    "react-pdf": "^7.3.3",
+    "react-router-dom": "^6.15.0",
+    "reactstrap": "^9.2.0",
+    "web3": "^4.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -49,5 +52,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "assert": "^2.0.0",
+    "constants-browserify": "^1.0.0",
+    "crypto-browserify": "^3.12.0",
+    "react-app-rewired": "^2.2.1",
+    "react-scripts": "5.0.1",
+    "stream-browserify": "^3.0.0"
   }
 }

@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import NotaryUtil from "../util/NotaryUtil";
-import PdfPreview from "./PdfPreview";
 import VerifiedFormNotarize from "./VerifiedFormNotarize";
 import DocumentInformation from "./NotarizePageComponents/DocumentInformation";
 import NotaryInformation from "./NotarizePageComponents/NotaryInformation";
@@ -9,11 +8,9 @@ import NotarySignature from "./NotarizePageComponents/NotarySignature";
 import NotarizationRecord from "./NotarizePageComponents/NotarizationRecord";
 import axios from "axios";
 import { Button } from "reactstrap";
-import ip from "ip";
 import EthCrypto from "eth-crypto";
 import NotarizationComplete from "./NotarizePageComponents/NotarizationComplete";
 import EthereumBlockchainService from "../services/blockchain/EthereumBlockchainService";
-import NodeRSA from "node-rsa";
 
 let DOMAIN = "http://3.129.87.17:5004";
 
@@ -39,7 +36,7 @@ const API_GATEWAY_UPLOAD_REQUEST_URL =
 const GENERATE_EMAIL_TO_DID_URL = `${DOMAIN}/api/generate-email-did`;
 const GET_TXT_RECORD_URL = `${DOMAIN}/api/get-txt-record/`;
 const GENERATE_DOCUMENT_DID_URL = `${DOMAIN}/api/generate-document-did`;
-const STORE_JWT_TO_ETH_BLOCKCHAIN = `${DOMAIN}/api/store-jwt`;
+// const STORE_JWT_TO_ETH_BLOCKCHAIN = `${DOMAIN}/api/store-jwt`;
 
 // api gateway for this - "https://7b19eg6lz6.execute-api.us-east-2.amazonaws.com/prod"
 
@@ -191,7 +188,7 @@ class NotarizePage extends Component {
     let custodianDid;
     let emailTxtRecord = await axios.get(GET_TXT_RECORD_URL + custodianEmail);
 
-    if (emailTxtRecord.data == undefined || emailTxtRecord.data == "") {
+    if (emailTxtRecord.data === undefined || emailTxtRecord.data === "") {
       const genDid = await this.generateEmailToDid(custodianEmail, true);
       custodianDid = genDid.didAddress;
     } else {
@@ -310,14 +307,14 @@ class NotarizePage extends Component {
 
     let now = Math.round(Date.now() / 1000);
     let vcToUpload = { vcJwt: this.state.vc.vc, timestamp: now };
-    let uploadRes = await axios.put(res.data.uploadURL, vcToUpload, {
+    await axios.put(res.data.uploadURL, vcToUpload, {
       headers: { "Content-Type": "application/json" },
     });
   };
 
   // TODO: Fix file handling
   handleOnDrop = async (file) => {
-    let b64 = await this.getAndSetBase64(file, this);
+    await this.getAndSetBase64(file, this);
   };
 
   getAndSetBase64 = (file, that) => {
@@ -378,7 +375,7 @@ class NotarizePage extends Component {
 
     this.setState({ [key]: value });
 
-    if (key == "notaryEthPrivateKey") {
+    if (key === "notaryEthPrivateKey") {
       try {
         const publicKey = EthCrypto.publicKeyByPrivateKey(value);
         const address = EthCrypto.publicKey.toAddress(publicKey);
@@ -389,12 +386,12 @@ class NotarizePage extends Component {
       }
     }
 
-    if (key == "custodianEmail") {
+    if (key === "custodianEmail") {
       if (this.isEmail(value)) {
         let emailTxtRecord = await axios.get(GET_TXT_RECORD_URL + value);
 
         let message;
-        if (emailTxtRecord.data == undefined || emailTxtRecord.data == "") {
+        if (emailTxtRecord.data === undefined || emailTxtRecord.data === "") {
           message =
             "Email not found on ENS, A new DID will be created and email sent to retrieve private key";
         } else {
@@ -411,6 +408,7 @@ class NotarizePage extends Component {
   };
 
   isEmail = (email) => {
+    // eslint-disable-next-line no-useless-escape
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   };
@@ -420,12 +418,12 @@ class NotarizePage extends Component {
       notaryType,
       expirationDate,
       notaryId,
-      documentDidAddress,
+      // documentDidAddress,
       notaryEthAddress,
       notaryEthPrivateKey,
       notaryPemPublicKey,
       notaryPemPrivateKey,
-      custodianEthAddress,
+      // custodianEthAddress,
       custodianEmail,
       imageBase64,
       notaryDigitalSealBase64,

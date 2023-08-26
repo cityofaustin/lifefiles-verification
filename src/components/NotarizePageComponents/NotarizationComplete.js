@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
-import { ReactComponent as DocumentSvg } from "../../img/notarize-doc-info.svg";
-import Accordion from "../common/Accordion";
+import React, { Component } from "react";
+// import { ReactComponent as DocumentSvg } from "../../img/notarize-doc-info.svg";
+// import Accordion from "../common/Accordion";
 import {
   Button,
-  FormGroup,
-  Input,
-  Label,
+  // FormGroup,
+  // Input,
+  // Label,
   Container,
   Row,
   Col,

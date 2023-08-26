@@ -3,7 +3,12 @@ import "./DigitalSignedTechnical.scss";
 import { ReactComponent as InputSvg } from "../../img/input.svg";
 import { ReactComponent as OutputSvg } from "../../img/output.svg";
 import { ReactComponent as Output2Svg } from "../../img/output2.svg";
-import ReactJson from "react-json-view";
+import AceEditor from "react-ace";
+// import ReactJson from "react-json-view";
+
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 class DigitalSignedTechnical extends Component {
   render() {
@@ -44,7 +49,8 @@ class DigitalSignedTechnical extends Component {
             <div className="section-desc">
               Public Keys:
               <br />
-              <a style={{wordBreak: "break-all"}}
+              <a
+                style={{ wordBreak: "break-all" }}
                 href={`https://uniresolver.io/1.0/identifiers/${this.props.ownerPublicKey}`}
               >
                 {this.props.ownerPublicKey}
@@ -92,14 +98,24 @@ class DigitalSignedTechnical extends Component {
             <div className="section-title">output</div>
             <div className="section-desc">
               {this.props.verifiedVP && (
-                <ReactJson
-                  src={this.props.verifiedVP.payload}
-                  theme="rjv-default"
-                  indentWidth={2}
-                  collapseStringsAfterLength={28}
-                  displayObjectSize={false}
-                  displayDataTypes={false}
-                />
+                <>
+                  {/* <ReactJson
+                    src={this.props.verifiedVP.payload}
+                    theme="rjv-default"
+                    indentWidth={2}
+                    collapseStringsAfterLength={28}
+                    displayObjectSize={false}
+                    displayDataTypes={false}
+                  /> */}
+                  <AceEditor
+                    value={this.props.verifiedVP.payload}
+                    mode="json"
+                    theme="github"
+                    name="vp_payload"
+                    editorProps={{ $blockScrolling: true }}
+                    setOptions={{}}
+                  />
+                </>
               )}
             </div>
           </div>
@@ -146,14 +162,24 @@ class DigitalSignedTechnical extends Component {
             <div className="section-title">output</div>
             <div className="section-desc">
               {this.props.verifiedVC && this.props.verifiedVC.payload && (
-                <ReactJson
-                  src={this.props.verifiedVC.payload}
-                  theme="rjv-default"
-                  indentWidth={2}
-                  collapseStringsAfterLength={28}
-                  displayObjectSize={false}
-                  displayDataTypes={false}
-                />
+                <>
+                  {/* <ReactJson
+                    src={this.props.verifiedVC.payload}
+                    theme="rjv-default"
+                    indentWidth={2}
+                    collapseStringsAfterLength={28}
+                    displayObjectSize={false}
+                    displayDataTypes={false}
+                  /> */}
+                  <AceEditor
+                    value={this.props.verifiedVC.payload}
+                    mode="json"
+                    theme="github"
+                    name="vc_payload"
+                    editorProps={{ $blockScrolling: true }}
+                    setOptions={{}}
+                  />
+                </>
               )}
             </div>
           </div>
@@ -174,8 +200,7 @@ class DigitalSignedTechnical extends Component {
             <div className="section-desc" style={{ wordBreak: "break-all" }}>
               Notary PEM Public Key:
               <br />
-              {this.props.notaryX509PublicKey &&
-                this.props.notaryX509PublicKey}
+              {this.props.notaryX509PublicKey && this.props.notaryX509PublicKey}
               <br />
               Signed hash:
               <br />

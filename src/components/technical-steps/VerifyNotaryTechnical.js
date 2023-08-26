@@ -116,6 +116,7 @@ class VerifyNotaryTechnical extends Component {
             <div className="section-desc">
               Try it yourself:{" "}
               <a
+                rel="noreferrer"
                 href="https://direct.sos.state.tx.us/notaries/notarysearch.asp"
                 target="_blank"
               >
