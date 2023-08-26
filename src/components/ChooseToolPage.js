@@ -1,20 +1,8 @@
 import React, { Component } from "react";
-import { ReactComponent as DocumentSvg } from "../img/document.svg";
 import question from "../img/question.svg";
 import stateSeal from "../img/state-seal.png";
 import notarizedCheck from "../img/checkmark-white.svg";
-import {
-  FormGroup,
-  Input,
-  Label,
-  Container,
-  Row,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
-  Col,
-} from "reactstrap";
+import { Container, Row, Card, CardTitle, CardText, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 
 class ChooseToolPage extends Component {
@@ -39,7 +27,10 @@ class ChooseToolPage extends Component {
           <h3 style={{ fontFamily: "Segoe UI" }}>What would you like to do?</h3>
         </div>
 
-        <div className="choose-tool" style={{ textAlign: "center", paddingTop: "100px" }}>
+        <div
+          className="choose-tool"
+          style={{ textAlign: "center", paddingTop: "100px" }}
+        >
           <Container>
             <Row>
               <Col>
@@ -86,7 +77,7 @@ class ChooseToolPage extends Component {
                           fontFamily: "Montserrat",
                           fontSize: 24,
                           fontWeight: "bold",
-                          textDecoration: "none"
+                          textDecoration: "none",
                         }}
                       >
                         Verify a digitally notarized document

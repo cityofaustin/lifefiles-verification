@@ -1,30 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import ReactDOM from "react-dom/client";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./components/App";
-import * as serviceWorker from "./serviceWorker";
+// import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 import NotarizePage from "./components/NotarizePage";
 import ChooseToolPage from "./components/ChooseToolPage";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <Router hashType="slash">
-      <Switch>
-        <Route path="/notarize">
-          <NotarizePage />
-        </Route>
-
-        <Route path="/verify/">
-          <App />
-        </Route>
-        <Route path="/">
-          <ChooseToolPage />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/notarize" element={<NotarizePage />} />
+        <Route path="/verify/" element={<App />} />
+        <Route path="/" element={<ChooseToolPage />} />
+      </Routes>
     </Router>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
-
-serviceWorker.unregister();

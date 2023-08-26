@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import { ReactComponent as DocumentSvg } from "../../img/notarize-doc-info.svg";
 import Accordion from "../common/Accordion";
 import {
-  Button,
-  FormGroup,
+  // Button,
+  // FormGroup,
   Input,
   Label,
   Container,

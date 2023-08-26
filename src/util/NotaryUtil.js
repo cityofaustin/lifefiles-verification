@@ -1,14 +1,17 @@
 import md5 from "md5";
-import EthrDID from "ethr-did";
 import NodeRSA from "node-rsa";
-import DidJWTVC from "did-jwt-vc";
+import {
+  createVerifiableCredentialJwt,
+  createVerifiablePresentationJwt,
+} from "did-jwt-vc";
 import PDFUtil from "./PdfUtil";
+import { EthrDID } from "ethr-did";
 
 const selfResolveUrl =
   "https://s3uploader-s3uploadbucket-1ccds11btwih.s3.amazonaws.com/did%3Aweb%3A";
 
-const createVerifiableCredential = DidJWTVC.createVerifiableCredential;
-const createPresentation = DidJWTVC.createPresentation;
+const createVerifiableCredential = createVerifiableCredentialJwt;
+const createPresentation = createVerifiablePresentationJwt;
 
 class NotaryUtil {
   // To be called by the notary
